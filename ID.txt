@@ -19,10 +19,41 @@ Claude Zobell
 - Distribution and physiology
 
 Holger Jannasch
-- Hydrothermal vent bacteria (anoxic, sulfur reducing)
+- Hydrothermal vent bacteria (anoxic, sulfur reducing, extremophiles)
 
 Yuri Sorokin
 - Bacterial ecology
+
+Marine Microbiology
+- More focussed on processes rather than isolates
+- Microbes less than 1 microns have high respiration
+	- Most microbes were filtered through
+- Epifluorescence + microscopy can estimate abundance
+	- Add DAPI stain, and then filter
+	- Dip in AgNO3 under dark conditions 
+- Radio-isotopic methods can determine growth rates through tracking metabolism
+	- Radio labelled amino acids to track
+- Using Epifluorescence + Radio-isotopic methods proved this even though most bacteria are unculturable
+
+Categories of microbes
+- Bacteria
+	- Photoautotrophic Cyanobacteria (phytoplankton)
+		- Synechococcus spp.
+			- Origin of chloroplasts
+		- Prochlorococcus spp.
+			- Most abundant phytoplankton in the world
+		- Trichodesmium spp.
+			- Filamentous phytoplankton
+		- Anabaena sp.
+			- Freshwater; does not appear in the pelagic oceans, but are in mud flats
+			- Has N fixation parts
+	- Bacteria = heterotrophic prokaryotes in our context
+	- Chemolithotrophs
+- Archaea
+	- Usually associated with extremophiles (ex: hydrothermal vents)
+
+
+
 
 
 
