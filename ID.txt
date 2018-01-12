@@ -44,9 +44,11 @@ Categories of microbes
 			- Most abundant phytoplankton in the world
 		- Trichodesmium spp.
 			- Filamentous phytoplankton
+			- Can fix Nitrogen (is a diazotroph)
 		- Anabaena sp.
 			- Freshwater; does not appear in the pelagic oceans, but are in mud flats
-			- Has N fixation parts
+			- Has N fixation parts --> needs to be protected from oxygen since it inhibits N fixation
+			- Needs PSII for energy
 	- Bacteria = heterotrophic prokaryotes in our context
 	- Chemolithotrophs
 - Archaea
