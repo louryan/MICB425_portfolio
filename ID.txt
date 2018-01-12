@@ -1,1 +1,35 @@
-23308142
+Test - EOSC 475 notes
+Robert Koch - Known for Koch's postulates
+- Nobel prize in 1905 for culturing bacteria on gelatin
+- Koch's postulates: proofs for infections --> isolate and purify infectious agent and prove it infects the person
+	- Problems: No animal models for many infections and can't use on humans due to ethical issues
+
+Certes
+- Cultured aerobic bacteria from sediments from a depth of 5100m depth
+
+Russell
+- Quantified bacteria in water
+
+Fischer
+- Isolated bioluminescent bacteria (genus vibrio fischeri) from fish
+- Researched up until 1940 and then again from the 1970s with molecular bilogy
+- Discovery of the lux system (lux operon) 
+
+Claude Zobell
+- Distribution and physiology
+
+Holger Jannasch
+- Hydrothermal vent bacteria (anoxic, sulfur reducing)
+
+Yuri Sorokin
+- Bacterial ecology
+
+
+
+
+
+
+
+
+
+
