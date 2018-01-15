@@ -45,14 +45,26 @@ Categories of microbes
 		- Trichodesmium spp.
 			- Filamentous phytoplankton
 			- Can fix Nitrogen (is a diazotroph)
+				- N2 --> NH4+ --> fixed nitrogen
+				- Important in ecosystems with low nitrogen
 		- Anabaena sp.
 			- Freshwater; does not appear in the pelagic oceans, but are in mud flats
-			- Has N fixation parts --> needs to be protected from oxygen since it inhibits N fixation
-			- Needs PSII for energy
+			- Has N fixation parts (nitrogenase)--> needs to be protected from oxygen since it inhibits N fixation
+				- Heterocysts protect the nitrogenase from oxygen 
+					- Only contain PSI --> constant photophosphorylation
+			- Needs PSII for energy (hydrolysis --> oxygen evolution/carbon fixation)
 	- Bacteria = heterotrophic prokaryotes in our context
 	- Chemolithotrophs
 - Archaea
 	- Usually associated with extremophiles (ex: hydrothermal vents)
+
+-  Picoeukaryotes
+	- Usually found in oligotrophic waters
+- Phagotrophic protist
+	- Can engulf diatoms that are 10x in diameter (cytoplasm swallows the diatom and releases the frustrule)
+- Viruses
+	- Major pathogens to both prokaryotes and eukaryotes 
+	- Bacteriophages and Phycoviruses 
 
 
 
