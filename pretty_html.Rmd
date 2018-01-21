@@ -1,0 +1,10 @@
+---
+title: "pretty_html"
+author: "Ryan Lou (23308142)"
+date: "verson `r format(Sys.time(), '%B %d, %Y')`"
+output: html_document
+  toc: yes
+---
+
+#R Markdown PDF Challenge
+
