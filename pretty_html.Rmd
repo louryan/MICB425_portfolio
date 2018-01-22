@@ -1,10 +1,46 @@
 ---
-title: "pretty_html"
+title: "##**pretty_html**"
 author: "Ryan Lou (23308142)"
-date: "verson `r format(Sys.time(), '%B %d, %Y')`"
-output: html_document
-  toc: yes
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    toc: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 #R Markdown PDF Challenge
+*The following assignment is an exercise for the reproduction of this .html document using the RStudio and RMarkdown tools we've shown you in class. Hopefully by the end of this, you won't feel at all the way this poor PhD student does. We're here to help, and when it comes to R, the internet is a really valuable resource. This open-source program has all kinds of tutorials online.*
 
+
+![**PhD Comics - Jan 17, 2018**](http://www.phdcomics.com/comics/archive/phd011718s.gif)
+
+http://phdcomics.com/ - January 17, 2018 Comic
+
+
+##Challenge Goals
+**The goal of this R Markdown html challenge is to give you an opportunity to play with a bunch of different RMarkdown formatting. Consider it a chance to flex your RMarkdown muscles. Your goal is to write your own RMarkdown that rebuilds this html document as close to the original as possible. So, yes, this means you get to copy my irreverant tone exactly in your own Markdowns. It's a little window into my psyche. Enjoy =)**
+
+
+##Quick maths
+```{r}
+2+2-1
+```
+*"Two plus two is four, minus one that's three quick maths."* - roadmanshaq, 2017
+
+
+![**Science Shibster**](https://i.redd.it/pv63ht74rwa01.jpg){width=50%}
+
+##Tables are awesome!
+```{r}
+library(knitr)
+kable(summary(cars), caption="I have no idea where I got this data")  
+```
+
+
+###Time for a bunch of fun gifs!
+![**Such snow. Very fun. Wow.**](http://i.imgur.com/PgksOgG.gif)
+
+
+![*Jedi like reflexes*](https://i.redd.it/m1r1kawqtdez.gif)

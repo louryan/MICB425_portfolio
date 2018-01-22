@@ -1,0 +1,52 @@
+---
+title: "Evidence_worksheet_01"
+author: "Ryan Lou"
+student number: "23308142"
+date: "Jan 21, 2018"
+output:
+  word_document: default 
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Evidence Worksheet for "Prokaryotes: The Unseen Majority"
+
+
+### Learning Objectives
+Describe the numerical abundance of microbial life in relation to ecology and biogeochemistry of Earth systems.
+
+
+### General Questions
+#### What were the main questions being asked?
+
+
+* What is the total number of prokaryote cells in the world?
+* How much of the world's carbon is made up by prokaryotes?
+* What are the major environments in which these prokaryotes live?
+* How does the number if prokaryotes contribute to genetic diversity?
+* How does the turnover time vary by environment?
+
+
+#### What were the primary methodological approaches used?
+
+
+
+#### Summarize the main results or findings. 
+* The habitats that the greatest number of prokayotes are generally categorized as being part of the subsurface (seawater, soil, sediments)
+* The total carbon in prokaryotes is estimate to be around 60-100% of the total carbon found in plants
+* Terrestrial plants have a lower nutrient (Nitrogen/Phosphorus-containing) content per gram of carbon than soil prokaryotes do
+* Mutations are more prevalent in prokaryotes because of their sheer numbers, leading to greater genetic diverty
+* Although animals, leaves, and plant tissue have a large resident prokaryote propulation, the scale of those populations are too low to form a major portion of the total number of prokaryotes in the world
+    - Eg: Soil has significantly more prokaryotes than leaves do.
+
+
+#### Do new questions arise from the results?
+
+
+
+#### Were there any specific challenges or advantages in understanding the paper (e.g. did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)? 
+
+
+
