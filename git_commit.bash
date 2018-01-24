@@ -1,3 +1,3 @@
 git add .
-git commit -m "upload pretty_html"
+git commit -m "remove science shibster"
 git push -u origin master

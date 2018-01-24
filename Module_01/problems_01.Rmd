@@ -1,0 +1,78 @@
+---
+title: "Problem Set 01"
+author: "Ryan Lou"
+student number: "23308142"
+date: "Jan 22, 2018"
+output:
+  word_document: default 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem Set 1
+
+
+### Learning Objectives
+Describe the numerical abundance of microbial life in relation to ecology and biogeochemistry of Earth systems.
+
+
+##Specific Questions
+
+
+###What are the primary prokaryotic habitats on Earth and how do they vary with respect to their capacity to support life? Provide a breakdown of total cell abundance for each primary habitat from the tables provided in the text.
+
+
+The primary prokaryotic habitats on Earth are the **aquatic environments** (fresh water and marine). **Soil**. **Subsurface**.
+
+
+###What is the estimated prokaryotic cell abundance in the upper 200m of the ocean and what fraction of this biomass is represented by marine cyanobacterium including Prochlorococcus? What is the significance of this ratio with respect to carbon cycling in the ocean and the atmospheric composition of the Earth?
+
+
+The estimated cell abundance of prokaryotic cells in the upper 200m of the ocean is 3.6 x 10^28^ and marine autotrophs make up 8% of those prokaryotic cells. This is significant as the autotrophs control the majority of the primary production in the ocean and provides oxygen to the atmosphere and carbon to marine heterotrophic bacteria. 
+
+
+###What is the difference between an autotroph, heterotroph, and a lithotroph based on information provided in the text?
+
+
+###Based on information in the text and your knowledge of geography what is the deepest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this depth?
+
+
+The deepest habitat capable of supporting prokaryotic life is in the terrestrial subsurface where it can reach depths up to 4 km, as mentioned in the text. The limiting factor is the fact that the average temperature at those depths could reach 125 degrees celsius.
+
+
+###Based on information in the text and your knowledge of geography what is the highest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this depth?
+
+ 
+The highest habitat capable of supporting prokaryotic life is at 57-77 km in the atmosphere, but the abundance is relatively low because the oxygne concentration at that height is relatively low. There could also be a low amount of water vapour, which maybe needed by those prokaryotes.
+ 
+
+###Based on estimates of prokaryotic habitat limitation, what is the vertical distance of the Earth's biosphere measured in km?
+
+
+The vertical distance of the Earth's biosphere is measured to be around 57-77 km in the atmisohere due to prokaryotes being detected at those heights.
+
+
+###How was annual cellular production of prokaryotes described in Table 7, column four, determined? (Provide an example of the calculation)
+
+
+It was determined by dividing the number of days in the year (365) by the turnover time and then multiplying it by the population size.
+
+
+Example (for Marine Heterotrophs living above 200m; turnover time of 16 days, Population size = 3.6 x 10^28^):
+
+$$\frac{365}{16} \cdot{3.6\times 10^{28}} = 8.2\times 10^{29}   Cells/year$$ 
+
+
+###What is the relationship between carbon content, carbon assimilation efficiency and turnover rates in the upper 200m of the ocean? Why does this vary with depth in the ocean and between terrestrial and marine habitats?
+
+
+###How were the frequency numbers for four simultaneous mutations in shared genes determined for marine heterotrophs and marine autotrophs given an average mutation rate of 4 x 10^-7^ per DNA replication? (*Provide and example of the calculation with units. Hint: cell and generation cancel out*)
+
+
+###Given the large population size and high mutation rate of prokaryotic cells, what are the implications with respect to genetic diversity and adaptive potential? Are point mutations the only way in which microbial genomes diversify and adapt?
+
+
+###What relationships can be inferred between prokaryotic abundance, diversity, and metabolic potential based on the information provided in the text?

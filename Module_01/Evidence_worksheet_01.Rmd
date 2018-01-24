@@ -32,6 +32,11 @@ Describe the numerical abundance of microbial life in relation to ecology and bi
 #### What were the primary methodological approaches used?
 
 
+* Performing calculations on data provided in literature cited to provide estimate on prokaryote counts in various representative environments and other habitats
+* Extrapolating from equations in literature cited to estimate prokaryote numbers in less accessible environments such as deep sediments
+* Creating a depth profile for unconsolidated sediments for subsurface prokaryotes in deep ocean, continential shelf/slope and terrestrial coastal plain using calculated arithmetic averages
+* Using assumptions from literature cited regarding the volume and average porosity of the terrestrial subsurface, total pore space occupied by prokaryotes, and average volume of a subsurface prokaryote cell to calculate the total number of terrestrial subsurfadce prokaryotes
+
 
 #### Summarize the main results or findings. 
 * The habitats that the greatest number of prokayotes are generally categorized as being part of the subsurface (seawater, soil, sediments)
@@ -45,8 +50,18 @@ Describe the numerical abundance of microbial life in relation to ecology and bi
 #### Do new questions arise from the results?
 
 
+* What proportion of the total number of prokaryotes is archaea? 
+* What propotion of the total number of prokaryotes is bacteria?
+* Is there any way to have a better estimate of the total number of prokaryotes in this day and age better computational tools at our disposal? * How does the prokaryote nutrient pool (C/N/P) differ in the ocean compared to terrestrial environments?
+
 
 #### Were there any specific challenges or advantages in understanding the paper (e.g. did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)? 
 
 
+The authors provided a very brief background  on what prokaryotes do and how they contribute to genetic diversity, but then quickly goes into describing their methodology as well as the various environments they looked at. However, they explained **how** they know there are lots of prokaryotes in these environments and not **why**, which can be confusing to readers that do not know what prokaryotes are.
 
+
+The methods were quite vague as they do mention that they extrapolate from the equations of the cited literature, which requires looking at them and determining what they did, especially for unconsolidated sediments. There were assumptions made regarding the porosity of subsurface sediments, pore space taken up by prokaryotes and the volume of prokaryotes, which were used to estimate the total number of prokaryotes in those environments. 
+
+
+The tables provided were neat and easy to understand and compare the number of prokaryotes in each environment. It also provided a quick way visualizing a calculation that they did to arrive at the total number of prokaryotic cells. Seeing the total number of the cells does not seem far-fetched since the Earth has a high volume in which many small prokaryotic cells can live in.

@@ -1,0 +1,183 @@
+---
+title: "MICB425 Portfolio - Microbial Ecological Genomics: From Genomes to Biomes, Spring 2018"
+author: "Ryan Lou, 23308142"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    toc: true
+---
+# Module 01
+Reserve the first level headings (#) for the start of a new Module. This will help to organize your portfolio in an intuitive fashion.  
+**Note: Please edit this template to your heart's content. This is meant to be the armature upon which you build your individual portfolio. You do not need to keep this instructive text in your final portfolio, although you do need to keep module and assignment names so we can identify what is what.**
+
+
+## Module 01 portfolio check
+The first of your second level headers (##) is to be used for the portfolio content checks. The Module 01 portfolio check has been built for you directly into this template, but will also be available as a stand-alone markdown document available on the MICB425 GitHub so that you know what is required in each module section in your portfolio. The completion status and comments will be filled in by the instructors during portfolio checks when your current portfolios are pulled from GitHub.
+
+* Installation check
+    + Completion status:
+    + Comments:
+* Portfolio repo setup
+    + Completion status: 
+    + Comments:
+* RMarkdown Pretty PDF Challenge
+    + Completion status:
+    + Comments:
+* Evidence worksheet_01
+    + Completion status:
+    + Comments:
+* Evidence worksheet_02
+    + Completion status:
+    + Comments:
+* Evidence worksheet_03
+    + Completion status:
+    + Comments:
+* Problem Set_01
+    + Completion status:
+    + Comments:
+* Problem Set_02
+    + Completion status:
+    + Comments:
+* Writing assessment_01
+    + Completion status:
+    + Comments:
+* Additional Readings
+    + Completion status:
+    + Comments  
+    
+## Data science Friday  
+The remaining second level headers (##) are for separating data science Friday, regular course, and project content. In this module, you will only need to include data science Friday and regular course content; projects will come later in the course.
+
+### Installation check
+Third level headers (###) should be used for links to assignments, evidence worksheets, problem sets, and readings, as seen here.  
+
+Use this space to include your installation screenshots.
+
+
+
+### Portfolio repo setup
+Detail the code you used to create, initialize, and push your portfolio repo to GitHub. This will be helpful as you will need to repeat many of these steps to update your porfolio throughout the course.
+
+
+
+### RMarkdown pretty PDF challenge
+Paste your code from the in-class activity of recreating the example PDF.
+
+
+
+## Origins and Earth Systems
+### Evidence worksheet 01 
+The template for the first Evidence Worksheet has been included here. The first thing for any assignment should link(s) to any relevant literature (which should be included as full citations in a module references section below).
+
+You can copy-paste in the answers you recorded when working through the evidence worksheet into this portfolio template. 
+
+As you include Evidence worksheets and Problem sets in the future, ensure that you delineate Questions/Learning Objectives/etc. by using headers that are 4th level and greater. This will still create header markings when you render (knit) the document, but will exclude these levels from the Table of Contents. That's a good thing. You don't' want to clutter the Table of Contents too much.
+
+[Whitman *et al* 1998](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
+
+#### Learning objectives
+Describe the numerical abundance of microbial life in relation to ecology and biogeochemistry of Earth systems. 
+
+#### General questions
+#####**What were the main questions being asked?** 
+
+* What is the total number of prokaryote cells in the world?
+* How much of the world's carbon is made up by prokaryotes?
+* What are the major environments in which these prokaryotes live?
+* How does the number if prokaryotes contribute to genetic diversity?
+* How does the turnover time vary by environment?
+
+#####**What were the primary methodological approaches used?**
+
+* Performing calculations on data provided in literature cited to provide estimate on prokaryote counts in various representative environments and other habitats
+* Extrapolating from equations in literature cited to estimate prokaryote numbers in less accessible environments such as deep sediments
+* Creating a depth profile for unconsolidated sediments for subsurface prokaryotes in deep ocean, continential shelf/slope and terrestrial coastal plain using calculated arithmetic averages
+* Using assumptions from literature cited regarding the volume and average porosity of the terrestrial subsurface, total pore space occupied by prokaryotes, and average volume of a subsurface prokaryote cell to calculate the total number of terrestrial subsurfadce prokaryotes
+
+#####**Summarize the main results or findings.**
+
+* The habitats that the greatest number of prokayotes are generally categorized as being part of the subsurface (seawater, soil, sediments)
+* The total carbon in prokaryotes is estimate to be around 60-100% of the total carbon found in plants
+* Terrestrial plants have a lower nutrient (Nitrogen/Phosphorus-containing) content per gram of carbon than soil prokaryotes do
+* Mutations are more prevalent in prokaryotes because of their sheer numbers, leading to greater genetic diverty
+* Although animals, leaves, and plant tissue have a large resident prokaryote propulation, the scale of those populations are too low to form a major portion of the total number of prokaryotes in the world
+    - Eg: Soil has significantly more prokaryotes than leaves do.
+    
+#####**Do new questions arise from the results?**
+
+* What proportion of the total number of prokaryotes is archaea? 
+* What propotion of the total number of prokaryotes is bacteria?
+* Is there any way to have a better estimate of the total number of prokaryotes in this day and age better computational tools at our disposal? * How does the prokaryote nutrient pool (C/N/P) differ in the ocean compared to terrestrial environments?
+
+#####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
+
+
+The authors provided a very brief background  on what prokaryotes do and how they contribute to genetic diversity, but then quickly goes into describing their methodology as well as the various environments they looked at. However, they explained **how** they know there are lots of prokaryotes in these environments and not **why**, which can be confusing to readers that do not know what prokaryotes are.
+
+
+The methods were quite vague as they do mention that they extrapolate from the equations of the cited literature, which requires looking at them and determining what they did, especially for unconsolidated sediments. There were assumptions made regarding the porosity of subsurface sediments, pore space taken up by prokaryotes and the volume of prokaryotes, which were used to estimate the total number of prokaryotes in those environments. 
+
+
+The tables provided were neat and easy to understand and compare the number of prokaryotes in each environment. It also provided a quick way visualizing a calculation that they did to arrive at the total number of prokaryotic cells. Seeing the total number of the cells does not seem far-fetched since the Earth has a high volume in which many small prokaryotic cells can live in.
+
+
+### Problem set 01
+#### Learning objectives: 
+Describe the numerical abundance of microbial life in relation to the ecology and biogeochemistry of Earth systems.
+
+#### Specific questions:
+#####**What are the primary prokaryotic habitats on Earth and how do they vary with respect to their capacity to support life? Provide a breakdown of total cell abundance for each primary habitat from the tables provided in the text.**
+
+#####**What is the estimated prokaryotic cell abundance in the upper 200 m of the ocean and what fraction of this biomass is represented by marine cyanobacterium including Prochlorococcus? What is the significance of this ratio with respect to carbon cycling in the ocean and the atmospheric composition of the Earth?** 
+
+
+The estimated cell abundance of prokaryotic cells in the upper 200m of the ocean is 3.6 x 10^28^ and marine autotrophs make up 8% of those prokaryotic cells. This is significant as the autotrophs control the majority of the primary production in the ocean and provides oxygen to the atmosphere and carbon to marine heterotrophic bacteria.
+
+
+#####**What is the difference between an autotroph, heterotroph, and a lithotroph based on information provided in the text?**
+
+#####**Based on information provided in the text and your knowledge of geography what is the deepest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this depth? ** 
+
+
+The deepest habitat capable of supporting prokaryotic life is in the terrestrial subsurface where it can reach depths up to 4 km, as mentioned in the text. The limiting factor is the fact that the average temperature at those depths could reach 125 degrees celsius.
+
+
+#####**Based on information provided in the text your knowledge of geography what is the highest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this height?**  
+
+
+The highest habitat capable of supporting prokaryotic life is at 57-77 km in the atmosphere, but the abundance is relatively low because the oxygne concentration at that height is relatively low. There could also be a low amount of water vapour, which maybe needed by those prokaryotes.
+
+
+#####**Based on estimates of prokaryotic habitat limitation, what is the vertical distance of the Earth's biosphere measured in km?**
+
+
+The vertical distance of the Earth's biosphere is measured to be around 57-77 km in the atmisohere due to prokaryotes being detected at those heights.
+
+
+#####**How was annual cellular production of prokaryotes described in Table 7 column four determined? (*Provide an example of the calculation*)**
+
+
+It was determined by dividing the number of days in the year (365) by the turnover time and then multiplying it by the population size.
+
+
+Example (for Marine Heterotrophs living above 200m  ; Turnover time = 16 days; Population size = 3.6 x 10^28^):
+
+$$\frac{365}{16} \cdot{3.6\times 10^{28}} = 8.2\times 10^{29}   Cells/year$$ 
+
+
+#####**What is the relationship between carbon content, carbon assimilation efficiency and turnover rates in the upper 200m of the ocean? Why does this vary with depth in the ocean and between terrestrial and marine habitats?** 
+
+#####**How were the frequency numbers for four simultaneous mutations in shared genes determined for marine heterotrophs and marine autotrophs given an average mutation rate of 4 x 10^-7^ per DNA replication? (Provide an example of the calculation with units. Hint: cell and generation cancel out)**
+
+#####**Given the large population size and high mutation rate of prokaryotic cells, what are the implications with respect to genetic diversity and adaptive potential? Are point mutations the only way in which microbial genomes diversify and adapt?**  
+
+#####**What relationships can be inferred between prokaryotic abundance, diversity, and metabolic potential based on the information provided in the text?**
+
+
+
+### Module 01 references
+Utilize this space to include a bibliography of any literature you want associated with this module. We recommend keeping this as the final header under each module.
+
+An example for Whitman and Wiebe (1998) has been included below.
+
+Whitman WB, Coleman DC, and Wiebe WJ. 1998. Prokaryotes: The unseen majority. Proc Natl Acad Sci USA. 95(12):6578:6583.  [PMC33863](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
