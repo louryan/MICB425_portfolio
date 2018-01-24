@@ -21,12 +21,10 @@ http://phdcomics.com/ Comic posted 1-17-2018
 
 
 ##Challenge Goals
-The goal of this R Markdown html challenge is to give you an opportunity to play with a bunch of different RMarkdown formatting. Consider it a chance to flex your RMarkdown muscles. Your goal is to write your own RMarkdown that rebuilds this html document as close to the original as possible. So, yes, this means you get to copy my irreverant tone exactly in your own Markdowns.It's a little window into my psyche. Enjoy =)
+The goal of this R Markdown html challenge is to give you an opportunity to play with a bunch of different RMarkdown formatting. Consider it a chance to flex your RMarkdown muscles. Your goal is to write your own RMarkdown that rebuilds this html document as close to the original as possible. So, yes, this means you get to copy my irreverant tone exactly in your own Markdowns. It's a little window into my psyche. Enjoy =)
 
 
-**hint: go to the [PhD Comics website](http://phdcomics.com/) to see if you can find the image above**
-
-
+**hint: go to the [PhD Comics website](http://phdcomics.com/) to see if you can find the image above**  
 *If you can't find that exact image, just find a comparable image from the PhD Comics website and include it in your markdown*
 
 
@@ -39,7 +37,7 @@ Let's be honest, this header is a little arbitrary. But show me that you can rep
 
 ####Another header, now with maths
 
-Perhaps you're really confused by the whole markdown thing. Maybe you're so confused that you've forgotten how to add. Never fear! ~~A calculator~~ R is here:
+Perhaps you're already really confused by the whole markdown thing. Maybe you're so confused that you've forgotten how to add. Never fear! ~~A calculator~~ R is here:
 ```{r}
 1231521+12341556280987
 ```
