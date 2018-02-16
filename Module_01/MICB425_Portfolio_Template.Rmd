@@ -12,7 +12,7 @@ Reserve the first level headings (#) for the start of a new Module. This will he
 
 
 ## Module 01 portfolio check
-The first of your second level headers (##) is to be used for the portfolio content checks. The Module 01 portfolio check has been built for you directly into this template, but will also be available as a stand-alone markdown document available on the MICB425 GitHub so that you know what is required in each module section in your portfolio. The completion status and comments will be filled in by the instructors during portfolio checks when your current portfolios are pulled from GitHub.
+
 
 * Installation check
     + Completion status:
@@ -61,17 +61,63 @@ Detail the code you used to create, initialize, and push your portfolio repo to 
 
 
 ### RMarkdown pretty PDF challenge
-Paste your code from the in-class activity of recreating the example PDF.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+
+The following assignment is an exercise for the reproduction of this .html document using the RStudio and RMarkdown tools we've shown you in class. Hopefully by the end of this, you won't feel at all the way this poor PhD student does. We're here to help, and when it comes to R, the internet is a really valuable resource. This open-source program has all kinds of tutorials online.
+
+
+![](http://www.phdcomics.com/comics/archive/phd011718s.gif)
+
+
+http://phdcomics.com/ Comic posted 1-17-2018
+
+
+##Challenge Goals
+The goal of this R Markdown html challenge is to give you an opportunity to play with a bunch of different RMarkdown formatting. Consider it a chance to flex your RMarkdown muscles. Your goal is to write your own RMarkdown that rebuilds this html document as close to the original as possible. So, yes, this means you get to copy my irreverant tone exactly in your own Markdowns. It's a little window into my psyche. Enjoy =)
+
+
+**hint: go to the [PhD Comics website](http://phdcomics.com/) to see if you can find the image above**  
+*If you can't find that exact image, just find a comparable image from the PhD Comics website and include it in your markdown*
+
+
+
+###Here's a header!
+
+
+Let's be honest, this header is a little arbitrary. But show me that you can reproduce headers with different levels please. This is a level 3 header, for your reference (you can most easily tell this from the table of contents).
+
+
+####Another header, now with maths
+
+Perhaps you're already really confused by the whole markdown thing. Maybe you're so confused that you've forgotten how to add. Never fear! ~~A calculator~~ R is here:
+```{r}
+1231521+12341556280987
+```
+
+
+###Table Time
+
+
+Or maybe, after you've added those numbers, you feel like it's about time for a table!  
+I'm going to leave all the guts of the coding here so you can see how libraries (R packages) are loaded into R (more on that later). It's not terribly pretty, but it hints at how R works and how you will use it in the future. The summary function used below is a nice data exploration function that you may use in the ^future^.
+```{r}
+library(knitr)
+kable(summary(cars), caption="I made this table with kable in the knitr package library")  
+```
+
+
+And now you've almost finished your first RMarkdown! Feeling excited? We are! In fact, we're so excited that maybe we need a big finale eh? Here's ours! Include a fun gif of your choice!
+
+
+![**Such snow. Very fun. Wow.**](http://i.imgur.com/PgksOgG.gif)
 
 
 ## Origins and Earth Systems
-### Evidence worksheet 01 
-The template for the first Evidence Worksheet has been included here. The first thing for any assignment should link(s) to any relevant literature (which should be included as full citations in a module references section below).
+### Evidence Worksheet 01 
 
-You can copy-paste in the answers you recorded when working through the evidence worksheet into this portfolio template. 
-
-As you include Evidence worksheets and Problem sets in the future, ensure that you delineate Questions/Learning Objectives/etc. by using headers that are 4th level and greater. This will still create header markings when you render (knit) the document, but will exclude these levels from the Table of Contents. That's a good thing. You don't' want to clutter the Table of Contents too much.
 
 [Whitman *et al* 1998](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
 
@@ -112,13 +158,119 @@ Describe the numerical abundance of microbial life in relation to ecology and bi
 #####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
 
 
-The authors provided a very brief background  on what prokaryotes do and how they contribute to genetic diversity, but then quickly goes into describing their methodology as well as the various environments they looked at. However, they explained **how** they know there are lots of prokaryotes in these environments and not **why**, which can be confusing to readers that do not know what prokaryotes are.
+The authors provided a very brief background on what prokaryotes do and how they contribute to genetic diversity, but then quickly goes into describing their methodology as well as the various environments they looked at. However, they explained **how** they know there are lots of prokaryotes in these environments and not **why**, which can be confusing to readers that do not know what prokaryotes are.
 
 
 The methods were quite vague as they do mention that they extrapolate from the equations of the cited literature, which requires looking at them and determining what they did, especially for unconsolidated sediments. There were assumptions made regarding the porosity of subsurface sediments, pore space taken up by prokaryotes and the volume of prokaryotes, which were used to estimate the total number of prokaryotes in those environments. 
 
 
 The tables provided were neat and easy to understand and compare the number of prokaryotes in each environment. It also provided a quick way visualizing a calculation that they did to arrive at the total number of prokaryotic cells. Seeing the total number of the cells does not seem far-fetched since the Earth has a high volume in which many small prokaryotic cells can live in.
+
+
+### Evidence Worksheet 02
+#### Learning objectives:
+Comment on the emergence of microbial life and the evolution of Earth systems
+
+
+#### Prompt
+* **Indicate the key events in the evolution of Earth systems at tic marks on the time series.**
+    * Earth was formed over 4.5 billion years ago
+    * Life began about 3.8 billion years ago; only hyperthermophiles survived since the ocean was over 100°C in some parts due to the occasional meteorite impact that occured in the past 200 million years
+    * Cyanobacteria have appeared to evolve 3.5 billion years ago (Rubisco pathway)
+    * First eukaryotes appeared 2.7 billion years
+    * Rise of atmospheric O~2~ at 2.2/2.3 billion years ago
+        * Most of this is derived from the oceans (cyanobacteria and other phytoplankton), since the bacteria could live under anaerobic conditions and produce O~2~.
+        
+    + 4.6 billion years ago  
+        + Beginning of the Solar System from one or more supernovas nearby
+        + Inner planets received carbon and water vapour from the matter in space
+    + 4.5 billion years ago
+        + Earth was formed around this time 
+        + Moon was also formed, giving Earth spin, tilt, day/night cycles and seasons
+    + 4.4 billion years ago
+        + Oldest mineral grains on Earth formed (Zircons): Jack Hills Greenstone Belt
+    + 4.2-4.1 billion years ago  
+        + First evidence of life found using carbon isotopes in graphite in rock/zircon
+    + 4.0 billion years ago
+        + Evidence of plate subduction
+    + 3.8 billion years ago  
+        + Evidence came from the Isua belt in Greenland; oldest known water-lain sedimentary rocks with inorganic carbonate; evidence of oceans 
+        + Meteorite impacts largely stopped, allowing for life and stabilizing sea water chemistry and although it was still hot, there were no more impacts that could cause seawater to vaporize
+    + 3.75 billion years ago  
+        + Early methanogenesis by microbes (mostly archaeans)
+    + 3.5 billion years ago  
+        + Fossil microbial biolfilms and stromatolites are evidence of microbes showing up around this time (particularly Archaea), along with carbon fixation/photosynthetic enzymes (Rubisco) in cyanobacteria
+    + 3.0 billion years ago  
+        + First glaciation event - Earth was still brown because of the high amount atmospheric CH~4~ from methanogens and warm despite the dimmer Sun
+    + 2.7 billion years ago  
+        + First eukaryotes emerged
+            + They incorporated chloroplast and mitochondria symbionts, which could influence the links between photosynthesis, CO~2~, and N~2~ fixation
+        + The great oxidation event largely created by cyanobacteria
+        + Terrestrial life started to exist
+    + 2.2 billion years ago  
+        + The microaerobic atmospehre transitioned into oxic air when O~2~ levels sharply increased 
+        + Rubisco preferrably takes up the CO~2~ in the atmosphere, leaving O~2~
+    + 2.1 billion years ago
+        + Complex eukaryotes evolved
+    + 1.3 billion years ago
+        + Stromatolites rose sharply in diversity
+        + Meiosis and sexual reproduction present in single-celled eukaryotes and also in common ancestor of all eukaroytes, which could have increased genetic diversity and the rate of evolution
+    + 700 million years ago
+        + Snowball Earth; a series of many global glaciations   
+    + 540 million years ago
+        + The Cambrian Explosion - massive increase in multicellular life
+    + 400 million years ago
+        + Devonian explosion 
+            + First land plants appeared; trees and seeds evolved
+            + A great amount of diversification happened where there were lots of fishes and other species appearing until the Devonian extinction where most of those species disappeared
+        + Gigantism (large animals and plants) occured
+    + 252 million years ago
+        + Another mass extinction event around this time near the end of the Permian Period "the Great Dying"
+        + Gave rise to the "Age of the dinosaurs" where they dominated the Earth for about 186 million years
+    + 20 million years ago
+        + Dramatic global warming occured
+        + Mammals and other multicellular organisms diversified further and increased in size
+    + 550,000 years ago
+        + Beginning of the series of modern "Ice Ages"
+    + 200,000 years ago
+        + Emergence of the first human being
+    
+* **Describe the dominant physical and chemical characteristics of Earth systems at waypoints.**
+
+    + Hadean  
+        + Meteorite impacts throughout this eon 
+        + More CO~2~ as evidenced by limestone and much higher vapour pressure due to higher temperatures (500°C)
+        + Temperature started to cool down even more closer to the end of the eon (100°C)
+        + Surface ocean temperatures were about 100°C
+        + Silica-containing rocks provided evidence for waters in the ocean because the lithosphere would need to be hydrated and cooled for these rocks to form.
+    + Archean  
+        + Methanogenesis started early on in the eon and the atmosphere was predominately made of CH~4~, with some CO~2~ due to the lack of oxygen
+            + The large amount of CH~4~ is necessary for the Earth as a greenhouse gas because keeps the heat on Earth especially when the sun was 33% dimmer; was produced in levels 10-100x higher before O~2~ became common in the atmosphere
+                + Having too high of a CH~4~:CO~2~ ratio would create a smog too dense that it could block UV light
+            + CH~4~ could be used to build biomass
+            + As Rubisco preferrentially takes up CO~2~, this leaves even more CH~4~ relative to CO~2~ in the atmosphere at the time when it became more common
+        + Also sulfur reduction occured when there was no oxygen
+        + Atmosphere is starting to become more oxic with time
+    + Proterozoic  
+        + Big increase in O~2~ concentrations in the atmopshere
+        + Plenty of CO~2~ in atmosphere compared to CH~4~
+    + Phanerozoic  
+        + Relatively warm temperatures dring the Devonian
+        + Pangaea formed and there was dry, harsh climate in the interior of the supercontinent
+        + After PWangaea split, the Atlantic Ocean formed near the extinction of dinosaurs
+        + Climate heated up during the Neogene
+
+
+    * 3.8 Billion years ago (First sign of life)
+        * Meteorite impacts could vaporize the ocean (large) or heat it above 100°C (small).
+        * CO~2~-CO atmosphere at higher pressure could give rise to a liquid ocean or CH~4~ could too (not NH~3~, which dissociates quickly under UV radiation)
+            * However, high CH~4~ concentrations compared to CO~2~ could create a smog that blocked UV light 
+    * 3.6-2.5 Billion years ago (Appearance of first Cyanobacteria and Ancestral Euakaryotes)
+        * Fossil microbial biolfilms and stromatolites are evidence of microbes showing up around this time (particularly Archaea), along with photosynthetic enzymes (Rubisco 3.5 Billion years ago)
+        * Also fossils from sulphide deep-water deposits
+  
+    * 2.3-2.2 Billion Years ago (Rise of the oxic atmosphere)
+        * Mitochondria and chloroplasts may control Photosynthesis, CO~2~ and nitrogen fixation if Rubisco can reverse due to the change of CO~2~/O~2~ ratios changing.
 
 
 ### Problem set 01
@@ -128,6 +280,10 @@ Describe the numerical abundance of microbial life in relation to the ecology an
 #### Specific questions:
 #####**What are the primary prokaryotic habitats on Earth and how do they vary with respect to their capacity to support life? Provide a breakdown of total cell abundance for each primary habitat from the tables provided in the text.**
 
+
+The primrary prokaryotic habitats on Earth are **aquatic environments** (both fresh water and marine) across various regions in the open ocean and sediments, which has a total prokaryotic cell abundance of 1.2 x 10^29^, **soil**, which has a total prokaryotic cell abundance of 2.6 x 10^29^, and **subsurface**, which has a total prokaryotic cell abundance of 4.9 x 10^30^.
+
+
 #####**What is the estimated prokaryotic cell abundance in the upper 200 m of the ocean and what fraction of this biomass is represented by marine cyanobacterium including Prochlorococcus? What is the significance of this ratio with respect to carbon cycling in the ocean and the atmospheric composition of the Earth?** 
 
 
@@ -136,10 +292,16 @@ The estimated cell abundance of prokaryotic cells in the upper 200m of the ocean
 
 #####**What is the difference between an autotroph, heterotroph, and a lithotroph based on information provided in the text?**
 
+
+Autotrophs are "self-nourishing" organisms that can fix inorganic carbon into biomass  
+Heterotrophs are organisms that can assimilate orgnaic carbon  
+Lithotrophs are organisms that can use inorganic substrates 
+
+
 #####**Based on information provided in the text and your knowledge of geography what is the deepest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this depth? ** 
 
 
-The deepest habitat capable of supporting prokaryotic life is in the terrestrial subsurface where it can reach depths up to 4 km, as mentioned in the text. The limiting factor is the fact that the average temperature at those depths could reach 125 degrees celsius.
+The deepest habitat capable of supporting prokaryotic life is in the terrestrial subsurface where it can reach depths up to 4 km, as mentioned in the text. For marine environments, the deepest environment is the Marianas Trench, which is around 10.9 km deep, and possibly 5-6 km deeper before the temperature reaches the limiting factor of having an average temperature of 125 degrees celsius. 
 
 
 #####**Based on information provided in the text your knowledge of geography what is the highest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this height?**  
@@ -162,22 +324,109 @@ It was determined by dividing the number of days in the year (365) by the turnov
 
 Example (for Marine Heterotrophs living above 200m  ; Turnover time = 16 days; Population size = 3.6 x 10^28^):
 
-$$\frac{365}{16} \cdot{3.6\times 10^{28}} = 8.2\times 10^{29}   Cells/year$$ 
+$$\frac{365 \ days/year}{16 \ days} \cdot{3.6\times 10^{28}} \ Cells = 8.2\times 10^{29} \ Cells/year$$ 
+
+
+A large number of these prokaryotes are lysed by marine viruses.
 
 
 #####**What is the relationship between carbon content, carbon assimilation efficiency and turnover rates in the upper 200m of the ocean? Why does this vary with depth in the ocean and between terrestrial and marine habitats?** 
 
+
+Carbon efficincy = 20%  
+5-20 fg C/cell  
+$$3.6\times 10^{28} \ cells \cdot{6\times 10^{-30}} \ Pg \ C /cell = 0.72 \ Pg \ C$$
+Pg C in Marine Environments
+
+
+$$0.72 \ Pg \ C\times{4} = 2.88 \ Pg \ C$$
+
+
 #####**How were the frequency numbers for four simultaneous mutations in shared genes determined for marine heterotrophs and marine autotrophs given an average mutation rate of 4 x 10^-7^ per DNA replication? (Provide an example of the calculation with units. Hint: cell and generation cancel out)**
 
-#####**Given the large population size and high mutation rate of prokaryotic cells, what are the implications with respect to genetic diversity and adaptive potential? Are point mutations the only way in which microbial genomes diversify and adapt?**  
+
+To account for the chance of having four simultaneous mutations in shared genes for marine heterotrophs above a depth of 200m:
+$$(4\times 10^{-7})^{4} \ mutations/gene/DNA \ replication = 2.56\times10^{-26} \ $$
+
+
+To
+$$3.6\times 10^{28} \ Cells \cdot 22.8 \ year^{-1} = 8.2\times 10^{29} \ Cells/year$$
+$$8.2\times 10^{29} \cdot 2.56\times 10^{-26} = 2.1\times 10^{4} \ {mutations/year}$$
+
+#####**Given the large population size and high mutation rate of prokaryotic cells, what are the implications with respect to genetic diversity and adaptive potential? Are point mutations the only way in which microbial genomes diversify and adapt?**
+
+
+* Having a large population size, increases the mutation rate significantly, thereby increasing genetic diversity since more mutations can give rise to new traits, which can be helpful for adapting to a new environment. This increases adaptive potential. Although point mutations can be largely silent, they have the ability to diversify microbial genomes, and they are not the only mode since there is also horizontal gene transfer, which can happen with microbes.
+
 
 #####**What relationships can be inferred between prokaryotic abundance, diversity, and metabolic potential based on the information provided in the text?**
 
 
 
+
+### Problem set 02
+#### Specific Questions:
+##### **What are the primary geophysical and biogeochemical processes that create and sustain conditions for life on Earth? How do abiotic versus biotic processes vary with respect to matter and energy transformation and how are they interconnected?**
+
+
+Tectonic movement along with photochemical reactions in the atmosphere allow for mixing and partitioning of chemical substrates on Earth. 
+
+
+Geophysical (abiotic): Tectonics (Acid/base), transfer of protons without electrons, atmospheric photochemical processes (photochemistry/radical chemistry = ‘magic’)
+Biogeochemical: 
+ (Redox)
+ 
+ 
+##### **Why is the Earth's redox state considered an emergent property?**
+
+
+The Earth's redox state is considered an emergent property as it is reliant on reactions that occur in the Earth's (bio)geochemical processes that occur due to regular chemical redox reactions and the metabolic processes of microbes. No single organism in these processes possess all the components that is needed to run these systems, and it is instead the reactions that occur, which are connected to each other that make up the processes as a whole.
+
+
+##### **How do reversible electron transfer reactions give rise to element and nutrient cycles at different ecological scales? What strategies do microbes use to overcome thermodynamic barriers to reversible electron flow?**
+
+
+Reversible electron transfer reactions give rise to element and nutrient cycles because of the thermodynamic conditions that make each reaction favorable. Specifically, the rate at which each reaction occurs is determined by the conditions of the environment (i.e. abundance of substrates, products, et. cetera) thus allowing for nutrients to cycle in a stable manner. 
+
+
+##### **Using information provided in the text, describe how the nitrogen cycle partitions between different redox “niches” and microbial groups. Is there a relationship between the nitrogen cycle and climate change?**
+
+
+The different stages of the nitrogen cycle all require different amounts of oxygen, corresponding to different redox niches, and the other microbes that will be in that environment. In nitrogen fixation, nitrogen gas is fixed from our atmosphere into ammonium. This is done by nitrogenase, which is inhibited by oxygen, yet this is still done in many microbes in aerobic environments. Nitrification, the oxidation of ammonium to nitrite and finally nitrate, happens in aerobic environments. Denitrification, the anaerobic oxidation of nitrate and nitrite to nitrogen gas, occurs in anoxic/anaerobic environments.
+
+
+Indirectly, the nitrogen cycle is connected to climate change. All microbes require nitrogen to synthesize protein and nucleic acids, and the only method of nitrogen fixation is via microorganisms. The nitrogen cycle is what controls the amount of available fixed nitrogen, which in turn affects the number of microbes carrying out various other reactions, which in turn produces the Earth’s atmosphere. Additionally, if something were to shift in the nitrogen cycle and affect those microbes involved, it would in turn affect the overall microbial community. The nitrogen cycle does not directly affect climate change, as only nitrogen and hydrogen gas are emitted during nitrogen fixation, nitrification, or denitrification, neither of which are greenhouse gases.
+
+
+##### **What is the relationship between microbial diversity and metabolic diversity and how does this relate to the discovery of new protein families from microbial community genomes?**
+
+
+Although there is enormous genetic diversity in nature, there remains a relatively stable
+set of core genes coding for the major redox reactions essential for life and biogeochemical cycles. Thus, microbial diversity does not necessarily entail diversity in proteins involved in metabolism. 
+
+
+It is hypothesized that there is limitless evolutionary diversity in nature. The rate of discovery of unique protein families has been proportional to the sampling effort, with the number of new protein families increasing approximately linearly with the number of new genomes sequenced.
+
+##### **On what basis do the authors consider microbes the guardians of metabolism?**
+
+
+Temporary and simultaneous guardianship because of the nature of microbial evolution from horizontal and vertical gene transfer, which can change which phenotype is dominant at the time. A dominant phenotype protects the metabolic pathway in the environment, and if it does not survive environmental perturbations applying selective pressures on pathway genes, then it will disappear. Humans could possibly replicate the individual pathways, but the overall metabolic biogeochemical processes that control the flow of electrons can only be done by microbes.
+
+
 ### Module 01 references
 Utilize this space to include a bibliography of any literature you want associated with this module. We recommend keeping this as the final header under each module.
 
-An example for Whitman and Wiebe (1998) has been included below.
 
-Whitman WB, Coleman DC, and Wiebe WJ. 1998. Prokaryotes: The unseen majority. Proc Natl Acad Sci USA. 95(12):6578:6583.  [PMC33863](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
+Whitman WB, Coleman DC, Wiebe WJ. 1998. Prokaryotes: The unseen majority. Proc Natl Acad Sci USA. 95(12):6578-6583.  [PMC33863](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
+
+
+Kasting JF, Siefert JL. 2002. Life and the Evolution of Earth's Atmosphere. Science. 296(5570):1066-1068.
+[10.1126/science.1071184](http://science.sciencemag.org/content/296/5570/1066)
+
+
+Nisbet EG, Sleep NH. 2001. The habitat and nature of early life. Nature. 409(6823):1083-1091.
+[10.1038/35059210](https://www.nature.com/articles/35059210)
+
+
+Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth’s Biogeochemical Cycles. Science. 320(5879):1034-1039.
+[10.1126/science.1153213](http://science.sciencemag.org/content/320/5879/1034)

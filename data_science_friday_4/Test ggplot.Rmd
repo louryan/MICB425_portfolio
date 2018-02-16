@@ -1,0 +1,25 @@
+---
+title: "Untitled"
+author: "Ryan Lou"
+date: "January 26, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+#Load tidyverse
+```{r echo=FALSE, results='hide',message=FALSE}
+library(tidyverse)
+
+#Load data
+md<- read.table(file="Saanich.metadata.txt", header=TRUE, row.names = 1, sep="\t", na.strings=c("NAN","NA","."))
+otu<- read.table(file="Saanich.OTU.txt", header=TRUE, row.names = 1, sep="\t", na.strings=c("NAN","NA","."))
+df <- otu[2,]
+#create graph of otu data
+library(ggplot2)
+ggplot(df, aes(x = "SI072_S3_100", y = "Otu")) +
+  geom_point()
+```
+
