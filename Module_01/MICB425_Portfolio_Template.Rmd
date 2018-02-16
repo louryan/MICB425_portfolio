@@ -5,6 +5,8 @@ date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output: 
   html_document:
     toc: true
+    toc_float: true
+    toc_depth: 5
 ---
 # Module 01
 Reserve the first level headings (#) for the start of a new Module. This will help to organize your portfolio in an intuitive fashion.  
@@ -125,6 +127,8 @@ And now you've almost finished your first RMarkdown! Feeling excited? We are! In
 Describe the numerical abundance of microbial life in relation to ecology and biogeochemistry of Earth systems. 
 
 #### General questions
+
+
 #####**What were the main questions being asked?** 
 
 * What is the total number of prokaryote cells in the world?
@@ -173,14 +177,15 @@ Comment on the emergence of microbial life and the evolution of Earth systems
 
 
 #### Prompt
-* **Indicate the key events in the evolution of Earth systems at tic marks on the time series.**
+
+
+##### **Indicate the key events in the evolution of Earth systems at tic marks on the time series.**
     * Earth was formed over 4.5 billion years ago
-    * Life began about 3.8 billion years ago; only hyperthermophiles survived since the ocean was over 100°C in some parts due to the occasional meteorite impact that occured in the past 200 million years
+    * Life began about 3.8 billion years ago; only hyperthermophiles survived since the ocean was over 100�C in some parts due to the occasional meteorite impact that occured in the past 200 million years
     * Cyanobacteria have appeared to evolve 3.5 billion years ago (Rubisco pathway)
     * First eukaryotes appeared 2.7 billion years
     * Rise of atmospheric O~2~ at 2.2/2.3 billion years ago
         * Most of this is derived from the oceans (cyanobacteria and other phytoplankton), since the bacteria could live under anaerobic conditions and produce O~2~.
-        
     + 4.6 billion years ago  
         + Beginning of the Solar System from one or more supernovas nearby
         + Inner planets received carbon and water vapour from the matter in space
@@ -235,12 +240,11 @@ Comment on the emergence of microbial life and the evolution of Earth systems
     + 200,000 years ago
         + Emergence of the first human being
     
-* **Describe the dominant physical and chemical characteristics of Earth systems at waypoints.**
-
+#### **Describe the dominant physical and chemical characteristics of Earth systems at waypoints.**
     + Hadean  
         + Meteorite impacts throughout this eon 
-        + More CO~2~ as evidenced by limestone and much higher vapour pressure due to higher temperatures (500°C)
-        + Temperature started to cool down even more closer to the end of the eon (100°C)
+        + More CO~2~ as evidenced by limestone and much higher vapour pressure due to higher temperatures (500�C)
+        + Temperature started to cool down even more closer to the end of the eon (100�C)
         + Surface ocean temperatures were about 100°C
         + Silica-containing rocks provided evidence for waters in the ocean because the lithosphere would need to be hydrated and cooled for these rocks to form.
     + Archean  
@@ -259,18 +263,6 @@ Comment on the emergence of microbial life and the evolution of Earth systems
         + Pangaea formed and there was dry, harsh climate in the interior of the supercontinent
         + After PWangaea split, the Atlantic Ocean formed near the extinction of dinosaurs
         + Climate heated up during the Neogene
-
-
-    * 3.8 Billion years ago (First sign of life)
-        * Meteorite impacts could vaporize the ocean (large) or heat it above 100°C (small).
-        * CO~2~-CO atmosphere at higher pressure could give rise to a liquid ocean or CH~4~ could too (not NH~3~, which dissociates quickly under UV radiation)
-            * However, high CH~4~ concentrations compared to CO~2~ could create a smog that blocked UV light 
-    * 3.6-2.5 Billion years ago (Appearance of first Cyanobacteria and Ancestral Euakaryotes)
-        * Fossil microbial biolfilms and stromatolites are evidence of microbes showing up around this time (particularly Archaea), along with photosynthetic enzymes (Rubisco 3.5 Billion years ago)
-        * Also fossils from sulphide deep-water deposits
-  
-    * 2.3-2.2 Billion Years ago (Rise of the oxic atmosphere)
-        * Mitochondria and chloroplasts may control Photosynthesis, CO~2~ and nitrogen fixation if Rubisco can reverse due to the change of CO~2~/O~2~ ratios changing.
 
 
 ### Problem set 01
@@ -333,7 +325,7 @@ A large number of these prokaryotes are lysed by marine viruses.
 #####**What is the relationship between carbon content, carbon assimilation efficiency and turnover rates in the upper 200m of the ocean? Why does this vary with depth in the ocean and between terrestrial and marine habitats?** 
 
 
-Carbon efficincy = 20%  
+Carbon efficiency = 20%  
 5-20 fg C/cell  
 $$3.6\times 10^{28} \ cells \cdot{6\times 10^{-30}} \ Pg \ C /cell = 0.72 \ Pg \ C$$
 Pg C in Marine Environments
@@ -369,10 +361,9 @@ $$8.2\times 10^{29} \cdot 2.56\times 10^{-26} = 2.1\times 10^{4} \ {mutations/ye
 ##### **What are the primary geophysical and biogeochemical processes that create and sustain conditions for life on Earth? How do abiotic versus biotic processes vary with respect to matter and energy transformation and how are they interconnected?**
 
 
-Tectonic movement along with photochemical reactions in the atmosphere allow for mixing and partitioning of chemical substrates on Earth. 
+Tectonic movement along with photochemical reactions in the atmosphere provide a flow of substrates to organisms and can remove metabolic products through large scale processes, creating geochemical cycles.This allows elements and molecules to interact, forming bonds that can be formed and broken in a cyclical fashion. Abiotic processes generally include the acid/base chemistry (proton transfer), the geophysical processes that bring about chemical reactions. Biotic processes are brought about by the photochemical reactions, which drive primary production and also the cycling of nutrients such as N and P. This primary production can support heterotrophic bacteria that can respire organic matter and remineralize inorganic substrates that contain N, S, and P. These biotic processes also contribute to oxygen production and depletion.
 
 
-Geophysical (abiotic): Tectonics (Acid/base), transfer of protons without electrons, atmospheric photochemical processes (photochemistry/radical chemistry = ‘magic’)
 Biogeochemical: 
  (Redox)
  
@@ -386,26 +377,26 @@ The Earth's redox state is considered an emergent property as it is reliant on r
 ##### **How do reversible electron transfer reactions give rise to element and nutrient cycles at different ecological scales? What strategies do microbes use to overcome thermodynamic barriers to reversible electron flow?**
 
 
-Reversible electron transfer reactions give rise to element and nutrient cycles because of the thermodynamic conditions that make each reaction favorable. Specifically, the rate at which each reaction occurs is determined by the conditions of the environment (i.e. abundance of substrates, products, et. cetera) thus allowing for nutrients to cycle in a stable manner. 
+Reversible electron transfer reactions give rise to new element and nutrient cycles as these cycles would have been almost impossible given the thermodynamic circumstances that can be corrected by this process. More so, the thermodynamic conditions in the environment can influence the rate of each  reaction, determining whether it is spontaneous or not (ex: abundance of substrates, products, etc.).
 
 
-##### **Using information provided in the text, describe how the nitrogen cycle partitions between different redox “niches” and microbial groups. Is there a relationship between the nitrogen cycle and climate change?**
+##### **Using information provided in the text, describe how the nitrogen cycle partitions between different redox, niches, and microbial groups. Is there a relationship between the nitrogen cycle and climate change?**
 
 
-The different stages of the nitrogen cycle all require different amounts of oxygen, corresponding to different redox niches, and the other microbes that will be in that environment. In nitrogen fixation, nitrogen gas is fixed from our atmosphere into ammonium. This is done by nitrogenase, which is inhibited by oxygen, yet this is still done in many microbes in aerobic environments. Nitrification, the oxidation of ammonium to nitrite and finally nitrate, happens in aerobic environments. Denitrification, the anaerobic oxidation of nitrate and nitrite to nitrogen gas, occurs in anoxic/anaerobic environments.
+The different stages of the nitrogen cycle all require different amounts of oxygen , corresponding to different redox niches, and the other microbes that will be in that environment. In nitrogen fixation, nitrogen gas is fixed from our atmosphere into ammonium through the use of nitrogenase, which must be protected from oxygen. Another source of fixed nitrogen is through the oxidation of ammonium to nitrite and finally nitrate in aerobic environments and provides nitrates to phytoplankton. On the other hand, denitrification, the anaerobic oxidation of nitrate and nitrite to nitrogen gas occurs in oxygen minimum zones in the ocean.
 
 
-Indirectly, the nitrogen cycle is connected to climate change. All microbes require nitrogen to synthesize protein and nucleic acids, and the only method of nitrogen fixation is via microorganisms. The nitrogen cycle is what controls the amount of available fixed nitrogen, which in turn affects the number of microbes carrying out various other reactions, which in turn produces the Earth’s atmosphere. Additionally, if something were to shift in the nitrogen cycle and affect those microbes involved, it would in turn affect the overall microbial community. The nitrogen cycle does not directly affect climate change, as only nitrogen and hydrogen gas are emitted during nitrogen fixation, nitrification, or denitrification, neither of which are greenhouse gases.
+The nitrogen cycle is indirectly connected to global warming. All microbes require nitrogen to synthesize protein and nucleic acids as they contain amino acids and nitrogenous bases respectively. A major mode of N~2~ fixation is through microbes, although the Haber-Bosch process contributes to a significant portion as well. The nitrogen cycle is what controls the amount of available fixed nitrogen to organisms, which can influence the abundance of microbes how how they affect the atmosphere, especially through photosynthesis. A shift in the nitrogen cycle could have big implications on not just the microbes, but on the community itself and the overall climate, albeit not directly since it only deals with nitrogen and hydrogen gas, which are emitted through nitrogen cycle processes. 
 
 
 ##### **What is the relationship between microbial diversity and metabolic diversity and how does this relate to the discovery of new protein families from microbial community genomes?**
 
 
-Although there is enormous genetic diversity in nature, there remains a relatively stable
-set of core genes coding for the major redox reactions essential for life and biogeochemical cycles. Thus, microbial diversity does not necessarily entail diversity in proteins involved in metabolism. 
+Although genes may mutate fairly often, there will always be a set of core genes that remain and are protected since they are extremely important. These genes code for the major redox reactions essential for life and biogeochemical cycles. Therefore, microbial diversity with new genes that pop up does not necessarily mean there is diversity in metabolic protein since they can be crowded out by those genes that have been conserved.
 
 
-It is hypothesized that there is limitless evolutionary diversity in nature. The rate of discovery of unique protein families has been proportional to the sampling effort, with the number of new protein families increasing approximately linearly with the number of new genomes sequenced.
+Given that there are almost limitless ways to mutate genes, this leads to the hypothesis of having limitless evolutionary diversity in nature. This coupled with the fact that the rate of discovery of unique protein families has been proportional to the sampling effort, means that our sampling effort is the limiting factor and the rate at which we discover new protein families scales approximately linearly with the number of new genomes sequenced.
+
 
 ##### **On what basis do the authors consider microbes the guardians of metabolism?**
 
@@ -428,5 +419,5 @@ Nisbet EG, Sleep NH. 2001. The habitat and nature of early life. Nature. 409(682
 [10.1038/35059210](https://www.nature.com/articles/35059210)
 
 
-Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth’s Biogeochemical Cycles. Science. 320(5879):1034-1039.
+Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth's Biogeochemical Cycles. Science. 320(5879):1034-1039.
 [10.1126/science.1153213](http://science.sciencemag.org/content/320/5879/1034)
