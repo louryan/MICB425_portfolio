@@ -1,0 +1,143 @@
+Parsing each gene reference tree file found in the input sequences in parallel... done.
+Thu Mar 29 01:01:40 2018
+Retrieving the reference tree for D0302... done.
+Parsing the 23 trees for D0302 in parallel... done.
+Parsing required 0.0:0.0:4.9184699058532715
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold00270.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold00270... Thu Mar 29 01:01:45 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:45 2018	stop: Thu Mar 29 01:01:45 2018
+done.
+Finished parsing D0302_scaffold00270's RAxML output at Thu Mar 29 01:01:45 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold01657.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold01657... Thu Mar 29 01:01:45 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:46 2018	stop: Thu Mar 29 01:01:46 2018
+done.
+Finished parsing D0302_scaffold01657's RAxML output at Thu Mar 29 01:01:46 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold05347.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold05347... Thu Mar 29 01:01:46 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:46 2018	stop: Thu Mar 29 01:01:46 2018
+done.
+Finished parsing D0302_scaffold05347's RAxML output at Thu Mar 29 01:01:46 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold09328.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold09328... Thu Mar 29 01:01:46 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:47 2018	stop: Thu Mar 29 01:01:47 2018
+done.
+Finished parsing D0302_scaffold09328's RAxML output at Thu Mar 29 01:01:47 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold118678.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold118678... Thu Mar 29 01:01:47 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:47 2018	stop: Thu Mar 29 01:01:47 2018
+done.
+Finished parsing D0302_scaffold118678's RAxML output at Thu Mar 29 01:01:47 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold124639.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold124639... Thu Mar 29 01:01:47 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:48 2018	stop: Thu Mar 29 01:01:48 2018
+done.
+Finished parsing D0302_scaffold124639's RAxML output at Thu Mar 29 01:01:48 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold142746.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold142746... Thu Mar 29 01:01:48 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:48 2018	stop: Thu Mar 29 01:01:48 2018
+done.
+Finished parsing D0302_scaffold142746's RAxML output at Thu Mar 29 01:01:48 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold147776.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold147776... Thu Mar 29 01:01:48 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:49 2018	stop: Thu Mar 29 01:01:49 2018
+done.
+Finished parsing D0302_scaffold147776's RAxML output at Thu Mar 29 01:01:49 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold153973.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold153973... Thu Mar 29 01:01:49 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:49 2018	stop: Thu Mar 29 01:01:49 2018
+done.
+Finished parsing D0302_scaffold153973's RAxML output at Thu Mar 29 01:01:49 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold162882.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold162882... Thu Mar 29 01:01:49 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:50 2018	stop: Thu Mar 29 01:01:50 2018
+done.
+Finished parsing D0302_scaffold162882's RAxML output at Thu Mar 29 01:01:50 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold163835.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold163835... Thu Mar 29 01:01:50 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:50 2018	stop: Thu Mar 29 01:01:50 2018
+done.
+Finished parsing D0302_scaffold163835's RAxML output at Thu Mar 29 01:01:50 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold170365.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold170365... Thu Mar 29 01:01:50 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:51 2018	stop: Thu Mar 29 01:01:51 2018
+done.
+Finished parsing D0302_scaffold170365's RAxML output at Thu Mar 29 01:01:51 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold173056.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold173056... Thu Mar 29 01:01:51 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:51 2018	stop: Thu Mar 29 01:01:51 2018
+done.
+Finished parsing D0302_scaffold173056's RAxML output at Thu Mar 29 01:01:51 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold205794.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold205794... Thu Mar 29 01:01:51 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:52 2018	stop: Thu Mar 29 01:01:52 2018
+done.
+Finished parsing D0302_scaffold205794's RAxML output at Thu Mar 29 01:01:52 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold246616.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold246616... Thu Mar 29 01:01:52 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:52 2018	stop: Thu Mar 29 01:01:52 2018
+done.
+Finished parsing D0302_scaffold246616's RAxML output at Thu Mar 29 01:01:52 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold249917.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold249917... Thu Mar 29 01:01:52 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:53 2018	stop: Thu Mar 29 01:01:53 2018
+done.
+Finished parsing D0302_scaffold249917's RAxML output at Thu Mar 29 01:01:53 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold25807.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold25807... Thu Mar 29 01:01:53 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:53 2018	stop: Thu Mar 29 01:01:53 2018
+done.
+Finished parsing D0302_scaffold25807's RAxML output at Thu Mar 29 01:01:53 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold27382.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold27382... Thu Mar 29 01:01:53 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:54 2018	stop: Thu Mar 29 01:01:54 2018
+done.
+Finished parsing D0302_scaffold27382's RAxML output at Thu Mar 29 01:01:54 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold38598.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold38598... Thu Mar 29 01:01:54 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:54 2018	stop: Thu Mar 29 01:01:54 2018
+done.
+Finished parsing D0302_scaffold38598's RAxML output at Thu Mar 29 01:01:54 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold40079.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold40079... Thu Mar 29 01:01:54 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:55 2018	stop: Thu Mar 29 01:01:55 2018
+done.
+Finished parsing D0302_scaffold40079's RAxML output at Thu Mar 29 01:01:55 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold60382.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold60382... Thu Mar 29 01:01:55 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:55 2018	stop: Thu Mar 29 01:01:55 2018
+done.
+Finished parsing D0302_scaffold60382's RAxML output at Thu Mar 29 01:01:55 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold94325.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold94325... Thu Mar 29 01:01:55 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:55 2018	stop: Thu Mar 29 01:01:55 2018
+done.
+Finished parsing D0302_scaffold94325's RAxML output at Thu Mar 29 01:01:55 2018
+Retrieving the labelled tree /home/enenn/treesapp/treesapp_out_G_135m/various_outputs/D0302_scaffold94408.originalRAxML_labelledTree.txt... done.
+identifying the terminal children of each assignment for D0302_scaffold94408... Thu Mar 29 01:01:56 2018
+Number of subtrees = 371
+compare_terminal_children_strings	start: Thu Mar 29 01:01:56 2018	stop: Thu Mar 29 01:01:56 2018
+done.
+Finished parsing D0302_scaffold94408's RAxML output at Thu Mar 29 01:01:56 2018

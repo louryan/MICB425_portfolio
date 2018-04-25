@@ -1,0 +1,3 @@
+# Functional analysis, nitrite reductase (NO-forming) / hydroxylamine reductase:
+
+Placement weight 100.00%: Assignment of query to the lowest common ancestor of Caenispirillum salinarum AK4 | EKV27616 (32), Thalassospira xiamenensis | KZB51849 (41) and Thalassospira permensis NBRC 106175 | KEO59842 (42).

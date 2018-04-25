@@ -1,0 +1,3 @@
+# Functional analysis, nitrite reductase (NO-forming) / hydroxylamine reductase:
+
+Placement weight 100.00%: Assignment of query to the lowest common ancestor of Colwellia sp. Phe_37 | KXJ57710 (108), Colwellia psychrerythraea 34H | AAZ25602 (109), Thalassomonas actiniarum | KJE38030 (110), Oleispira antarctica RB-8 | CCK76416 (117), Oleiphilus sp. HI0123 | KZZ53339 (118), Sedimenticola thiotaurini | AKH22159 (169) and endosymbiont of Ridgeia piscesae | KRT56794 (170).

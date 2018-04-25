@@ -1,0 +1,12 @@
+
+Number of Contigs                         : 38 
+Total Contig Length                       : 35804 
+Contig length covered                     : 35804 
+Percentage of contig coverage             : 100.00%
+Percentage of uniquely-aligned reads      : 0.04 %
+Percentage of multireads                  : 0.00 %
+Percentage of unaligned reads             : 99.96%
+Percentage of mapped reads                : 0.04 %
+Total number of reads                     : 91093947 
+Number of multireads                      : 45 
+Avg rpkm across contigs in sample         : 9.02 

@@ -1,0 +1,1993 @@
+---
+title: "MICB425 Portfolio - Microbial Ecological Genomics: From Genomes to Biomes, Spring 2018"
+author: "Ryan Lou, 23308142"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+---
+# Module 01
+## RMarkdown pretty PDF challenge
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+The following assignment is an exercise for the reproduction of this .html document using the RStudio and RMarkdown tools we've shown you in class. Hopefully by the end of this, you won't feel at all the way this poor PhD student does. We're here to help, and when it comes to R, the internet is a really valuable resource. This open-source program has all kinds of tutorials online.
+
+
+![](http://www.phdcomics.com/comics/archive/phd011718s.gif)
+
+
+http://phdcomics.com/ Comic posted 1-17-2018
+
+
+##Challenge Goals
+The goal of this R Markdown html challenge is to give you an opportunity to play with a bunch of different RMarkdown formatting. Consider it a chance to flex your RMarkdown muscles. Your goal is to write your own RMarkdown that rebuilds this html document as close to the original as possible. So, yes, this means you get to copy my irreverant tone exactly in your own Markdowns. It's a little window into my psyche. Enjoy =)
+
+
+**hint: go to the [PhD Comics website](http://phdcomics.com/) to see if you can find the image above**  
+*If you can't find that exact image, just find a comparable image from the PhD Comics website and include it in your markdown*
+
+
+
+###Here's a header!
+
+
+Let's be honest, this header is a little arbitrary. But show me that you can reproduce headers with different levels please. This is a level 3 header, for your reference (you can most easily tell this from the table of contents).
+
+
+####Another header, now with maths
+
+Perhaps you're already really confused by the whole markdown thing. Maybe you're so confused that you've forgotten how to add. Never fear! ~~A calculator~~ R is here:
+```{r}
+1231521+12341556280987
+```
+
+
+###Table Time
+
+
+Or maybe, after you've added those numbers, you feel like it's about time for a table!  
+I'm going to leave all the guts of the coding here so you can see how libraries (R packages) are loaded into R (more on that later). It's not terribly pretty, but it hints at how R works and how you will use it in the future. The summary function used below is a nice data exploration function that you may use in the ^future^.
+```{r}
+library(knitr)
+kable(summary(cars), caption="I made this table with kable in the knitr package library")  
+```
+
+
+And now you've almost finished your first RMarkdown! Feeling excited? We are! In fact, we're so excited that maybe we need a big finale eh? Here's ours! Include a fun gif of your choice!
+
+
+![**Such snow. Very fun. Wow.**](http://i.imgur.com/PgksOgG.gif)
+
+##Data Science Assignment 2 - Plotting Data in R
+
+```{r}
+library(tidyverse)
+library(phyloseq)
+metadata <- read.delim("Saanich.metadata.txt")
+OTU <- read.delim("Saanich.OTU.txt")
+load("phyloseq_object.RData")
+```
+
+
+####Exercise 1
+```{r}
+ggplot(metadata, aes(x=NO3_uM, y=Depth_m))+
+  geom_point(color = "purple", shape=17, size = 2)
+```
+
+
+####Exercise 2
+```{r}
+#Change from °C to °F
+metadata %>%
+  mutate(Temperature_F = (Temperature_C*9/5)+32) %>%
+  select(Temperature_F, Depth_m) %>%
+#Plot data
+  ggplot(., aes(x=Temperature_F, y=Depth_m))+
+  geom_point()
+```
+
+
+####Exercise 3
+```{r}
+#convert physeq data to % and plot
+physeq_percent = transform_sample_counts(physeq, function(x) 100*x/sum(x))
+plot_bar(physeq_percent, fill="Phylum")+
+  geom_bar(aes(fill=Phylum), stat = "identity")+
+#Add title and axis labels
+  ggtitle("Phyla from 10 to 200 m in Saanich Inlet")+
+  xlab("Sample depth") + ylab("Percent relative abundance")
+```
+
+
+####Exercise 4
+```{r}
+#Gather data in 1 column
+metadata_nutrients <- metadata %>%
+  gather(Nutrient, Concentration, O2_uM, PO4_uM, SiO2_uM, NO3_uM, NH4_uM, NO2_uM)%>%
+  select(Depth_m, Nutrient, Concentration)
+#Plot facet plot
+ggplot(metadata_nutrients, aes(x=Depth_m, y=Concentration))+
+  geom_line(color="grey")+
+  geom_point()+
+  facet_wrap(~Nutrient, scales="free_y")+
+  theme(legend.position = "none")+
+  ggtitle("Nutrient distribution across a depth of 10-200m in Saanich Inlet")+
+  xlab("Depth (m)")+
+  ylab("Nutrient Concentration (uM)")
+```
+
+
+###Evidence Worksheet 01
+
+
+[Whitman *et al* 1998](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
+
+
+#### Learning objectives
+* Describe the numerical abundance of microbial life in relation to ecology and biogeochemistry of Earth systems. 
+
+
+#### General questions
+
+
+#####**What were the main questions being asked?** 
+
+* What is the total number of prokaryote cells in the world?
+* How much of the world's carbon is made up by prokaryotes?
+* What are the major environments in which these prokaryotes live?
+* How does the number if prokaryotes contribute to genetic diversity?
+* How does the turnover time vary by environment?
+
+#####**What were the primary methodological approaches used?**
+
+* Performing calculations on data provided in literature cited to provide estimate on prokaryote counts in various representative environments and other habitats
+* Extrapolating from equations in literature cited to estimate prokaryote numbers in less accessible environments such as deep sediments
+* Creating a depth profile for unconsolidated sediments for subsurface prokaryotes in deep ocean, continential shelf/slope and terrestrial coastal plain using calculated arithmetic averages
+* Using assumptions from literature cited regarding the volume and average porosity of the terrestrial subsurface, total pore space occupied by prokaryotes, and average volume of a subsurface prokaryote cell to calculate the total number of terrestrial subsurfadce prokaryotes
+
+#####**Summarize the main results or findings.**
+
+* The habitats that the greatest number of prokayotes are generally categorized as being part of the subsurface (seawater, soil, sediments)
+* The total carbon in prokaryotes is estimate to be around 60-100% of the total carbon found in plants
+* Terrestrial plants have a lower nutrient (Nitrogen/Phosphorus-containing) content per gram of carbon than soil prokaryotes do
+* Mutations are more prevalent in prokaryotes because of their sheer numbers, leading to greater genetic diverty
+* Although animals, leaves, and plant tissue have a large resident prokaryote propulation, the scale of those populations are too low to form a major portion of the total number of prokaryotes in the world
+    - Eg: Soil has significantly more prokaryotes than leaves do.
+    
+#####**Do new questions arise from the results?**
+
+* What proportion of the total number of prokaryotes is archaea? 
+* What propotion of the total number of prokaryotes is bacteria?
+* Is there any way to have a better estimate of the total number of prokaryotes in this day and age better computational tools at our disposal? * How does the prokaryote nutrient pool (C/N/P) differ in the ocean compared to terrestrial environments?
+
+#####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
+
+
+The authors provided a very brief background on what prokaryotes do and how they contribute to genetic diversity, but then quickly goes into describing their methodology as well as the various environments they looked at. However, they explained **how** they know there are lots of prokaryotes in these environments and not **why**, which can be confusing to readers that do not know what prokaryotes are.
+
+
+The methods were quite vague as they do mention that they extrapolate from the equations of the cited literature, which requires looking at them and determining what they did, especially for unconsolidated sediments. There were assumptions made regarding the porosity of subsurface sediments, pore space taken up by prokaryotes and the volume of prokaryotes, which were used to estimate the total number of prokaryotes in those environments. 
+
+
+The tables provided were neat and easy to understand and compare the number of prokaryotes in each environment. It also provided a quick way visualizing a calculation that they did to arrive at the total number of prokaryotic cells. Seeing the total number of the cells does not seem far-fetched since the Earth has a high volume in which many small prokaryotic cells can live in.
+
+
+### Evidence Worksheet 02
+#### Learning objectives:
+* Comment on the emergence of microbial life and the evolution of Earth systems
+
+
+[Nisbet *et. al* 2001](https://www.nature.com/articles/35059210)
+
+
+[Kasting *et.al* 2002](http://science.sciencemag.org/content/296/5570/1066)
+
+
+[Falkowski *et. al* 2008](http://science.sciencemag.org/content/320/5879/1034)
+
+
+#### Prompt
+
+
+##### **Indicate the key events in the evolution of Earth systems at tic marks on the time series.**
+* Earth was formed over 4.5 billion years ago
+* Life began about 3.8 billion years ago; only hyperthermophiles survived since the ocean was over 100?C in some parts due to the occasional meteorite impact that occured in the past 200 million years
+* Cyanobacteria have appeared to evolve 3.5 billion years ago (Rubisco pathway)
+* First eukaryotes appeared 2.7 billion years
+* Rise of atmospheric O~2~ at 2.2/2.3 billion years ago
+    * Most of this is derived from the oceans (cyanobacteria and other phytoplankton), since the bacteria could live under anaerobic conditions and produce O~2~.
+* 4.6 billion years ago  
+    * Beginning of the Solar System from one or more supernovas nearby
+    * Inner planets received carbon and water vapour from the matter in space
+    * 4.5 billion years ago
+    * Earth was formed around this time 
+    * Moon was also formed, giving Earth spin, tilt, day/night cycles and seasons
+* 4.4 billion years ago
+    * Oldest mineral grains on Earth formed (Zircons): Jack Hills Greenstone Belt
+* 4.2-4.1 billion years ago  
+    * First evidence of life found using carbon isotopes in graphite in rock/zircon
+* 4.0 billion years ago
+    * Evidence of plate subduction
+* 3.8 billion years ago  
+    * Evidence came from the Isua belt in Greenland; oldest known water-lain sedimentary rocks with inorganic carbonate; evidence of oceans 
+    * Meteorite impacts largely stopped, allowing for life and stabilizing sea water chemistry and although it was still hot, there were no more impacts that could cause seawater to vaporize
+* 3.75 billion years ago  
+    * Early methanogenesis by microbes (mostly archaeans)
+* 3.5 billion years ago  
+    * Fossil microbial biolfilms and stromatolites are evidence of microbes showing up around this time (particularly Archaea), along with carbon fixation/photosynthetic enzymes (Rubisco) in cyanobacteria
+* 3.0 billion years ago  
+    * First glaciation event - Earth was still brown because of the high amount atmospheric CH~4~ from methanogens and warm despite the dimmer Sun
+* 2.7 billion years ago  
+    * First eukaryotes emerged
+        * They incorporated chloroplast and mitochondria symbionts, which could influence the links between photosynthesis, CO~2~, and N~2~ fixation
+    * The great oxidation event largely created by cyanobacteria
+    * Terrestrial life started to exist
+* 2.2 billion years ago  
+    * The microaerobic atmospehre transitioned into oxic air when O~2~ levels sharply increased 
+    * Rubisco preferrably takes up the CO~2~ in the atmosphere, leaving O~2~
+* 2.1 billion years ago
+    * Complex eukaryotes evolved
+* 1.3 billion years ago
+    * Stromatolites rose sharply in diversity
+    * Meiosis and sexual reproduction present in single-celled eukaryotes and also in common ancestor of all eukaroytes, which could have increased genetic diversity and the rate of evolution
+* 700 million years ago
+    * Snowball Earth; a series of many global glaciations   
+* 540 million years ago
+    * The Cambrian Explosion - massive increase in multicellular life
+* 400 million years ago
+    * Devonian explosion 
+        * First land plants appeared; trees and seeds evolved
+        * A great amount of diversification happened where there were lots of fishes and other species appearing until the Devonian extinction where most of those species disappeared
+    * Gigantism (large animals and plants) occured
+* 252 million years ago
+    * Another mass extinction event around this time near the end of the Permian Period "the Great Dying"
+    * Gave rise to the "Age of the dinosaurs" where they dominated the Earth for about 186 million years
+* 20 million years ago
+    * Dramatic global warming occured
+    * Mammals and other multicellular organisms diversified further and increased in size
+* 550,000 years ago
+    * Beginning of the series of modern "Ice Ages"
+* 200,000 years ago
+    * Emergence of the first human being
+    
+#### **Describe the dominant physical and chemical characteristics of Earth systems at waypoints.**
+* Hadean  
+    * Meteorite impacts throughout this eon 
+    * More CO~2~ as evidenced by limestone and much higher vapour pressure due to higher temperatures (500?C)
+    * Temperature started to cool down even more closer to the end of the eon (100?C)
+    * Surface ocean temperatures were about 100°C
+    * Silica-containing rocks provided evidence for waters in the ocean because the lithosphere would need to be hydrated and cooled for these rocks to form.
+* Archean  
+    * Methanogenesis started early on in the eon and the atmosphere was predominately made of CH~4~, with some CO~2~ due to the lack of oxygen
+        * The large amount of CH~4~ is necessary for the Earth as a greenhouse gas because keeps the heat on Earth especially when the sun was 33% dimmer; was produced in levels 10-100x higher before O~2~ became common in the atmosphere
+            * Having too high of a CH~4~:CO~2~ ratio would create a smog too dense that it could block UV light
+        * CH~4~ could be used to build biomass
+        * As Rubisco preferrentially takes up CO~2~, this leaves even more CH~4~ relative to CO~2~ in the atmosphere at the time when it became more common
+    * Also sulfur reduction occured when there was no oxygen
+    * Atmosphere is starting to become more oxic with time
+* Proterozoic  
+    * Big increase in O~2~ concentrations in the atmopshere
+    * Plenty of CO~2~ in atmosphere compared to CH~4~
+* Phanerozoic  
+    * Relatively warm temperatures dring the Devonian
+    * Pangaea formed and there was dry, harsh climate in the interior of the supercontinent
+    * After Pangaea split, the Atlantic Ocean formed near the extinction of dinosaurs
+    * Climate heated up during the Neogene
+
+
+### Evidence Worksheet 03 
+
+
+[Waters *et al* 2016](http://science.sciencemag.org/content/351/6269/aad2622)
+
+#### Learning objectives
+* Evaluate human impacts on the ecology and biogeochemistry of Earth systems. 
+
+#### General questions
+
+
+#####**What were the main questions being asked?** 
+
+1.	What are the signals that represent different times during the Holocene?
+2.	How does the rapid increase in anthropogenic materials act as a signature for a certain time periods?
+3.	What geochemical signatures have humans created in sediments and ice?
+4.	How have the testing and deployment of nuclear weapons created a traceable signature in sediments and ice?
+5.	How has atmospheric CO2 levels changed according to the ice cores and sea levels?
+
+
+#####**What were the primary methodological approaches used?**
+
+
+This paper is a review that explained various geochemical signatures and trends during the Holocene with other literature, and the Anthropocene. It appears from the original paper that there were several different measures that were analyzed. Some measures include taking lake sediment cores to measure for constituents from anthropogenic materials of that sediment, glacier ice cores to measure atmospheric CO2, measuring sea level increases. There are also other key anthropogenic change markers such as temperature anomaly, methane as well as human made materials like concrete, plastic and black carbon from fossil fuel emissions.
+
+
+#####**Summarize the main results or findings.**
+
+As technological advances occur through time, human population growth increases, leading to a corresponding increase in resource usage (fossil fuels, metals, fertilizers, land use change), leading to an ecological change. As show in the original paper, there is a considerable increase in ice core nitrate levels, atmospheric CO2, methane, temperature, cement, plastic, black carbon, which can all be attributed to humans. 
+
+
+Human wastes and byproducts of production has caused the formation of persistent materials in the world, which can act as a geochemical signature. Plastics produced by humans have started accumulating in both shallow and deep water sediments which can form biological and/or chemical interactions.
+
+
+Radioactive materials have also started appearing due to the testing and deployment of nuclear arms by the USA and Russia. This created an increase on 239Pu (Plutonium) from the fall out and can accumulate in the sediments, creating another signature of the Anthropocene given its long half life.
+
+
+There has been a relatively large proportion of animals going extinct, due to intensive human land and resource usage.
+    
+    
+#####**Do new questions arise from the results?**
+
+
+1.	How are the time divisions of the Anthropocene going to be defined?
+2.	Can we even determine when the Anthropocene started?
+3.	How has the increase in anthropogenic materials affected the geochemical processes on Earth?
+
+
+#####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
+
+
+Overall, reading the paper wasn't too much of a challenge and since it is partially on a topic that is well known (global warming and human activities), it made it easier to understand the trends in the figures. The author explained the trends in the figures and what it relates to in terms of human activities. However, since it is a review, the methods were explained, but not in as much detail as the primary paper. Also, the ratios (such as 18O/16O), were not well explained so I was unable to see how it would relate to what it meant in the context of the Anthropocene. The authors do provide a good foundation with questions that would drive further research into defining the Anthropocene.
+
+
+### Problem set 01
+#### Learning objectives: 
+Describe the numerical abundance of microbial life in relation to the ecology and biogeochemistry of Earth systems.
+
+#### Specific questions:
+#####**What are the primary prokaryotic habitats on Earth and how do they vary with respect to their capacity to support life? Provide a breakdown of total cell abundance for each primary habitat from the tables provided in the text.**
+
+
+The primrary prokaryotic habitats on Earth are **aquatic environments** (both fresh water and marine) across various regions in the open ocean and sediments, which has a total prokaryotic cell abundance of 1.2 x 10^29^, **soil**, which has a total prokaryotic cell abundance of 2.6 x 10^29^, and **subsurface**, which has a total prokaryotic cell abundance of 4.9 x 10^30^.
+
+
+#####**What is the estimated prokaryotic cell abundance in the upper 200 m of the ocean and what fraction of this biomass is represented by marine cyanobacterium including Prochlorococcus? What is the significance of this ratio with respect to carbon cycling in the ocean and the atmospheric composition of the Earth?** 
+
+
+The estimated cell abundance of prokaryotic cells in the upper 200m of the ocean is 3.6 x 10^28^ and marine autotrophs make up 8% of those prokaryotic cells. This is significant as the autotrophs control the majority of the primary production in the ocean and provides oxygen to the atmosphere and carbon to marine heterotrophic bacteria.
+
+
+#####**What is the difference between an autotroph, heterotroph, and a lithotroph based on information provided in the text?**
+
+
+Autotrophs are "self-nourishing" organisms that can fix inorganic carbon into biomass  
+Heterotrophs are organisms that can assimilate orgnaic carbon  
+Lithotrophs are organisms that can use inorganic substrates 
+
+
+#####**Based on information provided in the text and your knowledge of geography what is the deepest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this depth? ** 
+
+
+The deepest habitat capable of supporting prokaryotic life is in the terrestrial subsurface where it can reach depths up to 4 km, as mentioned in the text. For marine environments, the deepest environment is the Marianas Trench, which is around 10.9 km deep, and possibly 5-6 km deeper before the temperature reaches the limiting factor of having an average temperature of 125 degrees celsius. 
+
+
+#####**Based on information provided in the text your knowledge of geography what is the highest habitat capable of supporting prokaryotic life? What is the primary limiting factor at this height?**  
+
+
+The highest habitat capable of supporting prokaryotic life is at 57-77 km in the atmosphere, but the abundance is relatively low because the oxygne concentration at that height is relatively low. There could also be a low amount of water vapour, which maybe needed by those prokaryotes.
+
+
+#####**Based on estimates of prokaryotic habitat limitation, what is the vertical distance of the Earth's biosphere measured in km?**
+
+
+The vertical distance of the Earth's biosphere is measured to be around 57-77 km in the atmisohere due to prokaryotes being detected at those heights.
+
+
+#####**How was annual cellular production of prokaryotes described in Table 7 column four determined? (*Provide an example of the calculation*)**
+
+
+It was determined by dividing the number of days in the year (365) by the turnover time and then multiplying it by the population size.
+
+
+Example (for Marine Heterotrophs living above 200m  ; Turnover time = 16 days; Population size = 3.6 x 10^28^):
+
+$$\frac{365 \ days/year}{16 \ days} \cdot{3.6\times 10^{28}} \ Cells = 8.2\times 10^{29} \ Cells/year$$ 
+
+
+A large number of these prokaryotes are lysed by marine viruses.
+
+
+#####**What is the relationship between carbon content, carbon assimilation efficiency and turnover rates in the upper 200m of the ocean? Why does this vary with depth in the ocean and between terrestrial and marine habitats?** 
+
+
+Carbon efficiency = 20%  
+5-20 fg C/cell  
+$$3.6\times 10^{28} \ cells \cdot{6\times 10^{-30}} \ Pg \ C /cell = 0.72 \ Pg \ C$$
+Pg C in Marine Environments
+
+
+$$0.72 \ Pg \ C\times{4} = 2.88 \ Pg \ C$$
+
+
+#####**How were the frequency numbers for four simultaneous mutations in shared genes determined for marine heterotrophs and marine autotrophs given an average mutation rate of 4 x 10^-7^ per DNA replication? (Provide an example of the calculation with units. Hint: cell and generation cancel out)**
+
+
+To account for the chance of having four simultaneous mutations in shared genes for marine heterotrophs above a depth of 200m:
+$$(4\times 10^{-7})^{4} \ mutations/gene/DNA \ replication = 2.56\times10^{-26} \ $$
+
+
+To
+$$3.6\times 10^{28} \ Cells \cdot 22.8 \ year^{-1} = 8.2\times 10^{29} \ Cells/year$$
+$$8.2\times 10^{29} \cdot 2.56\times 10^{-26} = 2.1\times 10^{4} \ {mutations/year}$$
+
+#####**Given the large population size and high mutation rate of prokaryotic cells, what are the implications with respect to genetic diversity and adaptive potential? Are point mutations the only way in which microbial genomes diversify and adapt?**
+
+
+* Having a large population size, increases the mutation rate significantly, thereby increasing genetic diversity since more mutations can give rise to new traits, which can be helpful for adapting to a new environment. This increases adaptive potential. Although point mutations can be largely silent, they have the ability to diversify microbial genomes, and they are not the only mode since there is also horizontal gene transfer, which can happen with microbes.
+
+
+#####**What relationships can be inferred between prokaryotic abundance, diversity, and metabolic potential based on the information provided in the text?**
+
+
+
+
+### Problem set 02
+#### Specific Questions:
+##### **What are the primary geophysical and biogeochemical processes that create and sustain conditions for life on Earth? How do abiotic versus biotic processes vary with respect to matter and energy transformation and how are they interconnected?**
+
+
+Tectonic movement along with photochemical reactions in the atmosphere provide a flow of substrates to organisms and can remove metabolic products through large scale processes, creating geochemical cycles.This allows elements and molecules to interact, forming bonds that can be formed and broken in a cyclical fashion. Abiotic processes generally include the acid/base chemistry (proton transfer), the geophysical processes that bring about chemical reactions. Biotic processes are brought about by the photochemical reactions, which drive primary production and also the cycling of nutrients such as N and P. This primary production can support heterotrophic bacteria that can respire organic matter and remineralize inorganic substrates that contain N, S, and P. These biotic processes also contribute to oxygen production and depletion.
+
+
+Biogeochemical: 
+ (Redox)
+ 
+ 
+##### **Why is the Earth's redox state considered an emergent property?**
+
+
+The Earth's redox state is considered an emergent property as it is reliant on reactions that occur in the Earth's (bio)geochemical processes that occur due to regular chemical redox reactions and the metabolic processes of microbes. No single organism in these processes possess all the components that is needed to run these systems, and it is instead the reactions that occur, which are connected to each other that make up the processes as a whole.
+
+
+##### **How do reversible electron transfer reactions give rise to element and nutrient cycles at different ecological scales? What strategies do microbes use to overcome thermodynamic barriers to reversible electron flow?**
+
+
+Reversible electron transfer reactions give rise to new element and nutrient cycles as these cycles would have been almost impossible given the thermodynamic circumstances that can be corrected by this process. More so, the thermodynamic conditions in the environment can influence the rate of each  reaction, determining whether it is spontaneous or not (ex: abundance of substrates, products, etc.).
+
+
+##### **Using information provided in the text, describe how the nitrogen cycle partitions between different redox, niches, and microbial groups. Is there a relationship between the nitrogen cycle and climate change?**
+
+
+The different stages of the nitrogen cycle all require different amounts of oxygen , corresponding to different redox niches, and the other microbes that will be in that environment. In nitrogen fixation, nitrogen gas is fixed from our atmosphere into ammonium through the use of nitrogenase, which must be protected from oxygen. Another source of fixed nitrogen is through the oxidation of ammonium to nitrite and finally nitrate in aerobic environments and provides nitrates to phytoplankton. On the other hand, denitrification, the anaerobic oxidation of nitrate and nitrite to nitrogen gas occurs in oxygen minimum zones in the ocean.
+
+
+The nitrogen cycle is indirectly connected to global warming. All microbes require nitrogen to synthesize protein and nucleic acids as they contain amino acids and nitrogenous bases respectively. A major mode of N~2~ fixation is through microbes, although the Haber-Bosch process contributes to a significant portion as well. The nitrogen cycle is what controls the amount of available fixed nitrogen to organisms, which can influence the abundance of microbes how how they affect the atmosphere, especially through photosynthesis. A shift in the nitrogen cycle could have big implications on not just the microbes, but on the community itself and the overall climate, albeit not directly since it only deals with nitrogen and hydrogen gas, which are emitted through nitrogen cycle processes. 
+
+
+##### **What is the relationship between microbial diversity and metabolic diversity and how does this relate to the discovery of new protein families from microbial community genomes?**
+
+
+Although genes may mutate fairly often, there will always be a set of core genes that remain and are protected since they are extremely important. These genes code for the major redox reactions essential for life and biogeochemical cycles. Therefore, microbial diversity with new genes that pop up does not necessarily mean there is diversity in metabolic protein since they can be crowded out by those genes that have been conserved.
+
+
+Given that there are almost limitless ways to mutate genes, this leads to the hypothesis of having limitless evolutionary diversity in nature. This coupled with the fact that the rate of discovery of unique protein families has been proportional to the sampling effort, means that our sampling effort is the limiting factor and the rate at which we discover new protein families scales approximately linearly with the number of new genomes sequenced.
+
+
+##### **On what basis do the authors consider microbes the guardians of metabolism?**
+
+
+Temporary and simultaneous guardianship because of the nature of microbial evolution from horizontal and vertical gene transfer, which can change which phenotype is dominant at the time. A dominant phenotype protects the metabolic pathway in the environment, and if it does not survive environmental perturbations applying selective pressures on pathway genes, then it will disappear. Humans could possibly replicate the individual pathways, but the overall metabolic biogeochemical processes that control the flow of electrons can only be done by microbes.
+
+
+###Writing Assessment_01
+
+**Prompt:** *"Microbial life can easily live without us; we, however, cannot survive without the global catalysis and environmental it provides."Do you agree or disagree with this statement? Answer the question using specific reference to your reading discussions and content from evidence worksheets and problem sets.*
+
+
+As microbial life has existed for at least 3.5 billion years, based on undisputed evidence, they have inhabited the Earth for a significant portion of its 4.6-billion year life, shaping many biogeochemical processes over relatively long time scales (1). Microbes cannot be seen with the naked eye, but their sheer abundance, spanning four orders of magnitude from 10^26^ to 10^30^ cells in a given marine or terrestrial habitat, means that they contribute significantly to the large scale biogeochemical cycles on Earth, some of which still exists today in some form (2). With the large abundance in microbial cells in these habitats also comes great genetic diversity, which has evolved as genes are conserved and disappear over the billions of years that microbes have existed, as changes in the Earth’s systems happen over time. Humans have inhabited the Earth at a point in time that is relatively very recent on the geologic time scale compared to the emergence of microbes, with the large-scale changes in the Earth's systems coming at an even more recent time of around 200 years ago, in a period that has been labelled as the "Anthropocene" (3). As microbes have continuously shaped the biogeochemical landscape of the Earth in the past 3.5 billion years, and still play an integral role in the biogeochemical pathways that still exist and effect the Earth's atmosphere, land and oceans, it could be said that us humans rely on microbes significantly more than microbes rely on us for survival. 
+
+
+Prior the existence of microbial life appearing about 3.5 billion years ago, the Earth was constantly bombarded by meteorites, which ejects rocks into the atmosphere, and vaporizes the water (1). The resulting water vapour created a greenhouse effect on Earth, keeping the temperatures high at a time when the sun was about 25-30% dimmer, with a water temperature of around 100 degrees C (1). Although this temperature is too high for most forms of life to live, there could possibly be thermophilic prokaryotes that could survive under these conditions. Furthermore, there could be tectonic activity as well, ejecting magma that could acidify the already hot water, further making it more uninhabitable by most organisms (1). These organisms that survive were integral in shaping the biogeochemical landscape of the early Earth through their redox reactions and have laid the ground work for future shifts changes in the Earth’s atmosphere and landscape.
+
+
+Based on evidence from the Isua Belt in Greenland, the atmosphere could have also consisted of carbon dioxide (CO~2~) based on the inorganic carbon (carbonate) being formed on water-lain sedimentary rocks (1). Given that the Sun was dimmer, meaning less light reaching the Earth and therefore, cooler temperatures, the potent greenhouse gas produced by methanogenic prokaryotes (methanogens) could have trapped enough heat to support life (4). The anoxic CO~2~ atmosphere provided the inorganic carbon to be reduced by hydrogen gas (H~2~), yielding methane, as catalyzed by enzymes produced by methanogens (4). However, the rise in temperature from the greenhouse effect of methane cannot happen indefinitely as there is a negative feedback mechanism, where by an organic haze, produced when methane far exceeds CO2 in the atmosphere (4). This reduces the sunlight that gets through to the Earth's surface, and can cool down the Earth. This CO~2~ could also be used by 1,5-bisphosphate carboxylase-oxygenase (Rubisco), an enzyme used to fix inorganic carbon, specifically CO~2~ in a process known as anoxygenic photosynthesis (1, 5). These processes that take up inorganic carbon leave behind carbonate, which is precipitated out of solution.
+
+
+The gradual loss of H~2~ lead to a less reducing environment, allowing for the proliferation of a more oxidizing atmosphere as less methane is produced and reverse reaction of methanogenesis is favoured, resulting in an increase in CO~2~ (4). The evolution of cyanobacteria coincided with this around 2.7 billion years ago, where the oxygen content of the atmosphere increased (1). As more oxygen appeared, so did more complex eukaryotes, which have incorporated their prokaryotic symbionts as mitochondria and chloroplasts (4-Kasting). About 500 million years after, the Great Oxygenation Event happened, drastically increasing the oxygen content in the atmosphere to one that is similar to today's atmosphere (4). As more CO~2~ is now in the atmosphere, Rubisco became more prevalent in the fixation of inorganic carbon and due to it’s preference to take up CO~2~, there is now more oxygen relative to CO~2~. This photosynthetic pathway has survived for a couple billion years and the microbial fraction of photosynthesis accounts for a sizeable proportion of the oxygen produced, especially from marine sources (4). 
+
+
+The supply of fixed nitrogen has also changed significantly since the Earth was formed, where nitrogen gas (N~2~) was initially fixed by relatively slow processes such as lightning fixation (1). As microbes started existing, they started deriving energy from redox reactions, providing selective pressure in favour of those organisms that could fix the very abundant N~2~ using reducing substrates under anaerobic conditions at the time (5). However, the Earth became more oxygenated over time and the enzyme involved, nitrogenase, is inhibited (5). This then led to greater selective pressure on nitrogen-fixing cyanobacteria, causing them to evolve ways to protect nitrogenase from oxygen (1). This fixed nitrogen in the form of nitrate (NO~3~^-^) or ammonium (NH~4~^+^) can be used by organisms to be incorporated into nucleic acids and proteins, which are essential for growth and life. 
+
+
+However, as this is a cycle, there are also processes that result in the loss of fixed nitrogen. as nitrogen gas (N~2~) or nitrous oxide (N~2~O), whether it be through denitrification, or annamox catalyzed by microbes (5). As these processes are anaerobic, they usually happen in the absence of oxygen, they happen in zones in the ocean called Oxygen Minimum Zones (OMZs) (6). This causes the fixed nitrogen to be lost to the atmosphere as N~2~. Meanwhile, the N~2~O released into the atmosphere acts as a greenhouse gas, further intensifying climate change. This leads to further increases in the atmospheric CO~2~ and temperature, reducing the solubility of oxygen and therefore dissolved oxygen concentration in the ocean, causing the expansion of these OMZs. As more fixed nitrogen is lost, the phytoplankton responsible for a significant portion of the primary production in the ocean and world will become even more nutrient limited. As there is less oxygen from primary productivity, this further exacerbates climate change in the process (7). It is unsure if these processes have evolved over time, but since these processes must start from a more oxidized form of nitrogen, such as NO3- or nitrite (NO~2~^-^), they would have evolved after the Earth was significantly more oxygenated 2.3 billion years ago (5).
+
+
+Microbial cells are microscopic in size and only contain a relatively very small amount of carbon in each cell, but they are very abundant in the various habitats on Earth. As microbial abundance is high, there are more individuals that participate in these biogeochemical processes, significantly increasing the scale and output of these processes, making them viable over larger spaces and time scales. With larger spaces, also comes a wide variety of environments such as soil and the oceans that can vary in microbial abundance with different conditions that creates different roles and pathways. Marine environments typically have around 1.5 x 10^29^ prokaryotic cells and typically contribute a little over 50% of the world's primary productivity at 51 Pg of carbon per year, largely due to subsurface photosynthetic and heterotrophic prokaryotes (2). Soil has almost double the number of prokaryotic cells at 2.6 x 10^29^, and they contribute to the break down of organic matter through decomposition, recycling nutrients for other living organisms to grow off (2). 
+
+
+Although the subsurface microbial abundance (both marine and terrestrial subsurface) is hard to measure given the difficulty with collecting samples, it has been estimated that the subsurface microbial abundance is of a magnitude greater than both marine and soil prokaryotes combined and these are mostly anaerobic bacteria that live in the sediments under the sea or terrestrial surface that reduce inorganic carbon to methane (CH~4~) or sulfate to hydrogen sulfide (H~2~S) (2). These pathways have evolved from several billion years ago when methanogenesis was common in the anaerobic atmosphere, and appears to have been conserved (1). 
+
+
+Given that microbes have been on Earth for the past 3.5 billion years or longer, today's metabolic pathways that microbes partake in have survived the several billions of years of evolutionary pressures that arise along the way in a changing biogeochemical landscape. These evolutionary pressures have come in the way of larger scale changes, like the Great Oxygenation Event, as well as smaller scale perturbations that both contribute to refining these microbial pathways through selection by horizontal and vertical gene transfer, making microbes "guardians of metabolism"”" (8). 
+
+
+On the other hand, the modern human having only been around for around 200,000 years (3, 9), a relatively very small amount of time on the geologic time scale. We have largely depended on microbes to shape the Earth the way it has for the past several billion years, including the biogeochemical cycles and landscape that we take for granted through the microbial control of electron flow between reducing (8). Although microbes do play a role in climate change, it largely depends on anthropogenic activities that release increasingly large amounts of CO2 into the atmosphere that the biogeochemical cycling of microbes could partially mitigate through photosynthesis and increased nutrient availability. However, it is the increase in CO2 also diminishes the ability of microbes to cycle the nutrients that photosynthetic organisms need to produce oxygen and biomass. 
+
+
+In the past 200 years, humans have accelerated the biogeochemical changes on Earth, starting with the Industrial Revolution. This time period is referred to as the "Anthropocene" and it corresponds to a time where atmospheric CO2 and other greenhouse gases have risen significantly due to anthropogenic activities through the burning of fossil fuels and deforestation (9). During this time, the human population also increased significantly, and therefore resource usage (3). With this drastic increase in CO2 levels over a relatively short time scale, the carbon cycle has been disrupted and the microbes probably have not had enough time to fully refine their pathways to mitigate the effects of this.
+
+
+Although humans have developed a process to fix nitrogen industrially, called the Haber-Bosch Process, this only provides fertilizer to agriculture in the form of ammonium, which can be nitrified by bacteria into NO3¬- (5). Although this process does not require the catalysis of microbes, the downstream effects in the oceans do involve them, causing eutrophication from the nitrate that reaches the oceans and creating larger OMZs in the oceans due to higher decomposition of more phytoplankton (5). This reduces the amount of fixed nitrogen available due to the imbalance between nitrification and denitrification in these OMZs and would end up reducing primary production due to nitrogen limitation. Furthermore, N2O is also produced in the process and is released into the atmosphere, acting as a greenhouse gas that can worsen the effects of climate change (5). 
+
+
+Overall, microbes have a sizeable impact on the biogeochemical landscape of the Earth due to the relatively long time they have inhabited and shaped the Earth, as well as their high abundances in different environments coming together to increase the scale of their pathways. They directly influence the nutrient availability for other organisms such as humans, through nitrogen fixation and photosynthesis in pathways that have been refined over their several billion years of existence. As humans started appearing relatively recently on the geological time scale at 200,000 years ago (9), combined with the fact that we have only been changing the biogeochemical landscape for the past 200 years (3), microbes could live without us given their age, continuing with their biogeochemical processes as normal. However, given the rate at which technological advances are occurring in the Anthropocene, could there some way we could greatly reduce our reliance on microbes in the future and shape the biogeochemical landscape of the Earth over a shorter, more viable time scale given that a lot of processes catalyzed by microbes are of a larger scale? 
+
+
+**References:**
+
+
+1.	Nisbet EG, Sleep NH. 2001. The habitat and nature of early life. Nature. 409(6823):1083-1091. doi:10.1038/35059210
+2.	Whitman WB, Coleman DC, Wiebe WJ. 1998. Prokaryotes: The unseen majority. Proc Natl Acad Sci USA. 95(12):6578-6583.
+3.	Waters CN, Zalasiewicz J, Summerhayes C, Barnosky AD, Poirier C, Gałuszka A, Cearreta A, Edgeworth M, Ellis EC, Ellis M, Jeandel C, Leinfelder R, McNeill JR, Richter DD, Steffen W, Syvitski J, Vidas D, Wagreich M, Williams M, An Z, Grinevald J, Odada E, Oreskes N, Wolfe AP. 2016. The Anthropocene is functionally and stratigraphically distinct from the Holocene.
+4.	Kasting JF, Siefert JL. 2003. Life and the Evolution of the Earth’s Atmosphere. Science. 296(5570):1066-1068.
+5.	Canfield DE, Glazer AN, Falkowski PG. 2010. The Evolution and Future of Earth’s Nitrogen Cycle. Science. 330(6001):192-196. doi:10.1126/science.1186120
+6.	Lam P, Kuypers MMM. 2011. Microbial Nitrogen Cycling Processes in Oxygen Minimum Zones. Ann Rev Mar Sci. 3(1):317-345. doi:10.1146/annurev-marine-120709-142814
+7.	Stramma L, Visbeck M, Brandt P, Tanhua T, Wallace D. 2009. Deoxygenation in the oxygen minimum zone of the eastern tropical North Atlantic. Geophys Res Lett. 36(20):L20607. doi:10.1029/2009GL039593
+8.	Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth's Biogeochemical Cycles. Science. 320(5879):1034-1039. doi:10.1126/science.1153213
+9.	Shrag DP. 2012. Geobiology of the Anthropocene, p 425-436. In Knoll AH, Canfield DE, Konhauser (ed), Fundamentals of Geobiology, Blackwell Publishing Ltd., Hoboken, New Jersey, USA. 
+
+
+###Module_01 References
+
+
+Whitman WB, Coleman DC, Wiebe WJ. 1998. Prokaryotes: The unseen majority. Proc Natl Acad Sci USA. 95(12):6578-6583.  
+[PMC33863](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC33863/)
+
+
+Kasting JF, Siefert JL. 2002. Life and the Evolution of Earth's Atmosphere. Science. 296(5570):1066-1068.
+[10.1126/science.1071184](http://science.sciencemag.org/content/296/5570/1066)
+
+
+Nisbet EG, Sleep NH. 2001. The habitat and nature of early life. Nature. 409(6823):1083-1091.
+[10.1038/35059210](https://www.nature.com/articles/35059210)
+
+
+Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth's Biogeochemical Cycles. Science. 320(5879):1034-1039.
+[10.1126/science.1153213](http://science.sciencemag.org/content/320/5879/1034)
+
+
+Waters CN, Zalasiewicz J, Summerhayes C, Barnosky AD, Poirier C. Gluszka, Cearreta A, Edgeworth M, Ellis EC, Ellis M, Jeandel C, Leinfelder R, McNeill JR, Richter DD, Steffen W, Syvitski J, Vidas D, Wagreich M, Williams M, An Z, Grinevald J, Odada E, Oreskes N, Wolfe AP. 2016. The Anthropocene is functionally and stratigraphically distinct from the Holocene. Science. 351(6269):aad2622-1-2622-10. 
+[10.1126/science.aad2622](http://science.sciencemag.org/content/351/6269/aad2622)
+
+
+#Module 02
+### Evidence Worksheet 04 
+
+
+[Martinez *et al* 2007](http://www.pnas.org/content/104/13/5590)
+
+
+#### Learning objectives
+
+
+* Discuss the relationship between microbial community structure and metabolic diversity
+* Evaluate common methods for studying the diversity of microbial communities
+* Recognize basic design elements in metagenomic workflows
+
+
+#### General questions
+
+
+#####**What were the main questions being asked?** 
+
+
+1.	What is the minimum number of genes required to express Proteorhodopsin?
+2.	Other than providing a light-powered proton pump, how does having Proteorhopdsin confer a fitness advantage?
+3.	How can Proteorhodopsin be introduced in a heterologous host?
+4.	How do photopigments vary in Proteorhodopsin-containing photophosphorylating microbes? 
+
+
+#####**What were the primary methodological approaches used?**
+
+
+* Planktonic DNA cloned into a fosmid vector, which is transformed into E. coli, cultured and colonies were screened for orange/red colour (the pigment of interest).
+* These pigments (carotenoids) were extracted and analyzed, protecting it from photooxidation, to detect for photopigment expression
+* Measure proton-pumping of the Proteorhodopsin using pH as a proxy
+* Measure ATP production by measuring ATP production from respiration in the dark as a baseline and then measure the ATP produced in the presence of light
+* Knocking out Proteorhodopsin genes to determine their function
+
+
+#####**Summarize the main results or findings.**
+
+
+Proteorhodopsin needs retinal to function, but does not need an exogenous pigment to be added when added to a heterologous host since synthesizing retinal requires its precursor, ??-carotene and that produces the orange/red colour.
+
+Proteorhodopsin can be transferred vertically and can be well conserved, but can easily be transferred through horizontal gene transfer since there only being 7 genes needing to be transferred. These genes are required to catalyze the biosynthesis of retinal from β-carotene.
+
+There is a fitness benefit from this since they can pump protons, creating a proton gradient to produce more ATP in the presence of light.
+
+    
+#####**Do new questions arise from the results?**
+
+
+1.	Can Proteorhodopsin be transferred to a wider range of microbes than what has been discovered so far?
+2.	Does Proteorhodopsin have any negative effects on the fitness of a microbe?
+3.	What other Proteorhodopsin gene clones are there?
+4.	Do ecological and/or physiological conditions create selective pressures for Proteorhodopsin?
+
+
+#####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
+
+
+The authors do provide a quick background on what Proteorhodopsins do and present how they can contribute to a fitness advantage in a logical way, but they do not explain the mechanism behind it fully. I was able to understand the paper, but not fully. Certain parts, like the methods and results, are filled with jargon and that made it hard to understand as certain words, like trans-retinal were not defined. However, this made the methods detailed, but harder to follow. The diagrams were easy to understand and help with understanding the paper.
+
+
+### Problem set_03 “Metagenomics: Genomic Analysis of Microbial Communities”
+#### Learning objectives: 
+Specific emphasis should be placed on the process used to find the answer. Be as comprehensive as possible e.g. provide URLs for web sources, literature citations, etc.  
+
+
+#### Specific Questions:
+* How many prokaryotic divisions have been described and how many have no cultured representatives (microbial dark matter)?
+  
+
+2016:
+* 89 Bacterial Phyla
+* 20 Archaeal Phyla
+    * Phyla was found using the 16S rRNA databases
+* **Could be up to 1500 due to microbes that live in the "Shadow Biospere"**
+
+
+2003:
+* 26 of 52 major bacterial phyla have been cultured 
+
+
+* How many metagenome sequencing projects are currently available in the public domain and what types of environments are they sourced from?
+    * There are about 110,217 on the EBI database (can be lower due to some repos being private/still being worked on )
+    * Environment types (sediment, gut, soil, aquatic), which are environments that are hard to culture from
+    
+    
+* What types of on-line resources are available for warehousing and/or analyzing environmental sequence information (provide names, URLS and applications)?
+    * **Shotgun Metagenomics:**
+        * Assembly:
+            * EULER
+            * Velvet
+        * Binning - S-GCOM
+        * Annotation - KEGG
+        * Analysis Pipelines - Megan 5
+        * Databases:
+            * LMG/M, MG-RAST, NLB 1
+    * **Marker Gene Metagenomics:**
+        * Standalone Software: OTUbase
+        * Analysis pipelines: 
+            * SILVA
+        * Denoising:
+            * Amplicon Noise
+            * UCHIME
+        * Databases:
+            * Ribosomal Database Project (RDP)
+            * Greengenes
+            * SILVA
+    * **General Use**
+        * Alignment - BWA (aln and mem)
+        * BLAST
+        
+    
+* What is the difference between phylogenetic and functional gene anchors and how can they be used in metagenome analysis?   
+    * Phlogenetic
+* What is metagenomic sequence binning? What types of algorithmic approaches are used to produce sequence bins? What are some risks and opportunities associated with using sequence bins for metabolic reconstruction of uncultivated microorganisms?  
+
+
+Metagenomic sequence binning is the proces from grouping sequences that come from a single genome.
+    * **Algorithm types**
+        * Align genome to database (BWA)
+        * Group to bins based on DNA characteristics based on DNA characteristics: GC Content, Codon usage
+    * ** Risks and opportunities in binning**
+      
+    
+* Is there an alternative to metagenomic shotgun sequencing that can be used to access the metabolic potential of uncultivated microorganisms? What are some risks and opportunities associated with this alternative?  
+    * Functional screens (biochemical, etc.)
+    * 3rd Generation sequencing (Nanopore)
+    * Single cell sequencing
+    * FISH probe
+    
+    
+###Module_02 references
+
+
+Martinez A, Bradley AS, Waldbauer JR, Summons RE, DeLong EF. 2007. Proteorhodopsin photosystem gene expression enables photophosphorylation in a heterologous host. Proc Nat Acad Sci U S A. 104(13):5590-5595.
+[10.1073/pnas.0611470104](http://www.pnas.org/content/104/13/5590)
+
+
+Wooley JC, Godzik A, Friedberg I. 2009. A Primer on Metagenomics. PLoS Comput Biol. 6(2):e1000667.
+[10.1371/journal.pcbi.1000667](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000667)
+
+#Module 03
+###Problem_Set_04
+```{r}
+library(phyloseq)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+
+####Part 1
+```{r}
+#Enter in subsample data
+subsample_bag3 = data.frame(
+  Species_number = c(seq(1,32, by=1)),
+  Species_type = c("MMs","MMs","MMs","MMs","MMs","MMs",
+                   "Skittles","Skittles","Skittles","Skittles",
+                  "Skittles","Gummy_Bears","Gummy_Bears","Gummy_Bears",
+                   "Gummy_Bears","Gummy_Bears","Gummy_Bears","Rods","Rods",
+                   "Rods","Rods","Rods","Circular","Filamentous",
+                   "Filamentous","Filamentous", "Brick","Brick",
+                   "Round","Round","Round","Round"),
+  Species_name = c("Orange", "Yellow","Green","Red", "Brown","Blue",
+                   "Yellow","Orange","Red","Brown","Green",
+                   "Orange", "Pink","Yellow","White","Red","Green",
+                   "Yellow","Orange","Pink","Green","Red",
+                   "Blue_Swirl", "String_like","Spider",
+                   "Coke_Bottle","Big_blue","Small_blue","Green", "Yellow",
+                   "Red","Purple"),
+  Abundance = c(13,8,4,3,4,12,6,7,4,10,8,1,3,2,4,3,4,5,8,5,2,4,
+                1,1,1,1,1,1,1,1,1,1)
+)
+```
+
+```{r}
+subsample_bag3 %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10,
+                full_width = F)
+```
+
+
+####Part 2
+```{r}
+collectors_curve = data.frame(
+  x = c(seq(1, 130,by = 1)),
+  y = c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,
+        3,3,3,3,4,4,4,5,5,5,5,6,6,6,6,6,6,6,6,6,6,
+        6,6,7,7,7,7,7,7,8,8,8,8,8,8,8,9,9,9,9,10,10,10,
+        10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,12,
+        13,13,13,14,14,15,15,15,15,16,16,16,17,17,17,17,
+        18,18,18,18,18,19,19,19,19,19,19,19,19,20,20,20,20,
+        20,21,21,22,22,22,22,23,24,25,26,27,28,29,30,31,32)
+)
+
+ggplot(collectors_curve, aes(x = x, y = y)) +
+         geom_point() +
+         geom_smooth()+
+  labs(x="Cumulative number of individuals classified", 
+       y="Cumulative number of species observed", title = "Collector's Curve of a subsample of Bag #3")
+```
+
+
+####Part 3
+```{r}
+#Invsimpson for M&M species
+1/((13/44)^2+(8/44)^2+(4/44)^2+(3/44)^2+(4/44)^2+(12/44)^2)
+
+#Invsimpson for Skittle species 
+1/((6/35)^2+(7/35)^2+(4/35)^2+(10/35)^2+(8/35)^2)
+
+#Invsimpson for Gummy Bears species
+1/((1/17)^2+(3/17)^2+(2/17)^2+(4/17)^2+(3/17)^2+(4/17)^2)
+
+#Invsimpson for Rod species 
+1/((5/24)^2+(8/24)^2+(5/24)^2+(2/24)^2+(4/24)^2)
+
+#Invsimpson for Circular species
+1/((1/1)^2)
+
+#Invsimpson for Filamentous species
+1/((1/3)^2+(1/3)^2+(1/3)^2)
+
+#Invsimpson for Brick species
+1/((1/2)^2+(1/2)^2)
+
+#Invsimpson for Round species 
+1/((1/4)^2+(1/4)^2+(1/4)^2+(1/4)^2)
+```
+```{r}
+#Calculate inverse simpson for whole sample
+1/((13/130)^2+(8/130)^2+(4/130)^2+(3/130)^2+
+                            (4/130)^2+(12/130)^2+(6/130)^2+(7/130)^2+
+                            (4/130)^2+(10/130)^2+(8/130)^2+(1/130)^2+
+                            (3/130)^2+(2/130)^2+(4/130)^2+(3/130)^2+(4/130)^2+
+                            (5/130)^2+(8/130)^2+(5/130)^2+(2/130)^2+(4/130)^2+
+                            (1/130)^2+(1/130)^2+(1/130)^2+(1/130)^2+(1/130)^2+
+                        (1/130)^2+(1/130)^2+(1/130)^2+(1/130)^2)
+
+## Calculate Chao1 - Singletons = 11; Species observed >2 times= 21 
+32 + ((11^2)/(2*21))
+```
+
+
+####Part 4
+```{r}
+#Calculate diversity using Vegan
+library(vegan)
+
+subsample_bag3_diversity = 
+  subsample_bag3 %>%
+  select(Species_number, Abundance) %>%
+  spread(Species_number, Abundance)
+#Subsample inverse simpson using Vegan
+diversity(subsample_bag3_diversity, index ="invsimpson")
+#Subsample chao1 using Vegan
+specpool(subsample_bag3_diversity)
+```
+These calculations are different from the previous calculations by 0.02 for inverse simpson and 2.88 for chao1.
+
+
+####Part 5
+1. The measure of diversity depends on the definition of species in the sample since, especially chao1 since the number of species can influence the observed number of species, along with the number of singletons in the sample. 
+
+
+2. Removing the colour separation would significantly decrease the number of species, combining the skittles and M&Ms would also decrease the number of species.
+
+
+3. Different sequencing technologies can introduce biases that can overrepresent one species relative to another. Also, there could be varying error rates in different sequencing technologies, which can affect the categorization of species, affecting the number of species.
+
+
+### Evidence Worksheet 05
+
+
+[Welch *et al* 2002](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC139262/)
+
+
+#### Learning objectives
+
+
+* Evaluate the concept of microbial species based on environmental surveys and cultivation studies.
+* Explain the relationship between microdiversity, genomic diversity and metabolic potential
+* Comment on the forces mediating divergence and cohesion in natural microbial communities
+
+
+#### General questions
+
+
+#####**What were the main questions being asked?** 
+
+
+1.	What are the differences between these three strains, beyond their 16S rRNA sequence?
+2.	Other than providing a light-powered proton pump, how does having Proteorhopdsin confer a fitness advantage?
+3.	How can Proteorhodopsin be introduced in a heterologous host?
+4.	How do photopigments vary in Proteorhodopsin-containing photophosphorylating microbes? 
+
+
+#####**What were the primary methodological approaches used?**
+
+
+* Sanger sequencing was used to sequence the genomes (dye terminator chemistry) with 7X coverage
+* Genome annotation using a web-based annotator called MAGPIE
+    * Uses GLIMMER to look for and define ORFs
+* Use BLAST to check predicted proteins for redundance
+
+
+#####**Summarize the main results or findings.**
+
+
+* Backbone was acquired through vertical gene transfer, while pathogenicity islands can be acquired through horizontal gene transfer
+* Pathogenicity islands were acquired through horizontal gene transfer causes large variations between different strains 
+    * Absence of Type III secretion system in CFT073
+    * Absence of phage/plasmid-encoded virulence genes common to strain O157:H7
+* All three strains encode a pili similar to Salmonella Enterica, but vary in their genetic makeup that encode these fimbriae or pili
+* CFT073 differs from MG1655 and EDL933 in its protein amino acid sequence by 53 to 81%
+
+    
+#####**Do new questions arise from the results?**
+
+
+* Does this large variance in pathogenicity islands apply to other bacteria that have pathogenic and non-pathogenic strains? 
+* Is using the 16S rRNA sequence sufficient for determining difference species given that there can be high variability between strains?
+
+
+#####**Were there any specific challenges or advantages in understanding the paper (*e.g.* did the authors provide sufficient background information to understand experimental logic, were methods explained adequately, were any specific assumptions made, were conclusions justified based on the evidence, were the figures or tables useful and easy to understand)?**  
+
+
+* The background information is brief and does not give enough background for the reader to understand what is being looked at 
+* The methods section is very brief (2 paragraphs) and does not fully explain the techniques that they used
+* Better explanation of the secretion systems would help in understanding how it is linked fimbriae/pili formation
+
+
+###Writing_assignment_03
+**Prompt:** *Discuss the challenges involved in defining a microbial species and how HGT complicates matters, especially in the context of the evolution and phylogenetic distribution of microbial metabolic pathways. Can you comment on how HGT influences the maintenance of global biogeochemical cycles through time? Finally, do you think it is necessary to have a clear definition of a microbial species? Why or why not?*
+
+Defining a species at the microbial level is difficult given their relatively small genome size, which can range from a mere 0.2 to a significantly larger 13.0 megabases, depending on the microbe's lifestyle (1, 2).  Using *E. coli* as an example, the sequence similarity required to be classified the same species has been shown to vary greatly, complicating the definition of a species (3) Horizontal Gene Transfer can also complicate these phylogenetic relationships between organisms, creating incongruent relationships, whereby there are no partitions/taxonomic groups in common (4). As microbial genome sizes are small, they are under evolutionary pressure to become more streamlined, losing genes in the process (5) However, these genes that are selectively lost from the organism are not lost from the community, as they can be transferred to other organisms via Mobile Genetic Elements (MGE) (6). Gene composition changes in microbial genomes through Horizontal Gene Transfer can accumulate over time with changing environmental evolutionary pressures over time, which can change the biogeochemical landscape of ecosystems as specific pathway genes are gained and lost (7.). 
+
+Horizontal Gene Transfer is the driver of microbial evolution, where it can alter the relatively small microbial genome of a certain species, leading to microbial strains of different lengths and consisting of drastically different genes (3, 4). As these genomes can potentially be quite distinct from each other in the pathways that are expressed, there is the challenge of having a clear definition of a microbial species where one strain can be very different functionally. For example, in *Welch et al., 2002*, the sequence similarity between the three *E. coli* strains sequenced in the study was found to be 39.2%, which is significantly lower than the 99.5% sequence similarity between human genomes (8).  In the context of *E. coli*, each strain can contain different pathogenicity islands in their genomes that can alter their disease potential, and also their host range based on selective pressures in the environment (3). In addition, antibiotic resistance provides another avenue of selective pressure on *E. coli* strains, where only the resistant bacteria will survive in the presence of a certain antibiotic that they are resistant to. These antibiotic resistance genes primarily come from Horizontal Gene Transfer, through which it can be rapidly acquired as it would be required for survival when the antibiotic is present (9). 
+
+
+However, in the context of biogeochemical cycling, the selective pressures lean towards the energetic and nutritional requirements of microbes that can change under stress from environmental perturbations, where genes are transferred to other microbes in the community based on which pathways are favourable in a given environment (9). These pathways can be distributed across a wide range of microbes as they were drawn from a primitive global gene pool (9). The influence imposed on genes by the environment also favours certain genes that are present across different microbial species, where the favourable genes are transferred throughout the community, such as the transfer of methanogenesis, sulfur reduction, and (de)nitrification genes (9). Furthermore, if the certain pathway continues to be functionally and energetically favourable in the environment due to a lack of biogeochemical changes in the environment, then it's retention would be also be governed by environmental selective pressures that could affect the survival of members within a microbial community. This could differentially distribute biogeochemical pathways between communities, such as in the oceans where nutrient and oxygen concentrations vary with depth (10, 11). Similarly, different microhabitats exist within hydrothermal vent communities, where the distance from the vent can drastically change the biogeochemical pathways as the environment becomes less harsh and reducing (11, 12).
+
+
+Horizontal Gene Transfer has been suspected due to changes in codon usage frequencies and drastically different genes were found in different pathogenicity islands that are inserted at certain regions in the genome (3). As genes of different lengths are inserted, this can affect genome length differently, depending on whether it is a single gene, or an entire pathway that is inserted or substituted, which can reduce the similarity between the different strains of *E. coli*. Furthermore, there could be function-dependent biases for certain genes that increase the rate of Horizontal Gene Transfer, as those genes could possibly confer an advantage, whether it be in the ecology or pathogenicity of a microbe (13). Analysis of Epsilon-proteobacterial genomes has shown that hydrothermal vent microbes can have very similar virulence genes as their human/animal pathogenic counterparts, but their ability to easily acquire new genes causes them to diverge based on selective pressures in the environment they inhabit (14).
+
+
+Genes that are acquired by Horizontal Gene Transfer can be accumulated over time through insertions and substitutions that could increase the activity of a certain pathway or introduce new genes and/or pathways. This could possibly confer a fitness advantage to the microbe as it creates a niche, or increase its abundance within the community. However, this should come at the cost of other unused genes given that organisms that accept genes via Horizontal Gene Transfer generally have a smaller genome, which is the result of genes being lost (5). Furthermore, selecting for certain genes allows the genome to be more streamlined, especially useful in the ocean, where resources can be limiting in certain regions (5). Over time, when the new horizontally acquired genes accumulate, new pathways emerge in a community, and only the pathways that can survive the environmental perturbations that appear over time will be conserved and be distributed to other organisms in the community. These environmental perturbations can cause changes in larger scale biogeochemical cycles that will add up and cause genes to diverge over longer time scales (5).
+
+
+The mechanisms that can be used by Horizontal Gene Transfer include transformation, conjugation and transduction, in which Mobile Genetic Elements (MGEs) help facilitate. MGEs can include plasmids, bacteriophages, transposons and integrative conjugative elements (ICEs) that can move DNA from one spot to another on the genome or to other organisms that not be closely related (6,15). Prokaryotes use an operon to organize the genes with a single promoter at the start, which are highly conserved. However, increasing the distance from the promoter increases the likelihood of gene insertion (6). This creates hotspots where new genes are more likely to be integrated to the genome whether it be through the introduction of prophages or the ICEs that can be several hundred base pairs long, and can be self managed using the genes encoded within them (6).
+
+
+As genome lengths can vary drastically within the same species, this complicates the process of defining the criteria for a microbial species, even with a conserved set of genes within a species. It is thought that genome lengths can affect the number of MGEs and ICEs, increasing Horizontal Gene Transfer rates with a larger genome size (2). Furthermore, as larger genomes have more genes that originated from Horizontal Gene Transfer, this would also increase the degree of phylogenetic incongruence as there are now more foreign genes incorporated (2). Also, a larger, more complex genome can also be more modular, increasing organization and reducing the likelihood of deletions, leading to more successful Horizontal Gene Transfers and integration (2).
+
+
+Phylogenetic incongruence from Horizontal Gene Transfer can also introduce a source of complexity when trying to determine species relationships on the phylogenetic tree, where a gene can jump from one branch/leaf to another, distorting the phylogenetic relationships on the tree. This can make it hard identifying species similarity, as similar species are now in a different branch on the tree where they share the same sequences (4). Although microbes are connected to each other on the branch of the phylogenetic tree, even if they have sequence similarity by virtue of being the same species, doesn't not guarantee they would have the same metabolic pathways (4). 
+
+
+Given that Horizontal Gene Transfer can drastically alter the genetic makeup within different strains of a species, it may seem difficult and impossible to determine a single definition to differentiate species, especially in the context of microbial genomes. However, if a set of criteria defining what constitutes a species can be used to reliably determine the conserved genes across all strains within a species, then that could be used to clearly define and differentiate microbial species. As long as two organisms share a certain degree of sequence homology that is common across all strains, then they can be classified as the same species, even being as low as 39.2% for *E. coli* (3). This would help with the classification of microbes into their species as it adds an extra filter, even Horizontal Gene Transfer increases the complexity of the microbial genome.
+
+
+In conclusion, Horizontal Gene Transfer is one of the main drivers behind evolution, constantly changing microbial genomes through evolutionary selective pressures that can introduce new pathways or conserve existing ones. This also has the power to overhaul the genome sizes of certain strains by way of the insertion of MGEs and/or ICEs into the genome at higher frequencies certain hotspots, as well as the deletion of unused genes (6). This all decreases the sequence similarity thresholds for microbial species as native sequences are replaced by foreign ones inserted by Horizontal Gene Transfer and increases the within-species variability. With a higher genome complexity and within-species variability also comes with higher uncertainty with phylogenetic relations as phylogenetic incongruence increases. Therefore, an universally accepted standard for differentiating microbes at the species level should be the aim, where an exact percentage threshold is not used. This would make it easier to form phylogenetic relations between strains and have a solid definition to base future research on. Also, further research can be done on how genome size, in conjunction with gene function, affects the rate of Horizontal Gene Transfer within a community (2), so we can better understand how they are selected based on their biogeochemical activity in the environment. 
+
+
+**References:**
+
+
+1.	Koonin EV, Wolf YI. 2008. Genomics of bacteria and archaea: the emerging dynamic view of the prokaryotic world. Nucleic Acids Res. 36(21): 6688-6719.
+2.	Cordero OX, Hogeweg P. 2009. The impact of long-distance horizontal gene transfer on prokaryotic genome size. Proc Natl Acad Sci. 106(51): 21748-21753.
+3.	Welch RA, Burland V, Plunkett III G, Redford P, Roesch P, Rasko D, Buckles EL, Liou SR, Boutin A, Hackett J, D Stroud, Mayhew GF, Rose DJ, Zhou S, Schwartz, DC, Perna NT, Mobley HLT, Donnenberg MS, Blattner FR. 2002. Extensive mosaic structure revealed by the complete genome sequence of uropathogenic Escherichia coli. Proc Nat Acad Sci. 99(26): 17020-17024. 
+4.	Philippe H, Douady CJ. 2003. Horizontal gene transfer and phylogenetics. Curr Opin Microbiol. 6(5): 498-505.
+5.	Morris JJ, Lenski RE, Zinser ER. 2012. The Black Queen Hypothesis: Evolution of Dependencies through Adaptive Gene Loss. MBio. 3(2): e00036-12. doi: 10.1128/mBio.00036-12
+6.	Oliveira PH, Touchon M, Cury J, Rocha EPC. 2017. The chromosomal organization of horizontal gene transfer in bacteria. Nat Commun. 8(841): 1-11. 
+7.	McDaniel LD, Young E, Delaney J, Ruhnau F, Ritchie KB, Paul JH. 2010. High Frequency of Horizontal Gene Transfer in the Oceans. Science. 330(6000): 50.
+8.	Levy S, Sutton G, Ng PC, Feuk L, Halpern AL, Walenz BP, Axelrod N, Huang J, Kirkness EF, Denisov G, Lin Y, MacDonald JR, Pang AWC, Shago M, Stockwell TB, Tsiamouri A, Bafna V, Bansal V, Kravitz SA, Busam DA, Beeson KY, McIntosh TC, Remington KA, Abril JF, Gill J, Borman J, Rogers YH, Frazier ME, Scherer SW, Strausberg RL, Venter JC. 2007. The Diploid Genome Sequence of an Individual Human. PLoS Biol. 5(10): 2113-2144.
+9.	Falkowski PG, Fenchel T, Delong EF. 2008. The Microbial Engines That Drive Earth's Biogeochemical Cycles. Science. 320(5879):1034-1039. doi:10.1126/science.1153213
+10.	Xie W, Wang F, Guo L, Chen Z, Sievert SM, Meng J, Huang G, Li Y, Yan Q, Wu S, Wang X, Chen S, He G, Xiao X, Xu A. 2011. Comparative metagenomics of microbial communities inhabiting deep-sea hydrothermal vent chimneys with contrasting chemistries. ISME J. 5(3): 414-426. 
+11.	Cerqueira T, Barroso C, Froufe H, Egas C, Bettencourt R. 2018. Metagenomic Signatures of Microbial Communities in Deep-Sea Hydrothermal Sediments of Azores Vent Fields. 
+12.	Vetriani C, Voordeckers JW, Crespo-Medina M, O'Brien CE, Giovannelli D, Lutz RA. 2014. Deep-sea hydrothermal vent Epsilonproteobacteria encode a conserved and widespread nitrate reduction pathway (Nap). ISME J. 8(7): 1510. doi: 10.1038/ismej.2013.246
+13.	Nakamura Y, Itoh T, Matsuda H, Gojobori T. 2004. Biased biological functions of horizontally transferred genes in prokaryotic genomes. Nat Genet. 36(7): 760-766.
+14.	Nakagawa S, Takaki Y, Shimamura S, Reysenbach AL, Takai K, Horikoshi K. 2007. Deep-sea vent ??-proteobacterial genomes provide insights into emergence of pathogens. Proc Natl Acad Sci. 104(29): 12146-12150
+15.	Koonin EV, Makarova KS, Aravind L, Frost LS, Leplae R, Summers AO, Toussaint A. 2005. Mobile genetic elements: the agents of open source evolution. Nat Rev Microbiol. 3(9): 722-732.
+
+
+###Module_03 references
+
+
+Welch RA, Burland V, Plunket III G, Redford P, Roesch P, Rasko D, Buckles EL, Liou SR, Boutin A, Hackett J, Stroud D, Mayhew GF, Rose DJ, Zhou S, Schwartz DC, Perna NT, Mobley HLT, Donnenberg MS, Blattner FR. 2002. Extensive mosaic structure revealed by the complete genome sequence of uropathogenic *Escherichia coli*. Proc Nat Acad Sci U S A. 99(26):17020-17024.
+[PMC139262](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC139262/)
+
+##Project_01
+### **Group Members**
+Haya Abuzuluf  
+Jack Anthony  
+Judy Ban  
+Ryan Nah  
+Ryan Lou  
+Sawera Dhaliwal  
+
+### **Abstract**
+  Water samples from various depths of Saanich Inlet, a model ecosystem for the effects of growing oxygen minimum zones in the open ocean, were analyzed via 16S iTag amplicon sequencing and processed using both mothur and QIIME2 independently. The correlation between changes in abundance of *Sulfurimonas*, a genus encompassing several species of sulfur-oxidizing *Epsilonproteobacteria*, with oxygen, sulfide, and nitrate concentrations was determined by use of a linear regression model in R. Statistically significant associations with likely biological relevance were discovered using mothur but not for QIIME2. Statistically significant correlations between individual OTUs and ASVs with various nutrient concentrations were similarly discovered, with more identified by mothur than QIIME2. Sequence processing with mothur and QIIME2 arrived at very different conclusions, suggesting that the two fundamentally different analysis philosophies lead to very different results. However, the statistical and methodological weaknesses of this study do not enable strong claims for or against the use of either analysis pipeline. We discuss these downfalls and possible directions for future work in this area to build on our results.
+
+### Introduction
+Saanich Inlet is a seasonally anoxic fjord located off the southeastern coast of Vancouver Island, British Columbia [1]. During fall and winter, strong winds mix water from the Strait of Georgia into the inlet and replace bottom water [2]. As the weather gets calmer in spring, deep water in the inlet is retained by a shallow sill near the inlet mouth and increasing stratification. High levels of primary productivity export organic matter from the euphotic zone leading to oxygen loss with depth, caused by microbial remineralization of said organic matter. This organic matter fueled respiration is sufficient to create hypoxic conditions below 100m and anoxic conditions below 150m [1]. Saanich Inlet’s predictable, recurring anoxia presents an excellent model exosystem for the study of processes occurring in other anoxic marine environments all around the world.  
+  
+  
+Organic carbon is used by heterotrophic bacteria as an energy source in aerobic respiration. As oxygen availability drops, methane, ammonia, and hydrogen sulfide build up as the products of anoxic metabolism [1]. Globally, this process has the effect of creating bands of hypoxic water between 100m and 1000m in the open ocean. These oxygen minimum zones (OMZs) are expanding in all oceans and are expected to continue expansion as a consequence of anthropogenic climate change [3]. In Saanich Inlet, the seasonal flushing of new water into the deep removes the buildup of metabolites and refreshes the supply of oxygen each winter. The predictable and recurring nature of the physical and chemical cycling of Saanich Inlet makes it an ideal model ecosystem to study the biological processes that occur in oxygen minimum zones (OMZs) globally. The species present in a particular water sample are largely influenced by the availability of specific terminal electron acceptors (TEAs). Saanich Inlet offers an annually reset gradient of changing TEAs with depth, making it an excellent system to study the change of community structure in relation to depth or oxygen.  
+ 
+  
+Operational taxonomic units (OTUs) are a representation of taxonomic grouping used for both metagenomic and 16S amplicon sequencing data, where genetic sequences which fall within some limit of similarity are clustered together into an OTU [4]. While this serves to overcome the problem of sequencing error causing the true sequence to be masked by grouping of the similar sequences, if the similarity cutoff is not sufficiently stringent, multiple species may be clustered together. Similarly, if it is too strict, a single species may be split up into multiple OTUs.  Additionally, as OTUs represent a cluster of a number of distinct sequences generated for a specific data set, OTU abundances are not comparable across studies and datasets. Despite these issues, for the purposes of microbial community analysis, OTUs generated at the 3% sequence similarity cutoff have long been the de facto proxy for species identity.  
+  
+  
+Recently, an alternative to OTUs has been presented; namely, the amplicon sequence variant, or ASV [5]. ASVs are determined under the idea that the true sequence would appear more commonly than would an erroneous sequence, and thus only the sequences thought to be real sequences in this way are retained, disregarding all erroneous sequences. While this leads to discarding large amounts of sequence information, the resulting true sequences are comparable between data sets as a specific genetic sequence is associated with any given ASV. Though ASVs represent an actual sequence independent of a given dataset which is arguably superior to that of an OTU definition, whether their use confers advantages over OTUs has not been conclusively determined presently.  
+
+
+_Sulfurimonas_ was selected as our taxon of interest due to its unusual metabolic pathways and the effects said pathways have on the environment. This bacterium can have either spiral or curved rod shaped cells and has one or two flagella for motility. These chemolithoautotrophs reduce nitrate and nitrite using sulfur compounds or H~2~ as electron sources [6]. Such a coupling of nitrogen and sulfur cycles in a single bacterium suggests a fascinating interplay between abundance and TEA availability. _Sulfurimonas_ would be expected to increase in abundance with nitrate and oxidized sulfur concentrations, as well as decrease in abundance in the presence of oxygen, as it may be outcompeted by more organisms that find the surface environmental reduction potential more favourable. However, interactions with other species in the anoxic region, combined with limiting nitrate gradients near the bottom may cause the abundance to peak at intermediate depths, before declining in the deepest part of the water column.  
+
+
+### **Methods**
+  The environmental samples used in this project were collected through time-series monitoring in Saanich Inlet on a monthly-basis aboard the MSV John Strickland at station S3 (48°35.500 N, 123°30.300 W) [1]. Samples for large volume (LV) SSU rRNA gene tags, metagenomics, metatranscriptomics, and metaproteomics were taken from six major depths spanning the oxycline (10, 100, 120, 135, 150, 165, and 200m). Large volume waters were collected in 2x12 1 Go-Flow bottles on a wire and gathered into 2L Nalgene bottles with sterile silicon tubing immediately following sampling for dissolved gases to minimise changes in microbial gene expression. A 0.22 μm Sterivex filter was used to collect biomass from collected water samples. Genomic DNA was then extracted from these filters and used to generate small subunit ribosomal RNA (SSU or 16S/18S rRNA) gene pyrotag libraries. PCR amplification targeting the V4-V5 region of SSU rRNA gene was performed to generate iTag datasets or amplicons. Samples were sequenced according to the standard operating protocol on an Illumina MiSeq platform at the JGI with 2x300bp technology. Using as consistent parameters, sequences were processed through both mothur [7] and QIIME2 [8]. Two phyloseq objects resulted from the processing which were then used in subsequent analyses.
+
+
+Analysis was completed in R v3.4.3 [9] using the following packages.
+```{r}
+library("tidyverse")
+library("phyloseq")
+library("vegan")
+library("corrplot")
+```
+
+
+  Sample data from mothur and QIIME2 were organized and normalized using data.frame() function to make tabular data, where cases were represented in rows and measurements in columns. Relative abundances of our taxa of interest were compared across nutrient gradients using a linear regression model. Linear models describe a continuous response variable as a function of one or more predictor variable [10]. They were used in our analyses since each of the nutrient concentrations is a continuous variable with order.
+
+
+### **Results**
+```{r, include=FALSE}
+# a lot of data wrangling to get it into the format that we use later
+load("mothur_phyloseq.RData")
+load("qiime2_phyloseq.RData")
+
+mothur_sam = 
+  mothur@sam_data %>% 
+  rownames_to_column("Sample") %>% 
+  data.frame() %>%
+  na.omit()
+
+mothur_percent = 	mothur %>% transform_sample_counts(function(x) 100 * x/sum(x)) 
+
+qiime2_percent = 	qiime2 %>% transform_sample_counts(function(x) 100 * x/sum(x))
+
+mothur_alpha = 
+  mothur %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), rngseed = 711) %>% 
+  estimate_richness(., measures = c("Chao1", "Shannon", "InvSimpson")) %>% 
+  rownames_to_column(., var = "Sample") 
+
+qiime2_alpha = 
+  qiime2 %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), rngseed = 711) %>% 
+  estimate_richness(., measures = c("Chao1", "Shannon", "InvSimpson")) %>% 
+  rownames_to_column(., var = "Sample") 
+
+mothur_otus = 
+  mothur_percent %>% 
+  subset_taxa(Genus=="Sulfurimonas") %>% 
+  .@otu_table %>% 
+  data.frame() 
+
+qiime2_asvs = 
+  qiime2_percent %>% 
+  subset_taxa(Genus=="D_5__Sulfurimonas") %>% 
+  .@otu_table %>% 
+  data.frame() %>%
+  t() %>% 
+  data.frame()
+
+mothur_totals =
+  mothur %>% 
+  .@otu_table %>% 
+  data.frame() %>% 
+  rowSums() %>% 
+  data.frame() %>% 
+  rename(., TotAbundance = ".") %>% 
+  rownames_to_column(., "Sample") 
+
+qiime2_totals =
+  qiime2 %>% 
+  .@otu_table %>% 
+  data.frame() %>% 
+  t() %>% 
+  data.frame() %>% 
+  rowSums() %>% 
+  data.frame() %>% 
+  rename(., TotAbundance = ".") %>% 
+  rownames_to_column(., "Sample") 
+
+mothur_taxon =
+  mothur_otus %>% 
+  rowSums(.) %>% 
+  data.frame() %>% 
+  rename(., TaxAbundance = ".") %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., mothur_sam, "Sample") %>% 
+  merge(., mothur_totals, "Sample") 
+
+qiime2_taxon =
+  qiime2_asvs %>% 
+  rowSums(.) %>% 
+  data.frame() %>% 
+  rename(., TaxAbundance = ".") %>% 
+  rownames_to_column(., "Sample") %>% 
+  merge(., mothur_sam, "Sample") %>% 
+  merge(., qiime2_totals, "Sample") 
+
+#multiple linear regression  
+lm_mothur = 
+  data.frame(summary(lm(formula = TaxAbundance ~ O2_uM + H2S_uM +NO3_uM, 
+                        data = mothur_taxon))$coefficients) %>% 
+  rename(., "p.value" = "Pr...t..") %>% 
+  cbind(., p.adjust(.$'p.value', "fdr")) %>% 
+  rename(., "FDR-corrected" = 'p.adjust(.$p.value, "fdr")')
+
+lm_qiime2 = 
+  data.frame(summary(lm(formula = TaxAbundance ~ O2_uM + H2S_uM +NO3_uM, 
+                        data = qiime2_taxon))$coefficients) %>% 
+  rename(., "p.value" = "Pr...t..") %>% 
+  cbind(., p.adjust(.$'p.value', "fdr")) %>% 
+  rename(., "FDR-corrected" = 'p.adjust(.$p.value, "fdr")')
+
+#set up for LM
+mothur_otus_total =
+  mothur_otus %>% 
+  data.frame() %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., mothur_taxon, "Sample") %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM, NO3 = NO3_uM, Depth = Depth_m)
+
+qiime2_asvs_total =
+  qiime2_asvs %>% 
+  data.frame() %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., qiime2_taxon, "Sample") %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM, NO3 = NO3_uM, Depth = Depth_m)
+
+#linear model
+
+lmloop = 
+  function(dataset){
+    #Make sure necessary packages are loaded
+    require(tidyverse)
+    require(knitr)
+    # Create new data frame to hold linear model outputs
+    lm_out = data.frame("Variable" = numeric(0),
+                        "Estimate" = numeric(0), 
+                        "Std. Error"= numeric(0),
+                        "t value"= numeric(0),
+                        "Pr(>|t|)"= numeric(0))
+    otu_names = dataset %>% select(matches("Asv|Otu")) %>% colnames() %>% as.vector()
+    for (otu in otu_names){
+      #Run a multiple linear regression model of 1 OTU against tested variables
+      otu_depth = dataset %>% select(Sample, Abundance = contains(otu)) %>% merge(., dataset, "Sample")
+      linear_fit = otu_depth %>%  
+        lm(Abundance ~ O2 + H2S + NO3, .) %>% 
+        summary()
+      #Pull out the coefficients and p-values for tested variable
+      otu_data = linear_fit$coefficients %>% data.frame() %>% .[2:4,] %>% 
+        rownames_to_column(., "Variable") %>% 
+        cbind(., rep(otu, nrow(.)))
+      #Add these values to a growing table of OTUs
+      lm_out <- rbind(lm_out, otu_data)
+    }
+    colnames(lm_out) <- c("Variable", "Estimate", "Std_Error",
+                          "t_value","p_value", "OTU")
+    #Control for multiple-comparisons
+    lm_out = lm_out %>% .$'p_value' %>% as.vector() %>% 
+      p.adjust(., "fdr") %>% cbind(lm_out) 
+    colnames(lm_out) <- c("FDR_corrected","Variable", "Estimate", 
+                          "Std_Error","t_value","p_value", "OTU")
+    select(lm_out, OTU, Variable, Estimate, Std_Error, 
+           t_value, p_value, "FDR_corrected")
+  }
+
+#Generate data for output tables
+qiime2_asvs_stats_fdr <- lmloop(qiime2_asvs_total) %>% rename(ASV = OTU)
+
+mothur_otus_stats_fdr <- lmloop(mothur_otus_total) 
+```
+
+
+```{r, echo=FALSE}
+# figure 1
+mothur_sam %>% 
+	select(starts_with("O2_uM"), starts_with("H2S_uM"), 
+	       starts_with("NO3_uM"), starts_with("NO2_uM"), 
+	       starts_with("Depth_m")) %>%
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, NO2 = NO2_uM,
+         Depth = Depth_m) %>% 
+	gather(key = "Nutrient", value = "Concentration", -Depth) %>%
+	ggplot(., aes(x = Concentration, y = Depth)) +
+	geom_point() +
+	geom_line() +
+  scale_y_reverse(lim=c(200,10))+
+	facet_wrap( ~ Nutrient, scales = "free") +
+	theme(legend.position = "none") +
+	labs(y = "Depth (m)", x = expression(paste("Concentration (", mu, "M)")))
+```
+
+
+**Figure 1.** Nutrient concentration plotted with depth
+
+
+Overall microbial community structure at the phylum as determined by mothur in terms of taxonomic breakdown changes slightly from 10m to 100m, then is relatively consistent throughout all the lower depths (Fig. 2). Most depths are dominated by a large population of *Proteobacteria* and *Bacteroidetes*, the relative population of the latter giving way to the *Proteobacteria* with depth. Similar observations are seen in the QIIME2-processed data (Fig. 3).
+
+
+```{r, echo=FALSE}
+# figure 2
+mothur_percent %>% 
+  plot_bar(fill="Phylum") + 
+  geom_bar(aes(fill=Phylum), stat="identity") +
+  labs(x = "Sample", y = "Relative abundance (%)")
+```
+
+
+**Figure 2.** Relative abundance of phyla present in Saanich Inlet based on sample depth as determined by mothur.
+
+
+```{r, echo=FALSE}
+# figure 3
+qiime2_percent %>% 
+	plot_bar(fill="Phylum") + 
+	geom_bar(aes(fill=Phylum), stat="identity") +
+	labs(x = "Sample", y = "Relative abundance (%)")
+```
+
+
+**Figure 3.** Relative abundance of phyla present in Saanich Inlet based on sample depth as determined by QIIME2.
+
+
+In the mothur-processed data, Chao1 richness indicates that the number of identified OTUs increases until a peak at 100m, then decreasing to the deepest parts of the inlet, starting at 120m with a small increase at 200m (Fig. 4). Species diversity, as measured by the Inverse Simpson index, also peaks at 100m then decreases with increased depth. As oxygen concentrations decreases with depth in Saanich Inlet (Fig. 1), a higher oxygen concentration correlates with both increased richness and diversity in the sample.
+
+
+```{r, echo = FALSE}
+#figure 4
+mothur %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), 
+                    rngseed = 711, verbose = FALSE) %>% 
+  plot_richness(x = "Depth_m", measures=c("Chao1", "InvSimpson")) +
+  geom_point(aes(colour = select(data.frame(mothur@sam_data), 
+                                 starts_with("O2_uM"))), na.rm = TRUE) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  labs(x = "Depth (m)", y = "Alpha Diversity Indicator Value", 
+       colour = expression(paste("[O"[2], "] (", mu, "M)"))) +
+  geom_line(aes(colour = select(data.frame(mothur@sam_data), 
+                                starts_with("O2_uM"))))
+```
+
+
+**Figure 4.** Alpha Diversity Indicators - Chao1 and Inverse Simpson Index plotted against depth and coloured to compare with [O~2~] from mothur-processed data.
+
+
+As for the QIIME2-processed data, Chao1 richness peaks at 120m where as before it decreases with increasing depth, increasing slightly at 200m (Fig. 5). Diversity, on the other hand, peaks at 10m, which then decreases monotonically with depth. Diversity and richness appear less strongly correlated in the QIIME2 dataset. However, the overall trends in richness and diversity of Saanich Inlet are observable regardless of analysis pipeline.
+
+
+```{r, echo=FALSE}
+#figure 5
+qiime2 %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), 
+                    rngseed = 711, verbose = FALSE) %>% 
+  plot_richness(x = "Depth_m", measures=c("Chao1", "InvSimpson")) +
+  geom_point(aes(colour = select(data.frame(qiime2@sam_data), 
+                                 starts_with("O2_uM"))), na.rm = TRUE) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  labs(x = "Depth (m)", y = "Alpha Diversity Indicator Value", 
+       colour = expression(paste("[O"[2], "] (", mu, "M)"))) +
+  geom_line(aes(colour = select(data.frame(qiime2@sam_data), 
+                                starts_with("O2_uM"))))
+```
+
+
+**Figure 5.** Alpha Diversity Indicators - Chao1 and Inverse Simpson Index plotted against depth and coloured to compare with [O~2~] from QIIME2-processed data.
+
+
+In the mothur-processed data, correlation matrix analysis indicates that *Sulfurimonas* abundance appears to increase with depth, decrease with oxygen and nitrate concentration, as well as increase with sulfide concentration (Fig. 6). Indeed, linear regression of nutrient concentration and *Sulfurimonas* relative abundance indicate that the concentrations of each of the 3 nutrients significantly relate to *Sulfurimonas* relative abundance (Fig. 8; p < 0.01 after FDR-correction; Table 1). This overall pattern is observable in the QIIME2-processed data as well, while the correlations differ in strength (Fig. 7) and are not statistically significant when multiple linear regression is performed (Fig. 9; p > 0.05 after FDR-correction; Table 2). 
+
+
+```{r, echo = FALSE}
+#figure 6 - correlation matrix
+mothur_taxon %>% select(starts_with("O2_uM"), starts_with("Depth_m"),
+                        starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+                        starts_with("H2S_uM")) %>% 
+  rename(Depth = Depth_m, O2 = O2_uM, NO3 = NO3_uM, H2S = H2S_uM,
+         Abundance = TaxAbundance) %>% 
+  cor() %>% corrplot(method = "number")
+```
+
+
+**Figure 6.** Correlation matrix of nutrient concentration and *Sulfurimonas* abundance as determined with mothur.
+
+
+```{r, echo=FALSE}
+#figure 7 - correlation matrix
+qiime2_taxon %>% select(starts_with("O2_uM"), starts_with("Depth_m"),
+                        starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+                        starts_with("H2S_uM")) %>% 
+  rename(Depth = Depth_m, O2 = O2_uM, NO3 = NO3_uM, H2S = H2S_uM,
+         Abundance = TaxAbundance) %>% 
+  cor() %>% corrplot(method = "number")
+```
+
+
+**Figure 7.** Correlation matrix of nutrient concentration and *Sulfurimonas* abundance as determined with QIIME2.
+
+
+```{r, echo=FALSE}
+kable(lm_mothur,caption="Table 1. Correlation of nutrient concentration to Sulfurimonas genus relative abundance as determined by mothur.")
+```
+
+
+```{r, echo=FALSE}
+kable(lm_qiime2,caption="Table 2. Correlation of nutrient concentration to Sulfurimonas genus relative abundance as determined by QIIME2.")
+```
+
+
+```{r, echo=FALSE}
+#figure 8
+mothur_taxon %>% 
+  select(starts_with("O2_uM"), starts_with("Depth_m"),
+         starts_with("NO3_uM"),starts_with("TaxAbundance"), 
+         starts_with("H2S_uM")) %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, Depth = Depth_m) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -TaxAbundance) %>%
+  ggplot(., aes(x=Concentration, y = TaxAbundance, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = expression(paste(italic("Sulfurimonas"), " relative abundance (%)")),
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)")
+```
+
+
+**Figure 8.** Relative abundance of *Sulfurimonas* plotted against nutrient concentration from the mothur-processed dataset.
+
+
+```{r, echo=FALSE}
+#figure 9
+qiime2_taxon %>% 
+  select(starts_with("O2_uM"), starts_with("Depth_m"),
+         starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+         starts_with("H2S_uM")) %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, Depth = Depth_m) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -TaxAbundance) %>%
+  ggplot(., aes(x=Concentration, y = TaxAbundance, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = expression(paste(italic("Sulfurimonas"), " relative abundance (%)")),
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)")
+```
+
+
+**Figure 9.** Relative abundance of *Sulfurimonas* plotted against nutrient concentration from the QIIME2-processed dataset.
+
+
+Mothur identified eight OTUs classified as *Sulfurimonas*, all of which were only identified in the samples at depths below 100m (Fig. 10). As at the taxon level, the abundances of most, of these OTUs increase with depth, and all but one were present at the deepest depth. Similarly, QIIME2 identified seven *Sulfurimonas* ASVs (Fig. 11), meaning that the richness determined by the two analysis pipelines is roughly comparable. However, fewer ASVs were shown to increase in abundance with depth, and just under half were identified in the 200m sample. 
+
+
+```{r, echo=FALSE}
+#figure 10
+mothur_percent %>% 
+  subset_taxa(Genus=="Sulfurimonas") %>%
+  psmelt() %>% 
+  ggplot() +
+  geom_point(aes(x=OTU, y=Depth_m, size=Abundance, color=O2_uM)) + 
+  scale_size_continuous(range = c(0,7)) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  scale_y_reverse(lim=c(200,10))+
+  labs(x = "OTU", y = "Depth (m)", size = "Relative abundance (%)",
+       color=expression(paste("[O"[2], "] (", mu, "M)")))
+```
+
+
+**Figure 10.** Relative abundances of each *Sulfurimonas* OTU as determined by mothur, recolored by oxygen concentration at the given depth of the sample. 
+
+
+```{r, echo=FALSE}
+#figure 11
+qiime2_percent %>% 
+  subset_taxa(Genus=="D_5__Sulfurimonas") %>%
+  psmelt() %>% 
+  ggplot() +
+  geom_point(aes(x=OTU, y=Depth_m, size=Abundance, color=O2_uM)) + 
+  scale_size_continuous(range = c(0,7)) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  scale_y_reverse(lim=c(200,10))+
+  labs(y="Depth (m)", x = "ASV", size = "Relative abundance (%)",
+       color=expression(paste("[O"[2], "] (", mu, "M)")))
+```
+
+
+**Figure 11.** Relative abundances of each *Sulfurimonas* ASV as determined by QIIME2, recolored by oxygen concentration at the given depth of the sample. 
+
+
+Multiple linear regression of the mothur-processed data indicated that the abundances of 7 of the 8 identified OTUs significantly correlated following false discovery rate correction with one or more of the tested nutrients (NO~3~-, H~2~S, and O~2~), most commonly sulfide (Table 3). A representative OTU is shown in Figure 12, OTU0308, which showed a significant correlation with all 3 tested nutrient variables. In comparison, QIIME2-processed data showed no significant correlations with either oxygen nor nitrate concentration, and the abundances of only 3 of the 7 identified ASVs significantly correlated with sulfide concentration (Table 4). A representative ASV is shown in Figure 13, ASV1250, which showed a correlation of abundance with sulfide concentration. 
+
+
+```{r, echo=FALSE}
+kable(mothur_otus_stats_fdr,caption="Table 3. Correlation of relative OTU abundance within Sulfurimonas genus with nutrient concentration as determined by mothur.")
+```
+
+
+```{r, echo=FALSE}
+#mothur OTUs - OTU0308, figure 12
+mothur_otus_total %>% 
+  select(starts_with("O2"), starts_with("Depth"),
+         starts_with("NO3"), starts_with("Otu0308"), 
+         starts_with("H2S")) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -Otu0308) %>%
+  ggplot(., aes(x=Concentration, y = Otu0308, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = "Relative abundance (%)",
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)", title = "OTU0308")
+```
+
+
+**Figure 12.** Relative abundance of OTU0308 versus nutrient concentration, points recolored by depth. 
+
+
+```{r, echo=FALSE}
+kable(qiime2_asvs_stats_fdr,caption="Table 4. Correlation of relative ASV abundance within Sulfurimonas genus with nutrient concentration as determined by QIIME2.")
+```
+
+
+```{r, echo=FALSE}
+#qiime2 ASVs - ASV1250 as example
+qiime2_asvs_total %>% 
+  select(starts_with("O2"), starts_with("Depth"),
+         starts_with("NO3"), starts_with("Asv1250"), 
+         starts_with("H2S")) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -Asv1250) %>%
+  ggplot(., aes(x=Concentration, y = Asv1250, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = "Relative abundance (%)",
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)", title = "ASV1250")
+```
+
+
+**Figure 13.** Relative abundance of ASV1250 versus nutrient concentration, points recolored by depth.
+
+
+Thus, while the overall trends in abundance across depth, [H~2~S], [NO~3~-], and [O~2~] appear to be similar for mothur- and QIIME2-processed data, many more relationships were found to be statistically significant in the mothur-processed dataset, both at the relative genus level abundances as well as at the OTU/ASV level. The abundances appear to match the fact that the *Sulfurimonas* genus tends to inhabit anoxic/sulfidogenic regions of marine basins, including oxic-anoxic interfaces and hydrothermal vents [13]. 
+
+### **Discussion**
+  Within the *Sulfurimonas* genus the richness determined by mothur and QIIME2 processed data was highly comparable. Both mothur and QIIME2 pipeline processed data appeared to reveal the same overall trends of community structure change with respect to nutrient concentration, though the proportion of differences which were statistically significant was far lower in the QIIME2 data. In general, diversity relative to richness was found to rise to a peak, after which it begins to decrease with increasing depth (Figures 4-5). *Sulfurimonas* abundance increases with increasing depth and sulfide concentration, and decreases with increasing oxygen and nitrate concentration (Figures 6-9).  
+ 
+  
+Most of the trends observed in this study were consistent with our hypotheses. As a chemolithoautotroph, it is expected that *Sulfurimonas* be most abundant in deep, anoxic waters. *Sulfurimonas* metabolizes by reducing nitrate and nitrite and oxidizing sulfur containing compounds or hydrogen [5]. Thus, as hypothesized, *Sulfurimonas* relative abundance was significantly decreased in the presence of oxygen, where it will likely be outcompeted by organisms who can use oxygen as an electron donor. In the same way, *Sulfurimonas* relative abundance was significantly increased in the presence of sulfide. However, it was unexpected that *Sulfurimonas* abundance was significantly negatively associated with nitrate concentration. It may be that organisms which utilize nitrate more efficiently are outcompeting *Sulfurimonas* as at the depths where nitrate is high, the concentration of sulfide is low (Fig. 1). Potentially this association may be caused by other confounding environmental factors that were studied in this analysis such as temperature or microbial metabolites produced by specific microbes adapted to those particular anoxic regions of the water column. Regardless, this observation was contrary to what was expected, and no single explanation can be concluded based on the available data. Evidently, however, the abundance of *Sulfurimonas* in Saanich Inlet is likely to vary as a function of many nutrient concentrations, not just oxygen.  
+  
+  
+There appears to be a correlation between stratified layers of the water column and Sulfurimonas distribution. Samples used in this study were taken at a time of year when stratification due to a thermocline was present around 10m-100m. The temperature at 10m is substantially higher than lower depths. An increase in diversity was also observed from the surface to a peak at 10m. It could be hypothesized that the high diversity is due to ambient temperatures being ideal for bacterial growth with minimal limitation. In this study, it was also found that diversity tends to decrease with richness at lower depths, with minimums coinciding with the boundary of the thermocline. The low diversity at depth could also be explained by the high specificity required to thrive in such extreme environments. For instance, our taxon of interest, *Sulfurimonas*, is commonly found near deep sea hydrothermal vents and functions primarily by sulfide oxidation, a process which is favored by the high concentrations of sulfide in that habitat.  
+ 
+  
+The overall trend of the results of this experiment align with our hypotheses and previous literature [6], and while the conducted statistical tests show that some of the correlations we expected to see are significant, a number of methodological issues make us less confident in the replicability of our results. The use of a linear regression model assumes that the relationships between the tested variables would be linear, which is highly unlikely to be true in a complex biological system. As an example, interspecies competition may make intermediary concentrations of a nutrient such as nitrate more beneficial, as at higher concentrations perhaps denitrifying bacteria would outcompete *Sulfurimonas*, and it is only at intermediate concentrations that it can find its niche. However, should the concentration be too low, *Sulfurimonas* would be unable to grow either. Thus, given that there will always be other confounding environmental variables not taken into account in the model, the apparent success of the model is more surprising than not. Future investigations into the subject should consider employing stronger statistical tests which more accurately measure the phenomenon being examined.  
+  
+  
+We are unable to draw any definitive conclusions regarding which pipeline used in this study is strictly superior. However, clear differences were observed in the results obtained from each, specifically in regards to the *Sulfurimonas* genus. Both suggested similar overall relationships between nutrient concentration and *Sulfurimonas* abundance. However, whether the identified relationships were statistically significant proved to be very different between the two analysis pipelines. Due to the aforementioned flaws in the statistical methodology used, we cannot confidently assert whether use of one pipeline is better than the other, but it is clear that the two produce different results, and choice of pipeline is extremely important for microbial ecology. It should be noted that had multiple-comparisons testing not been controlled for, far more test conditions would have yielded significance. This highlights the importance of ensuring statistical rigour of the experimental methodology, as well as the benefit of consulting a statistician during the experimental design process.  
+  
+  
+As each pipeline approaches the most important analytical step of sequences processing differently, each has its own guidelines and configuration profiles. Hence, choosing the correct pipeline with a set of parameters and algorithms for a given application is important. While for this study the parameters and databases were kept as similar as possible between the two, there are fundamental differences in the philosophy by which the two pipelines handle data. As mothur clusters individual sequences while QIIME2 groups by sample consistency, studies have shown that the effect of sequencing errors yielded a bigger impact on the results than choosing the appropriate gene region for amplification [11]. In addition, selecting a pipeline with higher sequence throughput could increase the chance of richness overestimation [11]. Because the analytical steps are paramount to microbial ecology research and discovery, variations in the quality of databases and their annotations could impact the validity of research results. Especially for clustering-first pipelines such as mothur and QIIME2, the choice of the reference database in terms of comprehensiveness and sensitivity has implications in the accuracy of microbial abundance estimation [12]. A standardized evaluation protocol may be beneficial to overcome the dilemma of pipeline selection. Regardless of the pipeline chosen, it is important going forward to ensure pipeline methodology is described completely, with every decision within the pipeline well-justified.  
+  
+  
+To build on the results of this study, future work analysing the role of each of the many environmental variables on abundance of *Sulfurimonas* by a stronger multivariate statistical test would be beneficial. Additionally, further analyses conducting processing with mothur and QIIME2 in parallel would enable stronger claims to be made regarding the relative ability of the two analysis pipelines, and more generally for OTU- and ASV-based analysis pipelines.  
+
+### **References**
+
+1. Torres-Beltran M, Hawley AK, Capelle D, Zaikova E, Walsh DA, Mueller A, Finke J. 2017. A compendium of geochemical information from the Saanich Inlet water column. Sci Data. 4:170159. doi:10.1038/sdata.2017.159.
+
+2. Ocean Networks Canada. 2013. Introduction to Saanich Inlet. Retrieved from http://www.oceannetworks.ca/introduction-saanich-inlet.
+
+3. Stramma L, Schmidtko S, Levin LA, Johnson GC. 2010. Ocean oxygen minima expansions and their biological impacts. Deep Sea Res Part 1 Oceanogr Res Pap. 57(4):587-595. doi: 10.1016/j.dsr.2010.01.005 
+
+4. Wooley, J. C., Godzik, A., & Friedberg, I. (2010). A primer on metagenomics. PLoS Computational Biology, 6(2), e1000667. doi:10.1371/journal.pcbi.1000667  
+
+5. Callahan, B. J., Mcmurdie, P. J., & Holmes, S. P. (2017). Exact sequence variants should replace operational taxonomic units in marker-gene data analysis. The ISME Journal, 11(12), 2639. doi:10.1038/ismej.2017.119 
+
+6. Labrenz M, Grote J, Mammitzsch K, Boschker HTS, Laue M, Jost G, Glaubitz S, Jürgens K. 2013. *Sulfurimonas gotlandica* sp. nov., a chemoautotrophic and psychrotolerant epsilonproteobacterium isolated from a pelagic redoxcline, and an emended description of the genus *Sulfurimonas*. Int J Syst Evol Microbiol. 63(Pt 11):4141-4148. doi:10.1099/ijs.0.048827-0.
+
+7. Schloss PD, Westcott SL, Ryabin T, Hall JR, Hartmann M, Hollister EB, Lesniewski RA, Oakley BB, Parks DH, Robinson CJ, Sahl JW, Stres B, Thallinger GG, Van Horn DJ, Weber CF. 2009. Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol 75:7537-7541. doi:10.1128/AEM.01541-09
+
+8. https://qiime2.org
+
+9. Ortutay C, Ortutay Z. 2017. Introduction to R statistical environment, p 1-15. In Molecular Data Analysis, John Wiley & Sons, Hoboken, New Jersey, USA. 
+
+10. Bingham NH, Fry JM, & SpringerLink ebooks - Mathematics and Statistics. (2010). Regression: Linear models in statistics. London; New York: Springer.
+
+11. Siegwald L, Touzet H, Lemoine Y, Hot D, Audebert C, Caboche S. 2017. Assessment of Common and Emerging Bioinformatics Pipelines for Targeted Metagenomics. PLoS One. 12(1):e0169563. doi:10.1371/journal.pone.0169563.
+
+12. Plummer E, Twin J, Bulach DM, Garland SM, Tabrizi SN. 2015. A Comparison of Three Bioinformatics Pipelines for the Analysis of Preterm Gut Microbiota using 16S rRNA Gene Sequencing Data. J Proteomics Bioinform. 8:283-291. 
+
+13. Sievert SM, Scott KM, Klotz MG, Chain PSG, Hauser LJ, Hemp J, Hagler M, Land M, Lapidus A, Larimer FW, Lucas S, Malfatti SA, Meyer F, Paulsen IT, Ren Q, Simon K, the USF Genomics Class. 2008. Genome of the Epsilonproteobacterial Chemolithoautotroph *Sulfurimonas denitrificans*. Appl Environ Microbiol. 74(4):1145-1156. doi:10.1128/AEM.01844-07.
+
+
+### **Self Assessment**
+#### Abstract
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+#### Introduction
+##### Literature research
+None
+
+
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+
+#### Methods
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+
+#### Results
+##### Analysis 
+Helped analyze the results.
+
+
+##### Figures
+Compiled all the figures for the document and edited titles/axis labels if necessary.
+
+
+##### Writing
+Wrote the entire results section based on the figures that were generated, minus any edits that other group members contributed in the final draft.
+
+
+##### Editing
+Helped edit this section with the suggestions provided.
+
+
+#### Discussion
+##### Literature research
+None
+
+
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors and formatted any of the references.
+
+
+#Module 04
+##Project_02
+
+
+###**Abstract**
+Sequences for nitrite reductase (*nirS*) gene were obtained from various depths of Saanich Inlet, a model ecosystem for the effects of growing oxygen minimum zones in the open ocean. Tree-based Sensitive and Accurate Protein Profiler (TreeSAPP) was implemented for automated reconstruction of the nitrogen cycle along defined redox gradients in Saanich Inlet for metagenomic and metatranscriptomic assemblies of *nirS*. Increased DNA and RNA abundance of *nirS* was found with increasing depth under the suboxic and anoxic conditions, and no expression was observed at oxic conditions. *Gammaproteobacteria*, *Planctomycetia*, *Deltaproteobacteria* and *Alphaproteobacteria* groups predominante the overall *nirS* expression in the Saanich Inlet. It was found that the distribution of *nirS* throughout the water column may be due to *Planctomycetia* expressing anammox-type *nirS* that thrives in lower suboxic zones, and *Gammaproteobacteria* expressing denitrification-type *nirS* which is highly suitable for denitrification in anoxic zones and upper suboxic zones. In addition, *nirS* OTUs have been shown to be station and time-dependent. As the Saanich Inlet is a seasonally anoxic fjord, the DNA and RNA abundances for denitrification genes should fluctuate with time as the water column moves in and out of anoxia. In this project, we investigate the *nirS* gene in the denitrification pathway to assess in terms of taxonomic rank, abundance and expression along the redoxcline in Saanich Inlet and propose future directions to expand on our results.
+
+
+###**Introduction**
+Saanich Inlet acts as an excellent model system for oxygen minimum zones (OMZs), due to its seasonally anoxic character. A shallow sill separates the body of the inlet from the Strait of Georgia, and traps deep water throughout the spring and summer. Microbial activity quickly depletes dissolved oxygen below 100m, when large amounts of organic matter sink during the spring phytoplankton bloom. Then, during turbulent winter weather, the mixed layer depth increases and the anoxic deep water is exchanged for new, oxygen rich water over the shallow sill [1]. These processes repeat annually, resulting in a cycle of deep water replenishment, followed by the development of an anoxic region. The predictable nature of changing oxygen concentrations, combined with excellent sampling conditions make Saanich Inlet a first-rate model OMZ ecosystem. 
+
+
+The expansion of OMZs is expected to cause drastic shifts in global marine microbial community compositions, and therefore their functional capabilities. There is a demand for models of how OMZs form due to a global increase in OMZ size and intensity [2]. OMZs are bands of hypoxic water between 100m and 1000m in depth. Microbial respiration fueled by sinking organic matter from the euphotic zone depletes dissolved oxygen all the way to anoxia in extreme circumstances. The strength and depth range of these zones has been shown to be increasing on average due to anthropogenic climate change. Oxygen is not only a vital nutrient for macroscopic life, but also a determining factor in how microbial communities function. When oxygen is not available, bacteria can reduce other chemicals for energy production. In the absence of oxygen, nitrate is often the first choice. 
+
+Nitrogen is cycled biologically on an immense scale globally. It is a necessary component of all life in relatively large amounts. For practical reasons, nitrogen is often divided into two main pools: fixed nitrogen, which is soluble in water and bioavailable, and unfixed nitrogen, which is in a gaseous form and diffuses to the atmosphere. Cycling between these two pools occurs by three main processes. Nitrogen fixation is the conversion of N~2~ gas to NH~4~^+^ by diazotrophs. In the ocean, diazotrophs are mostly cyanobacteria, which require high light and iron availability. This limits nitrogen fixation to relatively small portions of the surface ocean. The two processes that counter nitrogen fixation, releasing fixed nitrogen back to the atmosphere, are annamox and denitrification. Annamox converts NO3- and NH~4~^+^ to N~2~ but is thought to contribute less to bioavailable nitrogen loss than denitrification. Denitrification is the stepwise reduction of NO~3~^-^ to N~2~. Both annamox and denitrification require extremely low O~2~ environments and are prevalent in oceanic OMZs.
+
+
+The ability of a community to denitrify is dependant on the genetic presence of a full nitrogen reduction pathway. Often, microbes will not contain the genes or transcribe the genes necessary for all intermediate steps of a metabolic pathway, instead opting to rely on other organisms for the processing of the steps they lack [3]. *NirS* is of particular interest because it catalyzes the conversion of nitrite (NO~2~^-^) to nitric oxide (NO) (Fig 1), the point of no return in the denitrification pathway where a bioavailable ion is converted to a gas. Here the distribution of *nirS* genes and transcripts across depths and across taxa is analysed in a representative summer Saanich Inlet water column.
+
+
+![**Figure 1.** Nitrogen Cycle](N_cycle.png)
+
+
+##**Methods**
+Environmental samples were collected through time-series monitoring in Saanich Inlet on a monthly-basis aboard the MSV John Strickland at station S3 (48°35.500 N, 123°30.300 W) [4, 5]. Samples for large volume (LV) SSU rRNA gene tags, metagenomics, metatranscriptomics, and metaproteomics were taken from six depths spanning the oxycline (10, 100, 120, 135, 150, 165, and 200 m). Samples for high-resolution (HR) SSU rRNA gene tag sequencing were taken at 16 depths along the oxycline (10, 20, 40, 60, 75, 80, 90, 97, 100, 110, 120, 135, 150, 165, 185 and 200 meters). Water was collected with Go-Flo bottles and dissolved gas samples were taken immediately after the bottles were taken onboard the ship. Next, the remaining water was quickly drained into 2L Nalgene bottles through sterilized silicon tubing to minimise changes in microbial gene expression.A 0.22 μm Sterivex filter was used to collect biomass from water samples. Genomic DNA and RNA were then extracted from cells on these filters. RNA was reverse transcribed into cDNA and both genomic DNA and cDNA were used in the construction of shotgun Illumina libraries. Sequencing data were generated on the Illumina HiSeq platform with 2x150bp technology.
+
+
+The resulting reads were processed and quality controlled at the Joint Genome Institute using the IMG/M pipeline. Metagenomes were assembled and processed using MetaPathways 2.5 at UBC.
+
+
+Tree-based Sensitive and Accurate Protein Profiler (TreeSAPP) was implemented for automated reconstruction of the nitrogen cycle along defined redox gradients in Saanich Inlet using Google Cloud services for metagemomic (MetG, DNA) and metatranscriptomic (MetaT, RNA) assemblies of *nirS*. 
+
+
+Reads per kilo base per million mapped reads (RPKM) was used to quantify gene expression by normalizing for total read length and the number of sequencing reads when comparing the gene coverage values. This corrects the difference in sampling sequencing depth and gene length [6]. The formula below indicates numReads as the number of reads mapped to a gene sequence, geneLength as the length of the gene sequence and totalNumReads as the total number of mapped reads for a sample: 
+
+
+$$RPKM =  \frac{numReads}{\frac{geneLength}{10^3}\times \frac{totalNumReads}{10^6}}$$
+
+
+The following commands were used in the pipeline:
+```{r eval =FALSE}
+#!/bin/bash
+cd /home/enenn/
+export WISECONFIGDIR=/home/connor/TreeSAPP//data//genewise_support_files//wisecfg
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_10m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_10m.anqdp.fastq.gz -o treesapp/treesapp_out_G_10m
+rm treesapp/treesapp_out_G_10m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_10m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_10m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_10m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_10m
+rm treesapp/treesapp_out_T_10m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_10m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_100m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_100m.anqdp.fastq.gz -o treesapp/treesapp_out_G_100m
+rm treesapp/treesapp_out_G_100m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_100m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_100m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_100m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_100m
+rm treesapp/treesapp_out_T_100m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_100m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_120m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_120m.anqdp.fastq.gz -o treesapp/treesapp_out_G_120m
+rm treesapp/treesapp_out_G_120m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_120m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_120m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_120m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_120m
+rm treesapp/treesapp_out_T_120m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_120m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_135m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_135m.anqdp.fastq.gz -o treesapp/treesapp_out_G_135m
+rm treesapp/treesapp_out_G_135m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_135m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_135m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_135m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_135m
+rm treesapp/treesapp_out_T_135m/RPKM_outputs/*.sam &
+
+chmod -Rf treesapp/treesapp_out_T_135m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_150m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_150m.anqdp.fastq.gz -o treesapp/treesapp_out_G_150m
+rm treesapp/treesapp_out_G_150m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_150m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_150m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_150m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_150m
+rm treesapp/treesapp_out_T_150m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_150m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_165m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_165m.anqdp.fastq.gz -o treesapp/treesapp_out_G_165m
+rm treesapp/treesapp_out_G_165m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_165m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 -p pe \
+-i bucket/MetaG_assemblies/SI072_LV_165m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_165m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_165m
+rm treesapp/treesapp_out_T_165m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_165m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 \
+-i bucket/MetaG_assemblies/SI072_LV_200m_DNA.scaffolds.fasta  --rpkm \
+-r bucket/MetaG_reads/SI072_LV_200m.anqdp.fastq.gz -o treesapp/treesapp_out_G_200m
+rm treesapp/treesapp_out_G_200m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_G_200m 777 &
+time treesapp.py -T 8 --verbose --delete -t D0302 \
+-i bucket/MetaG_assemblies/SI072_LV_200m_DNA.scaffolds.fasta --rpkm \
+-r bucket/MetaT_reads/SI072_LV_200m.qtrim.3ptrim.artifact.rRNA.clean.fastq.gz \
+-o treesapp/treesapp_out_T_200m
+rm treesapp/treesapp_out_T_200m/RPKM_outputs/*.sam &
+chmod -Rf treesapp/treesapp_out_T_200m 777
+```
+
+
+Interactive Tree of Life (iTOL) version 4.2 was used for the display, annotation and management of the phylogenetic trees produced for the *nirS* gene within the denitrification pathway [7].
+
+
+DNA and RNA abundances of nirS were compared across depth and different taxa. Analysis was completed in R v3.4.3 [8] using the following packages and the TreeSAPP output was loaded into R and combined into a single dataframe, nirS.all using the following commands:
+
+```{r}
+library(tidyverse)
+library(cowplot)
+
+#DNA data
+nirS.DNA.10m = read_tsv("nirS_DNA_10m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.10 = Confident_Taxonomy, Abund.DNA.10 = Abundance, Query)
+nirS.DNA.100m = read_tsv("nirS_DNA_100m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.100 = Confident_Taxonomy, Abund.DNA.100 = Abundance, Query)
+nirS.DNA.120m = read_tsv("nirS_DNA_120m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.120 = Confident_Taxonomy, Abund.DNA.120 = Abundance, Query)
+nirS.DNA.135m = read_tsv("nirS_DNA_135m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.135 = Confident_Taxonomy, Abund.DNA.135 = Abundance, Query)
+nirS.DNA.150m = read_tsv("nirS_DNA_150m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.150 = Confident_Taxonomy, Abund.DNA.150 = Abundance, Query)
+nirS.DNA.165m = read_tsv("nirS_DNA_165m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.165 = Confident_Taxonomy, Abund.DNA.165 = Abundance, Query)
+nirS.DNA.200m = read_tsv("nirS_DNA_200m_marker_contig_map.tsv") %>%
+  select(Tax.DNA.200 = Confident_Taxonomy, Abund.DNA.200 = Abundance, Query)
+
+#RNA data
+nirS.RNA.10m = read_tsv("nirS_RNA_10m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.10 = Confident_Taxonomy, Abund.RNA.10 = Abundance, Query)
+nirS.RNA.100m = read_tsv("nirS_RNA_100m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.100 = Confident_Taxonomy, Abund.RNA.100 = Abundance, Query)
+nirS.RNA.120m = read_tsv("nirS_RNA_120m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.120 = Confident_Taxonomy, Abund.RNA.120 = Abundance, Query)
+nirS.RNA.135m = read_tsv("nirS_RNA_135m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.135 = Confident_Taxonomy, Abund.RNA.135 = Abundance, Query)
+nirS.RNA.150m = read_tsv("nirS_RNA_150m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.150 = Confident_Taxonomy, Abund.RNA.150 = Abundance, Query)
+nirS.RNA.165m = read_tsv("nirS_RNA_165m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.165 = Confident_Taxonomy, Abund.RNA.165 = Abundance, Query)
+nirS.RNA.200m = read_tsv("nirS_RNA_200m_marker_contig_map.tsv") %>%
+  select(Tax.RNA.200 = Confident_Taxonomy, Abund.RNA.200 = Abundance, Query)
+
+#Combine all data frames
+nirS.all = nirS.DNA.100m %>%
+  full_join(nirS.DNA.120m, by = "Query") %>%
+  full_join(nirS.DNA.135m, by = "Query") %>%  
+  full_join(nirS.DNA.150m, by = "Query") %>%  
+  full_join(nirS.DNA.165m, by = "Query") %>%
+  full_join(nirS.DNA.200m, by = "Query") %>%
+  full_join(nirS.RNA.100m, by = "Query") %>%
+  full_join(nirS.RNA.120m, by = "Query") %>%
+  full_join(nirS.RNA.135m, by = "Query") %>%
+  full_join(nirS.RNA.150m, by = "Query") %>%
+  full_join(nirS.RNA.165m, by = "Query") %>%
+  full_join(nirS.RNA.200m, by = "Query") %>%
+  mutate(Taxonomy = ifelse(!is.na(Tax.DNA.100), Tax.DNA.100,
+                    ifelse(!is.na(Tax.DNA.120), Tax.DNA.120,
+                    ifelse(!is.na(Tax.DNA.135), Tax.DNA.135,
+                    ifelse(!is.na(Tax.DNA.150), Tax.DNA.150,
+                    ifelse(!is.na(Tax.DNA.165), Tax.DNA.165,
+                    ifelse(!is.na(Tax.DNA.200), Tax.DNA.200,
+                    ifelse(!is.na(Tax.RNA.100), Tax.RNA.100,
+                    ifelse(!is.na(Tax.RNA.120), Tax.RNA.120,                           
+                    ifelse(!is.na(Tax.RNA.135), Tax.RNA.135,
+                    ifelse(!is.na(Tax.RNA.150), Tax.RNA.150,
+                    ifelse(!is.na(Tax.RNA.165), Tax.RNA.165,
+                    ifelse(!is.na(Tax.RNA.200), Tax.RNA.200,
+                           "unclassified"))))))))))))) %>%
+  select(-starts_with("Tax.")) %>%
+  gather("Key", "Abundance", starts_with("Abund")) %>%
+  separate(Key, c("Key","Type","Depth_m"), by = ".") %>%
+  select(Depth_m, Type, Abundance, Taxonomy, Query) %>%
+  mutate(Depth_m = as.numeric(Depth_m)) %>%
+  separate(Taxonomy, into = c("Domain", "Phylum", "Class", "Order", 
+                              "Family","Genus", "Species"), sep=";") 
+```
+
+###**Results**
+
+
+```{r fig2, fig.height = 8, fig.width = 6, out.width = "50%", echo = FALSE}
+#Combine and sum all abundances at a certain depth
+nirS.abund = aggregate(Abundance ~ Type + Depth_m, data = nirS.all, sum)
+
+#Plot DNA vs. RNA Abundance
+ggplot(nirS.abund, aes(x = Abundance, y = Depth_m)) +
+  geom_path(aes(colour = Type), size = 1.5) +
+  scale_y_reverse(lim=c(200,0)) +
+  ggtitle("Abundance of nirS gene (DNA vs. RNA) at different depths") + 
+  theme(plot.title = element_text(face = "bold", hjust=0.5)) +
+  xlab("Relative Abundance") +
+  ylab("Depth (m)")
+```
+
+
+**Figure 2.** DNA vs. RNA relative abundance of nirS gene and transcripts from 10 to 200 metres depth in Saanich Inlet. 
+
+
+As shown in Figure 2, the DNA and RNA abundances of the *nirS* gene vary significantly by depth, with the general trend being that abundance increases with depth below 100m. Above 100m, the only depth that was measured was 10m, and there was neither DNA nor RNA found for the *nirS* gene. The abundance of DNA is higher than that of RNA, down to 150m, where RNA abundance increases significantly by about one order of magnitude from 82 to 750. This means that transcription of nitrite reductase, *nirS*, increases under anoxic conditions, which start around 150m. RNA abundance reaches a maximum at 165m, but the DNA abundance decreases by a sizeable amount at this depth, which could mean that there is lower gene diversity, but high rates of transcription in each organism, leading to more RNA. DNA abundance reaches a maximum at 200m, and RNA abundance decreases slightly, which means that there could be more diversity, but lower transcription rates for each organism. Overall, RNA abundances are significantly higher than DNA abundance below 150m, but above this depth, DNA abundances are higher, meaning that the nirS gene is present in cells, but it is not transcribed at high rates. 
+
+
+```{r fig3, fig.height = 10, fig.width = 18, echo = FALSE}
+#Load phyloseq data
+load("mothur_phyloseq.RData")
+metadata = data.frame(mothur@sam_data)
+#Select NO3, NO2, O2 + set line colours
+mn <- metadata %>% 
+  gather(Nutrient, Concentration, NO3_uM, NO2_uM, O2_uM) %>% 
+  select(Depth_m, Nutrient, Concentration)
+colours = c("NO3_uM" = "green", "NO2_uM" = "red", "O2_uM" = "blue") 
+
+#Plot by Order
+plot1 = nirS.all %>% 
+  mutate(Order = ifelse(is.na(Order), "unclassified", Order)) %>% 
+  ggplot(aes(x = Order, y = Depth_m)) +
+  geom_point(aes(size = ifelse(Abundance == 0, NA, Abundance), colour = Type), 
+             position = position_dodge(0.5)) +
+  theme(axis.text.x = element_text(size = 12, hjust=0.5))+
+  theme(axis.text.x = element_text(angle=-90,hjust=1,vjust=0.5))+
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 6))+
+  scale_y_reverse(lim=c(200,10)) +
+  scale_size_continuous(name = "Abundance")+
+  labs(y = "Depth (m)",
+       x = "Order")
+
+#Plot phyloseq metadata
+plot2 = ggplot()+
+  geom_point(data = mn, aes(x = log10(Concentration), y = Depth_m, colour = Nutrient))+
+  geom_path(data = mn,aes(x = log10(Concentration), y = Depth_m, colour = Nutrient)) +
+  scale_color_manual(values=colours, 
+                     labels=c(expression(paste("NO"[2])),
+                              expression(paste("NO"[3])), 
+                              expression(paste("O"[2]))))+
+  scale_y_reverse(lim=c(200,10))+
+  labs(y = "Depth (m)",
+       x = expression(paste("Log"[10], " Concentration", " (μM)")))
+
+plot_grid(plot2, plot1, labels=c("A","B"), rel_widths = c(1/4, 3/4), align = 'h')
+```
+
+
+**Figure 3.** A: Change in nitrite, nitrate, and oxygen concentrations (Log~10~ scale) from 10 to 200 metres depth in Saanich Inlet. B: Change in DNA vs. RNA abundance of the nirS gene from 10 to 200 metres depth across different Orders in Saanich Inlet. Note that the Log~10~ was used for concentration as the nitrite concentration was relatively low compared to nitrate and oxygen. 
+
+
+```{r fig4, fig.height = 10, fig.width = 18, echo = FALSE}
+#Plot by Class
+plot3 = nirS.all %>% 
+  mutate(Class = ifelse(is.na(Class), "unclassified", Class)) %>% 
+  ggplot(aes(x = Class, y = Depth_m)) +
+  geom_point(aes(size = ifelse(Abundance == 0, NA, Abundance), colour = Type), 
+             position = position_dodge(0.5)) +
+  theme(axis.text.x = element_text(size = 12, hjust=0.5))+
+  theme(axis.text.x = element_text(angle=-90,hjust=1,vjust=0.5))+
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 6))+
+  scale_y_reverse(lim=c(200,10)) +
+  scale_size_continuous(name = "Abundance")+
+  labs(y = "Depth (m)",
+       x = "Class")
+
+plot_grid(plot2, plot3, labels=c("A","B"), rel_widths = c(1/4, 3/4), align = 'h')
+```
+
+
+**Figure 4.** A: Change in nitrite, nitrate, and oxygen concentrations (Log~10~ scale) from 10 to 200 metres depth in Saanich Inlet. B: Change in DNA vs. RNA abundance of the nirS gene from 10 to 200 metres depth across different Classes in Saanich Inlet. Note that the Log~10~ was used for concentration as the nitrite concentration was relatively low compared to nitrate and oxygen. 
+
+
+```{r fig5, fig.height = 10, fig.width = 18, echo = FALSE}
+#Plot by Family
+plot4 = nirS.all %>% 
+  mutate(Class = ifelse(is.na(Family), "unclassified", Family)) %>% 
+  ggplot(aes(x = Family, y = Depth_m)) +
+  geom_point(aes(size = ifelse(Abundance == 0, NA, Abundance), colour = Type), 
+             position = position_dodge(0.5)) +
+  theme(axis.text.x = element_text(size = 12, hjust=0.5))+
+  theme(axis.text.x = element_text(angle=-90,hjust=1,vjust=0.5))+
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 6))+
+  scale_y_reverse(lim=c(200,10)) +
+  scale_size_continuous(name = "Abundance")+
+  labs(y = "Depth (m)",
+       x = "Family")
+
+plot_grid(plot2, plot4, labels=c("A","B"), rel_widths = c(1/4, 3/4), align = 'h')
+```
+
+
+**Figure 5.** A: Change in nitrite, nitrate, and oxygen concentrations (Log~10~ scale) from 10 to 200 metres depth in Saanich Inlet. B: Change in DNA vs. RNA abundance of the nirS gene from 10 to 200 metres depth across different Families in Saanich Inlet. Note that the Log~10~ was used for concentration as the nitrite concentration was relatively low compared to nitrate and oxygen. 
+
+
+```{r fig6, fig.height = 10, fig.width = 18, echo = FALSE}
+# Libraries
+library(tidyverse)
+library(phyloseq)
+library(vegan)
+
+# Loading in Data
+load("mothur_phyloseq.RData")
+load("qiime2_phyloseq.RData")
+
+
+#Fig 6
+
+mothur_percent = 	mothur %>% transform_sample_counts(function(x) 100 * x/sum(x)) 
+
+mothur_percent %>% 
+  plot_bar(fill="Class") + 
+  geom_bar(aes(fill=Class), stat="identity") +
+  labs(x = "Sample depth", y = "Relative abundance (%)", 
+       title = "Class from 10 to 200 m in Saanich Inlet")
+```
+
+
+**Figure 6. Relative abundances of Class at various depths in Saanich Inlet.** The most abundant class with 90%-100% relative abundance at all depth are *Acidlmicroblia*, and *Actinobacteria*, The intermediate abundance of class between 53%-85% relative abundance are mainly unclassified *Archaea*, *Deltaproteobacteria*, *Epsilonproteobacteria*, *Gammaproteobacteria*. The Phyla with the lowest relative abundances with approximately 2%-20% are mainly *Marinimicrobia*, *Planctomycetes*, *Varrucomicrobia* and unclassified *Proteobacteria*.
+
+
+![**Figure 7. nirS relative DNA and RNA expression in 100m, 120m, 135m, 150m, 165m, 200m depth relative to taxa.** Taxonomic classification of organisms are divided by different colours, shown in a wheel at the end of the tree branch. The green and red bars extending out from the organism names depict relative DNA and RNA abundances of nirS gene, respectively. 10m is not shown as there were no DNA or RNA expression of nirS for all analyzed organisms.](iTOL_outputs.png)
+
+
+As shown in Figures 4 and 7, diversity of organisms containing the *nirS* gene varies with depth. *Gammaproteobacteria* genera *Colwellia*, *Oleispira*, *Olephilus*, *Thalassomonas*, *Ridgeia* and *Sedimenticola* have consistent relative level of DNA expression compared to other organisms at all analyzed depths. At 100m, the level of RNA transcription follows the trend of DNA expression in members of the *Gammaproteobacteria*, *Planctomycetia* and *Deltaproteobacteria* class. At 120m, the RNA transcripts of *nirS* for *Gammaproteobacteria* are less than DNA. However, the inverse is true for some members of the *Alphaproteobacteria*, *Anaerolineae*, *Planctomycetia*, *Deltaproteobacteria*, *Deinococci*, *Bacteroidetes*, *Aquificae*, *Epsilonproteibacteria*, *Aciditiobacillia* classes, in which the RNA transcription level is much higher than DNA expression. Of note, *Planctomycemia* have the highest RNA abundance. At 135m, the same trend in relative DNA and RNA is observed as at 120m. At 150m, the O~2~ concentration decreases to zero, there is high *nirS* expression in *Gammaproteobacteria*, and medium to low expression in *Alphaproteobacteria*. RNA levels follows the trend of DNA expression. At 165m, NO~3~ concentration also decreases to zero. *NirS* expression decreases in *Alphaproteobacteria*, but slightly increases in *Planctomycetia* and *Deltaproteobacteria*. RNA abundances still follows the trend of DNA. At 200m, the O~2~, NO~3~ and NO~2~ concentrations are zero. RNA is lower than DNA in all previously mentioned *Gammaproteobacteria* species except for *Olephilus*. However, RNA abundance is slightly higher than DNA in the *Anaerolineae* class. We must mention that the systemic *nirS* expression observed in all species at 135m, 150m and 200m is an artifact. There is an organism identified at a higher taxonomic level with *nirS* expression, but the pipeline cannot differentiate it further. Thus, *nirS* expression was conferred to all species under that taxonomic level.
+
+
+###**Discussion**
+Denitrification is a sequential, four-step process, nitrate (NO~3~^-^), a fixed inorganic species, is reduced to dinitrogen gas (N~2~). This process only occurs under suboxic and anoxic conditions (1-2% oxygen saturation), where the most favourable terminal electron acceptor (TEA), oxygen (O~2~) is limiting and organisms take up the next favourable TEA, NO~3~^-^ [9,10]. Our gene of interest, *nirS*; nitrite reductase, is involved in the reduction of nitrite (NO~2~^-^) to nitric oxide (NO) in the second step of denitrification and also contains cytochrome *cd1* [11, 12]. Within the water column of Saanich Inlet, dissolved oxygen concentrations decrease steadily with depth until 150m,  where values quickly approach zero (Figures 3A, 4A, 5A.). This results to a sharp increase in DNA and RNA abundance, consistent with the fact that denitrification happens under suboxic and anoxic conditions (Figures 3A, 4A, 5A.). 
+
+
+This nitrite reduction process is shared with another nitrite reductase, nirK, which contains copper instead of the cytochrome *cd1* used in *nirS* [11]. Gene analyses from experiments done in other other anoxic/suboxic basins, such as the Baltic Sea, Black Sea and the San Francisco Bay, have shown that gene abundances were about 1-2 orders of magnitude higher for nirS than in *nirK* in the San Francisco Bay [13]. OTU abundances based on a 95% sequence similarity cutoff for all experiments were also higher for *nirS* compared to *nirK* by up to five times at certain stations in the Baltic Sea and the San Francisco Bay [13,14]. However, in the Black Sea, the OTU abundance of *nirS* is either approximately the same, or up to five times lower than the abundance of nirK [15]. Alpha-diversity and richness of *nirS* and *nirK* OTUs are largely dependent on the station and time of year, which is seen in all three experiments [13,14,15]. 
+	
+	
+Our TreeSAPP analysis showed that the *Gammaproteobacteria*, *Planctomycetia*, *Deltaproteobacteria* and *Alphaproteobacteria* groups predominante the overall *nirS* expression in the Saanich Inlet. There are two noteworthy points to highlight from the results. First, we observed that the *Gammaproteobacteria* is present in the Saanich Inlet at relatively high abundances of 50-85% at all depths (Figure 6.), which corresponds to also having the highest relative abundance of *nirS* gene copies at all analyzed depths (Figure 7.). This observation suggests a high level of denitrifying metabolic activity within this group. Studies with pure cultures and seawater enrichments have shown that the *Gammaproteobacteria* may maintain a higher ribosome content per cell [16,17], with which the increased rRNA levels may permit these bacteria to better respond to rapid changes in oxygen concentration in the seasonally anoxic Saanich Inlet [18]. Secondly, despite *Gammaproteobacteria* exhibiting relatively high level of *nirS* DNA, lower RNA abundance was detected at 120m and 135m, where non-*Proteobacteria* groups such as *Planctomycetia* dominate (Figure 7.). It is also worthy to note that *Planctomycetia* composes less than 10% of overall organism abundance at these depths (Figure 6.), but disproportionality accounts for a large portion of *nirS* expression (Figure 7.). *Planctomycetia* is known to mainly carry out anammox metabolism [19]. Gene-sequencing studies investigating expression of anammox sequences have shown that *nirS* genes expressed consistently at lower suboxic zones, such as 120m and 135m in Saanich, are closely allied to the environmental anammox clade [20]. The presence of anammox bacteria in the lower suboxic zone may be due to the flux of ammonium from the sulfide zone that affects these depths [20]. 
+
+
+Meanwhile, *Gammaproteobacteria* may express *nirS* that is more closely related to denitrification pathways, which studies have shown to be more abundant in anoxic zones, and also in upper suboxic zones (O~2~ > 10 µM) [20]. While anoxic environments are the most suitable for denitrification, studies have also suspected that the enzymatic machinery in *Alpha-* and *Gammaproteobacteria* for anaerobic denitrification is likely to be similar to aerobic denitrification, allowing possible denitrification in upper suboxic zones [21]. In other words, the distribution of *nirS* throughout the water column may be due to *Planctomycetia* expressing anammox-type *nirS* that thrives in lower suboxic zones, and *Gammaproteobacteria* expressing denitrification-type *nirS* which is highly suitable for denitrification in anoxic zones and upper suboxic zones. 
+
+
+In this investigation, we have seen the abundance and expression of *nirS* vary with taxa and location. This is one of a number of genes involved in the distributed metabolism of the N cycle. It is likely advantageous for the genes in the N cycle to be specialized in order to interact with the many forms nitrogen can adopt. It is also advantageous to distribute these genes across specific taxa in the community since this increases the adaptability of microbial communities in response to their ecosystem. In addition, transitions in the oxidation state of nitrogen occur as a result of thermodynamically driven microbial reactions. It would be energetically irrational for an organism inhabiting anoxic regions of the ocean to actively express genes involved in nitrification. Microbial communities involved in the N cycle have evolved in symbiosis to achieve energetically efficient niches. For example, consider the diazotrophic cyanobacterium *UCYN-A*. *UCYN-A* is lacking photosystem II, RubisCo and the tricarboxylic acid cycle, meaning it is not capable of fixing carbon. Instead, it has formed a symbiotic relationship with a prymnesiophyte where *UCYN-A* receives fixed carbon in exchange for nitrogen [22]. Until the identification of *UCYN-A*, nitrogen fixation in the oceans had been attributed mainly to *Trichodesmium* [23]. Further investigation will likely yield even more discoveries indicating the vastness of the N cycle. Ecological studies of microbial community dynamics could provide further insight into the functioning N cycle.
+
+
+It should be noted that some genes in the nitrogen cycle have similar functions. For example, the nirK gene also performs nitrite reduction, like nirS. As alpha-diversity and richness of *nirS* and *nirK* OTUs have been shown to be station and time-dependent [13,14,15], this should also apply to Saanich Inlet, as it is a seasonally anoxic fjord, which can affect the distribution of denitrification pathways at different parts of the year as oxygen concentrations in the water column change. As a result, DNA and RNA abundances for denitrification genes should fluctuate with time as the water column moves in and out of anoxia. Accordingly, an avenue for future research would be to compare *nirS* abundance to *nirK* abundance, by obtaining the *nirK* dataset using TreeSAPP. 
+
+
+Another method of microbial NO~2~^-^ loss in the water column is through anaerobic ammonium oxidation (anammox), which converts either NO~2~^-^ or NH~4~^+^ to dinitrogen gas (N~2~) using either the *Hao* (hydroxilamine reductase) or *Hzo* (hydroxylamine oxidoreductase) gene [12]. Autotrophic bacteria have been shown to undergo anammox [24], meaning that they could potentially have a selective advantage where organic carbon flux from the surface is limited, given that they can produce their own organic carbon. In addition, there are also bacteria that can use an alternative organic carbon source, propionate, for growth [25]. Although bacteria that undergo anammox are slow-growing [26], these alternative source of organic carbon, means that they can potentially have a competitive advantage over nitrite reducers in certain areas of the ocean. Although our analysis is primarily focused on denitrification pathways, comparing *nirS* and *nirK* abundance with *Hao* and *Hzo* abundances would help determine if annamox has an effect on denitrification rates in Saanich Inlet.	
+
+
+###**References**
+1. Jetten MSM, Strous M, van de Pas-Schoonen K, Kramer EHM, Muyzer G, Fuerst JA, Kuenen JG, Webb R, Logemann S. 1999. Missing lithotroph identified as new planctomycete. Nature. 400(6743):446-449. doi:10.1038/22749.
+2. Stramma L, Schmidtko S, Levin LA, Johnson GC. 2010. Ocean oxygen minima expansions and their biological impacts. Deep Sea Res Part 1 Oceanogr Res Pap. 57(4):587-595. doi:10.1016/j.dsr.2010.01.005 
+3. Giovannoni SJ. 2017. SAR11 bacteria: The most abundant plankton in the oceans. Ann Rev Mar Sci. 9(1):231-255. doi:10.1146/annurev-marine-010814-015934.
+4. Torres-Beltrán M, Hawley AK, Capelle D, Zaikova E, Walsh DA, Mueller A, Finke J. 2017. A compendium of geochemical information from the Saanich Inlet water column. Sci Data. 4:170159. doi:10.1038/sdata.2017.159.
+5. Hawley AK, Torres-Beltrán M, Zaikova E, Walsh DA, Mueller A, Scofield M, Hallam SJ. 2017. A compendium of multi-omic sequence information from the saanich inlet water column. Sci Data. 4:170160. doi:10.1038/sdata.2017.160.
+6. Mortazavi, A., Williams, B. A., McCue, K., Schaeffer, L., and Wold, B. 2008. Mapping and quantifying mammalian transcriptomes by rna-seq. Nat Methods, 5(7):621-628.
+7. Letunic I, Bork P. 2016. Interactive tree of life (iTOL) v3: an online tool for the display and annotation of phylogenetic and other trees. Nucleic Acids Res 44(1):W242-W245. doi:10.1093/bioinformatics/btl529
+8. Ortutay C, Ortutay Z. 2017. Introduction to R statistical environment, p 1-15. In Molecular Data Analysis, John Wiley & Sons, Hoboken, New Jersey, USA. 
+9. Li M, Hong Y, Cao H, Gu JD. 2013. Community Structures and Distribution of Anaerobic Ammonium Oxidizing and niVA-Encoding Nitrite-Reducing Bacteria in Surface Sediments of the South China Sea. Microb Ecol. 66(2):281-296. doi:10.1007/s00248-012-0175-y
+10. Hallam SJ, Torres-beltrán M, Hawley AK. 2017. Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone. Sci Data. 4:170158. doi:10.1038/sdata.2017.158.
+11. Hannig M, Braker G, Dippner J, Jürgens K. 2006. Linking denitrifier community structure and prevalent biogeochemical parameters in the pelgial of the central Baltic Proper (Baltic Sea). FEMS Microbiol Ecol. 57(2):260-271. doi:10.1111/j.1574-6941.2006.00116.x
+12. Canfield DE, Glazer AN, Falkowski PG. 2010. The Evolution and Future of Earth’s Nitrogen Cycle. Science. 330(6001):192-196. doi:10.1126/science.1186120
+13. Lee JA, Francis CA. 2017. Spatiotemporal Characterization of San Francisco Bay Denitrifying Communities: a Comparison of nirK and nirS Diversity and Abundance. Microb Ecol. 73(2):271-284. doi:10.1007/s00248-016-0865-y
+14. Kim OS, Imhoff JF, Wizel KP, Junier P. 2011. Distribution of denitrifying bacterial communities in the stratified water column and sediment–water interface in two freshwater lakes and the Baltic Sea. Aquat Ecol. 45(1):99-112. doi:10.1007/s10452-010-9335-7
+15. Oakley BB, Francis CA, Roberts KH, Fuchsman, CA, Srinivasan S, Staley JT. 2007. Analysis of nitrite reductase (nirK and nirS) genes and cultivation reveal depauperate community of denitrifying bacteria in the Black Sea suboxic zone. Environ Microbiol. 9(1):118-130. doi:10.1111/j.1462-2920.2006.01121.x
+16. Eilers, H., Pernthaler, J, Amann, R. 2000. Succession of pelagic marine bacteria during enrichment: a close look at cultivation-induced shifts. Appl. Environ. Microbiol. 66:4634-4649.
+17. Flaerdh, K, Cohen, J, Kjelleberg, S. 1992. Ribosomes exist in large excess over the apparent demand for protein synthesis during carbon starvation in marine Vibrio sp. strain CCUB 15956. J. Bacteriol. 174:6780-6788.
+18. Mills, HJ, Hunter, E, Humphrys, M, Kerkhof, L, McGuinness, L, Huettel, M, Kostka, JE. 2008. Characterization of nitrifying, denitrifying, and overall bacterial communities in permeable marine sediments of the northeastern Gulf of Mexico. Appl. Environ. Microbiol. 74:4440-4453.
+19. Fuerst, JA, Sagulenko, E. 2011. Beyond the bacterium: planctomycetes challenge our concepts of microbial structure and function. Nature Reviews Microbiology. 9:403.
+20. Kirkpatrick, JB, Fuchsman, CA, Yakushev, E, Staley, JT, Murray, JW. 2012. Concurrent activity of anammox and denitrifying bacteria in the Black Sea. Frontiers in Microbiology. 3:256.
+21. Chen, J, Strous, M. 2013. Denitrification and aerobic respiration, hybrid electron transport chains and co-evolution. Biochimica Et Biophysica Acta (BBA)-Bioenergetics. 1827:136-144.
+22. Isobe K, Ohte N. 2014. Ecological Perspectives on Microbes Involved in N-Cycling. Microbes and Environments. 29:4-16.
+23. Martinez-Perez C, Mohr W, Loscher CR, Dekaezembacker J, Littmann S, Yilmaz P, Lehnen N, Fuchs BM, Lavik G, Schmitz RA, LaRoche J, Kuypers MM. 2016. The small unicellular diazotrophic symbiont, UCYN-A, is a key player in the marine nitrogen cycle. Nature Microbiology. 1:16163. doi:10.1038/nmicrobiol.2016.163.
+24. Schmid M, Walsh K, Webb R, Rijpstra WIC, van de Pas-Schoonen K, Verbruggen MJ, Hill T, Moffett B, Fuerst J, Schouten S, Damsté JSS, Harris J, Shaw P, Jetten M, Strous M. 2003. Candidatus "Scalindua brodae", sp. nov., Candidatus "Scalindua wagneri", sp. nov., Two New Species of Anaerobic Ammonium Oxidizing Bacteria. Syst Appl Microbiol. 26(4):529-538. 
+25. Gaven D, Dapena A, Kartal B, Schmid MC, Maas B, van de Pas-Schoonen K, Sozen S, Mendez R, Op den Camp HJM, Jetten MSM, Strous M, Schmidt I. 2005. Propionate Oxidation by and Methanol Inhibition of Anaerobic Ammonium-Oxidizing Bacteria. Appl Environ Microbiol. 71(2):1066-1071. doi:10.1128/AEM.71.2.1066-1071.2005.
+26. Jetten MSM, Strous M, van de Pas-Schoonen K, Kramer EHM, Muyzer G, Fuerst JA, Kuenen JG, Webb R, Logemann S. 1999. Missing lithotroph identified as new planctomycete. Nature. 400(6743):446-449. doi:10.1038/22749.
+
+
+### **Self Assessment**
+#### Abstract
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+#### Introduction
+##### Literature research
+None
+
+
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+
+#### Methods
+##### Writing
+None
+
+
+##### Editing
+Proofread for any errors.
+
+
+#### Results
+##### Analysis 
+Helped analyze the results.
+
+
+##### Figures
+Compiled all the figures in R for the document and edited titles/axis labels if necessary.
+
+
+##### Writing
+Wrote the first paragraph of the section.
+
+
+##### Editing
+Helped edit this section with the suggestions provided.
+
+
+#### Discussion
+##### Literature research
+I did research for the first 2 and last 2 paragraphs
+
+
+##### Writing
+I wrote the first 2 and last 2 paragraphs.
+
+##### Editing
+Proofread for any errors and formatted any of the references.

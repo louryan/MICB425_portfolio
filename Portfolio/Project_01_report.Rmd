@@ -1,0 +1,491 @@
+---
+title: "mothur vs. QIIME2 Microbiome Data Analysis in Saanich Inlet"
+author: "Group 4"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: no
+---
+# Group Members
+Haya Abuzuluf  
+Jack Anthony  
+Judy Ban  
+Ryan Nah  
+Ryan Lou  
+Sawera Dhaliwal  
+
+# Abstract
+  Water samples from various depths of Saanich Inlet, a model ecosystem for the effects of growing oxygen minimum zones in the open ocean, were analyzed via 16S iTag amplicon sequencing and processed using both mothur and QIIME2 independently. The correlation between changes in abundance of *Sulfurimonas*, a genus encompassing several species of sulfur-oxidizing *Epsilonproteobacteria*, with oxygen, sulfide, and nitrate concentrations was determined by use of a linear regression model in R. Statistically significant associations with likely biological relevance were discovered using mothur but not for QIIME2. Statistically significant correlations between individual OTUs and ASVs with various nutrient concentrations were similarly discovered, with more identified by mothur than QIIME2. Sequence processing with mothur and QIIME2 arrived at very different conclusions, suggesting that the two fundamentally different analysis philosophies lead to very different results. However, the statistical and methodological weaknesses of this study do not enable strong claims for or against the use of either analysis pipeline. We discuss these downfalls and possible directions for future work in this area to build on our results.
+
+# Introduction
+  Saanich Inlet is a seasonally anoxic fjord located off the southeastern coast of Vancouver Island, British Columbia [1]. During fall and winter, strong winds mix water from the Strait of Georgia into the inlet and replace bottom water [2]. As the weather gets calmer in spring, deep water in the inlet is retained by a shallow sill near the inlet mouth and increasing stratification. High levels of primary productivity export organic matter from the euphotic zone leading to oxygen loss with depth, caused by microbial remineralization of said organic matter. This organic matter fueled respiration is sufficient to create hypoxic conditions below 100m and anoxic conditions below 150m [1]. Saanich Inlet’s predictable, recurring anoxia presents an excellent model exosystem for the study of processes occurring in other anoxic marine environments all around the world.  
+  
+  Organic carbon is used by heterotrophic bacteria as an energy source in aerobic respiration. As oxygen availability drops, methane, ammonia, and hydrogen sulfide build up as the products of anoxic metabolism [1]. Globally, this process has the effect of creating bands of hypoxic water between 100m and 1000m in the open ocean. These oxygen minimum zones (OMZs) are expanding in all oceans and are expected to continue expansion as a consequence of anthropogenic climate change [3]. In Saanich Inlet, the seasonal flushing of new water into the deep removes the buildup of metabolites and refreshes the supply of oxygen each winter. The predictable and recurring nature of the physical and chemical cycling of Saanich Inlet makes it an ideal model ecosystem to study the biological processes that occur in oxygen minimum zones (OMZs) globally. The species present in a particular water sample are largely influenced by the availability of specific terminal electron acceptors (TEAs). Saanich Inlet offers an annually reset gradient of changing TEAs with depth, making it an excellent system to study the change of community structure in relation to depth or oxygen.  
+  
+  Operational taxonomic units (OTUs) are a representation of taxonomic grouping used for both metagenomic and 16S amplicon sequencing data, where genetic sequences which fall within some limit of similarity are clustered together into an OTU [4]. While this serves to overcome the problem of sequencing error causing the true sequence to be masked by grouping of the similar sequences, if the similarity cutoff is not sufficiently stringent, multiple species may be clustered together. Similarly, if it is too strict, a single species may be split up into multiple OTUs.  Additionally, as OTUs represent a cluster of a number of distinct sequences generated for a specific data set, OTU abundances are not comparable across studies and datasets. Despite these issues, for the purposes of microbial community analysis, OTUs generated at the 3% sequence similarity cutoff have long been the de facto proxy for species identity.  
+  
+  Recently, an alternative to OTUs has been presented; namely, the amplicon sequence variant, or ASV [5]. ASVs are determined under the idea that the true sequence would appear more commonly than would an erroneous sequence, and thus only the sequences thought to be real sequences in this way are retained, disregarding all erroneous sequences. While this leads to discarding large amounts of sequence information, the resulting true sequences are comparable between data sets as a specific genetic sequence is associated with any given ASV. Though ASVs represent an actual sequence independent of a given dataset which is arguably superior to that of an OTU definition, whether their use confers advantages over OTUs has not been conclusively determined presently.  
+  
+  _Sulfurimonas_ was selected as our taxon of interest due to its unusual metabolic pathways and the effects said pathways have on the environment. This bacterium can have either spiral or curved rod shaped cells and has one or two flagella for motility. These chemolithoautotrophs reduce nitrate and nitrite using sulfur compounds or H~2~ as electron sources [6]. Such a coupling of nitrogen and sulfur cycles in a single bacterium suggests a fascinating interplay between abundance and TEA availability. _Sulfurimonas_ would be expected to increase in abundance with nitrate and oxidized sulfur concentrations, as well as decrease in abundance in the presence of oxygen, as it may be outcompeted by more organisms that find the surface environmental reduction potential more favourable. However, interactions with other species in the anoxic region, combined with limiting nitrate gradients near the bottom may cause the abundance to peak at intermediate depths, before declining in the deepest part of the water column.  
+
+# Methods
+  The environmental samples used in this project were collected through time-series monitoring in Saanich Inlet on a monthly-basis aboard the MSV John Strickland at station S3 (48°35.500 N, 123°30.300 W) [1]. Samples for large volume (LV) SSU rRNA gene tags, metagenomics, metatranscriptomics, and metaproteomics were taken from six major depths spanning the oxycline (10, 100, 120, 135, 150, 165, and 200m). Large volume waters were collected in 2x12 1 Go-Flow bottles on a wire and gathered into 2L Nalgene bottles with sterile silicon tubing immediately following sampling for dissolved gases to minimise changes in microbial gene expression. A 0.22 μm Sterivex filter was used to collect biomass from collected water samples. Genomic DNA was then extracted from these filters and used to generate small subunit ribosomal RNA (SSU or 16S/18S rRNA) gene pyrotag libraries. PCR amplification targeting the V4-V5 region of SSU rRNA gene was performed to generate iTag datasets or amplicons. Samples were sequenced according to the standard operating protocol on an Illumina MiSeq platform at the JGI with 2x300bp technology. Using as consistent parameters, sequences were processed through both mothur [7] and QIIME2 [8]. Two phyloseq objects resulted from the processing which were then used in subsequent analyses.
+
+Analysis was completed in R v3.4.3 [9] using the following packages.
+```{r}
+library("tidyverse")
+library("phyloseq")
+library("vegan")
+library("corrplot")
+```
+
+  Sample data from mothur and QIIME2 were organized and normalized using data.frame() function to make tabular data, where cases were represented in rows and measurements in columns. Relative abundances of our taxa of interest were compared across nutrient gradients using a linear regression model. Linear models describe a continuous response variable as a function of one or more predictor variable [10]. They were used in our analyses since each of the nutrient concentrations is a continuous variable with order.
+
+# Results
+```{r, include=FALSE}
+# a lot of data wrangling to get it into the format that we use later
+load("mothur_phyloseq.RData")
+load("qiime2_phyloseq.RData")
+
+mothur_sam = 
+  mothur@sam_data %>% 
+  rownames_to_column("Sample") %>% 
+  data.frame() %>%
+  na.omit()
+
+mothur_percent = 	mothur %>% transform_sample_counts(function(x) 100 * x/sum(x)) 
+
+qiime2_percent = 	qiime2 %>% transform_sample_counts(function(x) 100 * x/sum(x))
+
+mothur_alpha = 
+  mothur %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), rngseed = 711) %>% 
+  estimate_richness(., measures = c("Chao1", "Shannon", "InvSimpson")) %>% 
+  rownames_to_column(., var = "Sample") 
+
+qiime2_alpha = 
+  qiime2 %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), rngseed = 711) %>% 
+  estimate_richness(., measures = c("Chao1", "Shannon", "InvSimpson")) %>% 
+  rownames_to_column(., var = "Sample") 
+
+mothur_otus = 
+  mothur_percent %>% 
+  subset_taxa(Genus=="Sulfurimonas") %>% 
+  .@otu_table %>% 
+  data.frame() 
+
+qiime2_asvs = 
+  qiime2_percent %>% 
+  subset_taxa(Genus=="D_5__Sulfurimonas") %>% 
+  .@otu_table %>% 
+  data.frame() %>%
+  t() %>% 
+  data.frame()
+
+mothur_totals =
+  mothur %>% 
+  .@otu_table %>% 
+  data.frame() %>% 
+  rowSums() %>% 
+  data.frame() %>% 
+  rename(., TotAbundance = ".") %>% 
+  rownames_to_column(., "Sample") 
+
+qiime2_totals =
+  qiime2 %>% 
+  .@otu_table %>% 
+  data.frame() %>% 
+  t() %>% 
+  data.frame() %>% 
+  rowSums() %>% 
+  data.frame() %>% 
+  rename(., TotAbundance = ".") %>% 
+  rownames_to_column(., "Sample") 
+
+mothur_taxon =
+  mothur_otus %>% 
+  rowSums(.) %>% 
+  data.frame() %>% 
+  rename(., TaxAbundance = ".") %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., mothur_sam, "Sample") %>% 
+  merge(., mothur_totals, "Sample") 
+
+qiime2_taxon =
+  qiime2_asvs %>% 
+  rowSums(.) %>% 
+  data.frame() %>% 
+  rename(., TaxAbundance = ".") %>% 
+  rownames_to_column(., "Sample") %>% 
+  merge(., mothur_sam, "Sample") %>% 
+  merge(., qiime2_totals, "Sample") 
+
+#multiple linear regression  
+lm_mothur = 
+  data.frame(summary(lm(formula = TaxAbundance ~ O2_uM + H2S_uM +NO3_uM, 
+                        data = mothur_taxon))$coefficients) %>% 
+  rename(., "p.value" = "Pr...t..") %>% 
+  cbind(., p.adjust(.$'p.value', "fdr")) %>% 
+  rename(., "FDR-corrected" = 'p.adjust(.$p.value, "fdr")')
+
+lm_qiime2 = 
+  data.frame(summary(lm(formula = TaxAbundance ~ O2_uM + H2S_uM +NO3_uM, 
+                        data = qiime2_taxon))$coefficients) %>% 
+  rename(., "p.value" = "Pr...t..") %>% 
+  cbind(., p.adjust(.$'p.value', "fdr")) %>% 
+  rename(., "FDR-corrected" = 'p.adjust(.$p.value, "fdr")')
+
+#set up for LM
+mothur_otus_total =
+  mothur_otus %>% 
+  data.frame() %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., mothur_taxon, "Sample") %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM, NO3 = NO3_uM, Depth = Depth_m)
+
+qiime2_asvs_total =
+  qiime2_asvs %>% 
+  data.frame() %>% 
+  rownames_to_column(., var = "Sample") %>% 
+  merge(., qiime2_taxon, "Sample") %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM, NO3 = NO3_uM, Depth = Depth_m)
+
+#linear model
+
+lmloop = 
+  function(dataset){
+    #Make sure necessary packages are loaded
+    require(tidyverse)
+    require(knitr)
+    # Create new data frame to hold linear model outputs
+    lm_out = data.frame("Variable" = numeric(0),
+                        "Estimate" = numeric(0), 
+                        "Std. Error"= numeric(0),
+                        "t value"= numeric(0),
+                        "Pr(>|t|)"= numeric(0))
+    otu_names = dataset %>% select(matches("Asv|Otu")) %>% colnames() %>% as.vector()
+    for (otu in otu_names){
+      #Run a multiple linear regression model of 1 OTU against tested variables
+      otu_depth = dataset %>% select(Sample, Abundance = contains(otu)) %>% merge(., dataset, "Sample")
+      linear_fit = otu_depth %>%  
+        lm(Abundance ~ O2 + H2S + NO3, .) %>% 
+        summary()
+      #Pull out the coefficients and p-values for tested variable
+      otu_data = linear_fit$coefficients %>% data.frame() %>% .[2:4,] %>% 
+        rownames_to_column(., "Variable") %>% 
+        cbind(., rep(otu, nrow(.)))
+      #Add these values to a growing table of OTUs
+      lm_out <- rbind(lm_out, otu_data)
+    }
+    colnames(lm_out) <- c("Variable", "Estimate", "Std_Error",
+                          "t_value","p_value", "OTU")
+    #Control for multiple-comparisons
+    lm_out = lm_out %>% .$'p_value' %>% as.vector() %>% 
+      p.adjust(., "fdr") %>% cbind(lm_out) 
+    colnames(lm_out) <- c("FDR_corrected","Variable", "Estimate", 
+                          "Std_Error","t_value","p_value", "OTU")
+    select(lm_out, OTU, Variable, Estimate, Std_Error, 
+           t_value, p_value, "FDR_corrected")
+  }
+
+#Generate data for output tables
+qiime2_asvs_stats_fdr <- lmloop(qiime2_asvs_total) %>% rename(ASV = OTU)
+
+mothur_otus_stats_fdr <- lmloop(mothur_otus_total) 
+```
+
+```{r, echo=FALSE}
+# figure 1
+mothur_sam %>% 
+	select(starts_with("O2_uM"), starts_with("H2S_uM"), 
+	       starts_with("NO3_uM"), starts_with("NO2_uM"), 
+	       starts_with("Depth_m")) %>%
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, NO2 = NO2_uM,
+         Depth = Depth_m) %>% 
+	gather(key = "Nutrient", value = "Concentration", -Depth) %>%
+	ggplot(., aes(x = Concentration, y = Depth)) +
+	geom_point() +
+	geom_line() +
+  scale_y_reverse(lim=c(200,10))+
+	facet_wrap( ~ Nutrient, scales = "free") +
+	theme(legend.position = "none") +
+	labs(y = "Depth (m)", x = expression(paste("Concentration (", mu, "M)")))
+```
+
+**Figure 1.** Nutrient concentration plotted with depth
+
+  Overall microbial community structure at the phylum as determined by mothur in terms of taxonomic breakdown changes slightly from 10m to 100m, then is relatively consistent throughout all the lower depths (Fig. 2). Most depths are dominated by a large population of *Proteobacteria* and *Bacteroidetes*, the relative population of the latter giving way to the *Proteobacteria* with depth. Similar observations are seen in the QIIME2-processed data (Fig. 3).
+
+```{r, echo=FALSE}
+# figure 2
+mothur_percent %>% 
+  plot_bar(fill="Phylum") + 
+  geom_bar(aes(fill=Phylum), stat="identity") +
+  labs(x = "Sample", y = "Relative abundance (%)")
+```
+
+**Figure 2.** Relative abundance of phyla present in Saanich Inlet based on sample depth as determined by mothur.
+
+```{r, echo=FALSE}
+# figure 3
+qiime2_percent %>% 
+	plot_bar(fill="Phylum") + 
+	geom_bar(aes(fill=Phylum), stat="identity") +
+	labs(x = "Sample", y = "Relative abundance (%)")
+```
+
+**Figure 3.** Relative abundance of phyla present in Saanich Inlet based on sample depth as determined by QIIME2.
+
+  In the mothur-processed data, Chao1 richness indicates that the number of identified OTUs increases until a peak at 100m, then decreasing to the deepest parts of the inlet, starting at 120m with a small increase at 200m (Fig. 4). Species diversity, as measured by the Inverse Simpson index, also peaks at 100m then decreases with increased depth. As oxygen concentrations decreases with depth in Saanich Inlet (Fig. 1), a higher oxygen concentration correlates with both increased richness and diversity in the sample.
+
+```{r, echo = FALSE}
+#figure 4
+mothur %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), 
+                    rngseed = 711, verbose = FALSE) %>% 
+  plot_richness(x = "Depth_m", measures=c("Chao1", "InvSimpson")) +
+  geom_point(aes(colour = select(data.frame(mothur@sam_data), 
+                                 starts_with("O2_uM"))), na.rm = TRUE) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  labs(x = "Depth (m)", y = "Alpha Diversity Indicator Value", 
+       colour = expression(paste("[O"[2], "] (", mu, "M)"))) +
+  geom_line(aes(colour = select(data.frame(mothur@sam_data), 
+                                starts_with("O2_uM"))))
+```
+
+**Figure 4.** Alpha Diversity Indicators - Chao1 and Inverse Simpson Index plotted against depth and coloured to compare with [O~2~] from mothur-processed data.
+
+  As for the QIIME2-processed data, Chao1 richness peaks at 120m where as before it decreases with increasing depth, increasing slightly at 200m (Fig. 5). Diversity, on the other hand, peaks at 10m, which then decreases monotonically with depth. Diversity and richness appear less strongly correlated in the QIIME2 dataset. However, the overall trends in richness and diversity of Saanich Inlet are observable regardless of analysis pipeline.
+
+```{r, echo=FALSE}
+#figure 5
+qiime2 %>% 
+  prune_taxa(taxa_sums(.) > 0, .) %>% 
+  rarefy_even_depth(., sample.size = min(sample_sums(qiime2)), 
+                    rngseed = 711, verbose = FALSE) %>% 
+  plot_richness(x = "Depth_m", measures=c("Chao1", "InvSimpson")) +
+  geom_point(aes(colour = select(data.frame(qiime2@sam_data), 
+                                 starts_with("O2_uM"))), na.rm = TRUE) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  labs(x = "Depth (m)", y = "Alpha Diversity Indicator Value", 
+       colour = expression(paste("[O"[2], "] (", mu, "M)"))) +
+  geom_line(aes(colour = select(data.frame(qiime2@sam_data), 
+                                starts_with("O2_uM"))))
+```
+
+**Figure 5.** Alpha Diversity Indicators - Chao1 and Inverse Simpson Index plotted against depth and coloured to compare with [O~2~] from QIIME2-processed data.
+
+  In the mothur-processed data, correlation matrix analysis indicates that *Sulfurimonas* abundance appears to increase with depth, decrease with oxygen and nitrate concentration, as well as increase with sulfide concentration (Fig. 6). Indeed, linear regression of nutrient concentration and *Sulfurimonas* relative abundance indicate that the concentrations of each of the 3 nutrients significantly relate to *Sulfurimonas* relative abundance (Fig. 8; p < 0.01 after FDR-correction; Table 1). This overall pattern is observable in the QIIME2-processed data as well, while the correlations differ in strength (Fig. 7) and are not statistically significant when multiple linear regression is performed (Fig. 9; p > 0.05 after FDR-correction; Table 2). 
+
+```{r, echo = FALSE}
+#figure 6 - correlation matrix
+mothur_taxon %>% select(starts_with("O2_uM"), starts_with("Depth_m"),
+                        starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+                        starts_with("H2S_uM")) %>% 
+  rename(Depth = Depth_m, O2 = O2_uM, NO3 = NO3_uM, H2S = H2S_uM,
+         Abundance = TaxAbundance) %>% 
+  cor() %>% corrplot(method = "number")
+```
+
+**Figure 6.** Correlation matrix of nutrient concentration and *Sulfurimonas* abundance as determined with mothur.
+
+```{r, echo=FALSE}
+#figure 7 - correlation matrix
+qiime2_taxon %>% select(starts_with("O2_uM"), starts_with("Depth_m"),
+                        starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+                        starts_with("H2S_uM")) %>% 
+  rename(Depth = Depth_m, O2 = O2_uM, NO3 = NO3_uM, H2S = H2S_uM,
+         Abundance = TaxAbundance) %>% 
+  cor() %>% corrplot(method = "number")
+```
+
+**Figure 7.** Correlation matrix of nutrient concentration and *Sulfurimonas* abundance as determined with QIIME2.
+
+
+```{r, echo=FALSE}
+kable(lm_mothur,caption="Table 1. Correlation of nutrient concentration to Sulfurimonas genus relative abundance as determined by mothur.")
+```
+
+
+```{r, echo=FALSE}
+kable(lm_qiime2,caption="Table 2. Correlation of nutrient concentration to Sulfurimonas genus relative abundance as determined by QIIME2.")
+```
+
+
+```{r, echo=FALSE}
+#figure 8
+mothur_taxon %>% 
+  select(starts_with("O2_uM"), starts_with("Depth_m"),
+         starts_with("NO3_uM"),starts_with("TaxAbundance"), 
+         starts_with("H2S_uM")) %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, Depth = Depth_m) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -TaxAbundance) %>%
+  ggplot(., aes(x=Concentration, y = TaxAbundance, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = expression(paste(italic("Sulfurimonas"), " relative abundance (%)")),
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)")
+```
+
+**Figure 8.** Relative abundance of *Sulfurimonas* plotted against nutrient concentration from the mothur-processed dataset.
+
+```{r, echo=FALSE}
+#figure 9
+qiime2_taxon %>% 
+  select(starts_with("O2_uM"), starts_with("Depth_m"),
+         starts_with("NO3_uM"), starts_with("TaxAbundance"), 
+         starts_with("H2S_uM")) %>% 
+  rename(O2 = O2_uM, H2S = H2S_uM,
+         NO3 = NO3_uM, Depth = Depth_m) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -TaxAbundance) %>%
+  ggplot(., aes(x=Concentration, y = TaxAbundance, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = expression(paste(italic("Sulfurimonas"), " relative abundance (%)")),
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)")
+```
+
+**Figure 9.** Relative abundance of *Sulfurimonas* plotted against nutrient concentration from the QIIME2-processed dataset.
+
+  Mothur identified eight OTUs classified as *Sulfurimonas*, all of which were only identified in the samples at depths below 100m (Fig. 10). As at the taxon level, the abundances of most, of these OTUs increase with depth, and all but one were present at the deepest depth. Similarly, QIIME2 identified seven *Sulfurimonas* ASVs (Fig. 11), meaning that the richness determined by the two analysis pipelines is roughly comparable. However, fewer ASVs were shown to increase in abundance with depth, and just under half were identified in the 200m sample. 
+
+```{r, echo=FALSE}
+#figure 10
+mothur_percent %>% 
+  subset_taxa(Genus=="Sulfurimonas") %>%
+  psmelt() %>% 
+  ggplot() +
+  geom_point(aes(x=OTU, y=Depth_m, size=Abundance, color=O2_uM)) + 
+  scale_size_continuous(range = c(0,7)) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  scale_y_reverse(lim=c(200,10))+
+  labs(x = "OTU", y = "Depth (m)", size = "Relative abundance (%)",
+       color=expression(paste("[O"[2], "] (", mu, "M)")))
+```
+
+**Figure 10.** Relative abundances of each *Sulfurimonas* OTU as determined by mothur, recolored by oxygen concentration at the given depth of the sample. 
+
+```{r, echo=FALSE}
+#figure 11
+qiime2_percent %>% 
+  subset_taxa(Genus=="D_5__Sulfurimonas") %>%
+  psmelt() %>% 
+  ggplot() +
+  geom_point(aes(x=OTU, y=Depth_m, size=Abundance, color=O2_uM)) + 
+  scale_size_continuous(range = c(0,7)) +
+  scale_colour_distiller(palette = "RdYlGn") + # replace if using alt colours
+  scale_y_reverse(lim=c(200,10))+
+  labs(y="Depth (m)", x = "ASV", size = "Relative abundance (%)",
+       color=expression(paste("[O"[2], "] (", mu, "M)")))
+```
+
+**Figure 11.** Relative abundances of each *Sulfurimonas* ASV as determined by QIIME2, recolored by oxygen concentration at the given depth of the sample. 
+
+  Multiple linear regression of the mothur-processed data indicated that the abundances of 7 of the 8 identified OTUs significantly correlated following false discovery rate correction with one or more of the tested nutrients (NO~3~-, H~2~S, and O~2~), most commonly sulfide (Table 3). A representative OTU is shown in Figure 12, OTU0308, which showed a significant correlation with all 3 tested nutrient variables. In comparison, QIIME2-processed data showed no significant correlations with either oxygen nor nitrate concentration, and the abundances of only 3 of the 7 identified ASVs significantly correlated with sulfide concentration (Table 4). A representative ASV is shown in Figure 13, ASV1250, which showed a correlation of abundance with sulfide concentration. 
+
+```{r, echo=FALSE}
+kable(mothur_otus_stats_fdr,caption="Table 3. Correlation of relative OTU abundance within Sulfurimonas genus with nutrient concentration as determined by mothur.")
+```
+
+
+```{r, echo=FALSE}
+#mothur OTUs - OTU0308, figure 12
+mothur_otus_total %>% 
+  select(starts_with("O2"), starts_with("Depth"),
+         starts_with("NO3"), starts_with("Otu0308"), 
+         starts_with("H2S")) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -Otu0308) %>%
+  ggplot(., aes(x=Concentration, y = Otu0308, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = "Relative abundance (%)",
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)", title = "OTU0308")
+```
+
+**Figure 12.** Relative abundance of OTU0308 versus nutrient concentration, points recolored by depth. 
+
+
+```{r, echo=FALSE}
+kable(qiime2_asvs_stats_fdr,caption="Table 4. Correlation of relative ASV abundance within Sulfurimonas genus with nutrient concentration as determined by QIIME2.")
+```
+
+
+```{r, echo=FALSE}
+#qiime2 ASVs - ASV1250 as example
+qiime2_asvs_total %>% 
+  select(starts_with("O2"), starts_with("Depth"),
+         starts_with("NO3"), starts_with("Asv1250"), 
+         starts_with("H2S")) %>% 
+  gather(key = "Nutrient", value = "Concentration", -Depth, -Asv1250) %>%
+  ggplot(., aes(x=Concentration, y = Asv1250, color = Depth)) + 
+  geom_smooth(method=lm)+
+  geom_point(na.rm = TRUE) + 
+  scale_colour_continuous(low="yellow", high="blue") +
+  facet_wrap( ~ Nutrient, scales = "free") +
+  labs(y = "Relative abundance (%)",
+       x = expression(paste("Concentration (", mu, "M)")),
+       color= "Depth (m)", title = "ASV1250")
+```
+
+**Figure 13.** Relative abundance of ASV1250 versus nutrient concentration, points recolored by depth.
+
+  Thus, while the overall trends in abundance across depth, [H~2~S], [NO~3~-], and [O~2~] appear to be similar for mothur- and QIIME2-processed data, many more relationships were found to be statistically significant in the mothur-processed dataset, both at the relative genus level abundances as well as at the OTU/ASV level. The abundances appear to match the fact that the *Sulfurimonas* genus tends to inhabit anoxic/sulfidogenic regions of marine basins, including oxic-anoxic interfaces and hydrothermal vents [13]. 
+
+# Discussion
+  Within the *Sulfurimonas* genus the richness determined by mothur and QIIME2 processed data was highly comparable. Both mothur and QIIME2 pipeline processed data appeared to reveal the same overall trends of community structure change with respect to nutrient concentration, though the proportion of differences which were statistically significant was far lower in the QIIME2 data. In general, diversity relative to richness was found to rise to a peak, after which it begins to decrease with increasing depth (Figures 4-5). *Sulfurimonas* abundance increases with increasing depth and sulfide concentration, and decreases with increasing oxygen and nitrate concentration (Figures 6-9).  
+  
+  Most of the trends observed in this study were consistent with our hypotheses. As a chemolithoautotroph, it is expected that *Sulfurimonas* be most abundant in deep, anoxic waters. *Sulfurimonas* metabolizes by reducing nitrate and nitrite and oxidizing sulfur containing compounds or hydrogen [5]. Thus, as hypothesized, *Sulfurimonas* relative abundance was significantly decreased in the presence of oxygen, where it will likely be outcompeted by organisms who can use oxygen as an electron donor. In the same way, *Sulfurimonas* relative abundance was significantly increased in the presence of sulfide. However, it was unexpected that *Sulfurimonas* abundance was significantly negatively associated with nitrate concentration. It may be that organisms which utilize nitrate more efficiently are outcompeting *Sulfurimonas* as at the depths where nitrate is high, the concentration of sulfide is low (Fig. 1). Potentially this association may be caused by other confounding environmental factors that were studied in this analysis such as temperature or microbial metabolites produced by specific microbes adapted to those particular anoxic regions of the water column. Regardless, this observation was contrary to what was expected, and no single explanation can be concluded based on the available data. Evidently, however, the abundance of *Sulfurimonas* in Saanich Inlet is likely to vary as a function of many nutrient concentrations, not just oxygen.  
+  
+  There appears to be a correlation between stratified layers of the water column and Sulfurimonas distribution. Samples used in this study were taken at a time of year when stratification due to a thermocline was present around 10m-100m. The temperature at 10m is substantially higher than lower depths. An increase in diversity was also observed from the surface to a peak at 10m. It could be hypothesized that the high diversity is due to ambient temperatures being ideal for bacterial growth with minimal limitation. In this study, it was also found that diversity tends to decrease with richness at lower depths, with minimums coinciding with the boundary of the thermocline. The low diversity at depth could also be explained by the high specificity required to thrive in such extreme environments. For instance, our taxon of interest, *Sulfurimonas*, is commonly found near deep sea hydrothermal vents and functions primarily by sulfide oxidation, a process which is favored by the high concentrations of sulfide in that habitat.  
+  
+  The overall trend of the results of this experiment align with our hypotheses and previous literature [6], and while the conducted statistical tests show that some of the correlations we expected to see are significant, a number of methodological issues make us less confident in the replicability of our results. The use of a linear regression model assumes that the relationships between the tested variables would be linear, which is highly unlikely to be true in a complex biological system. As an example, interspecies competition may make intermediary concentrations of a nutrient such as nitrate more beneficial, as at higher concentrations perhaps denitrifying bacteria would outcompete *Sulfurimonas*, and it is only at intermediate concentrations that it can find its niche. However, should the concentration be too low, *Sulfurimonas* would be unable to grow either. Thus, given that there will always be other confounding environmental variables not taken into account in the model, the apparent success of the model is more surprising than not. Future investigations into the subject should consider employing stronger statistical tests which more accurately measure the phenomenon being examined.  
+  
+  We are unable to draw any definitive conclusions regarding which pipeline used in this study is strictly superior. However, clear differences were observed in the results obtained from each, specifically in regards to the *Sulfurimonas* genus. Both suggested similar overall relationships between nutrient concentration and *Sulfurimonas* abundance. However, whether the identified relationships were statistically significant proved to be very different between the two analysis pipelines. Due to the aforementioned flaws in the statistical methodology used, we cannot confidently assert whether use of one pipeline is better than the other, but it is clear that the two produce different results, and choice of pipeline is extremely important for microbial ecology. It should be noted that had multiple-comparisons testing not been controlled for, far more test conditions would have yielded significance. This highlights the importance of ensuring statistical rigour of the experimental methodology, as well as the benefit of consulting a statistician during the experimental design process.  
+  
+  As each pipeline approaches the most important analytical step of sequences processing differently, each has its own guidelines and configuration profiles. Hence, choosing the correct pipeline with a set of parameters and algorithms for a given application is important. While for this study the parameters and databases were kept as similar as possible between the two, there are fundamental differences in the philosophy by which the two pipelines handle data. As mothur clusters individual sequences while QIIME2 groups by sample consistency, studies have shown that the effect of sequencing errors yielded a bigger impact on the results than choosing the appropriate gene region for amplification [11]. In addition, selecting a pipeline with higher sequence throughput could increase the chance of richness overestimation [11]. Because the analytical steps are paramount to microbial ecology research and discovery, variations in the quality of databases and their annotations could impact the validity of research results. Especially for clustering-first pipelines such as mothur and QIIME2, the choice of the reference database in terms of comprehensiveness and sensitivity has implications in the accuracy of microbial abundance estimation [12]. A standardized evaluation protocol may be beneficial to overcome the dilemma of pipeline selection. Regardless of the pipeline chosen, it is important going forward to ensure pipeline methodology is described completely, with every decision within the pipeline well-justified.  
+  
+  To build on the results of this study, future work analysing the role of each of the many environmental variables on abundance of *Sulfurimonas* by a stronger multivariate statistical test would be beneficial. Additionally, further analyses conducting processing with mothur and QIIME2 in parallel would enable stronger claims to be made regarding the relative ability of the two analysis pipelines, and more generally for OTU- and ASV-based analysis pipelines.  
+
+# References
+
+1. Torres-Beltrán M, Hawley AK, Capelle D, Zaikova E, Walsh DA, Mueller A, Finke J. 2017. A compendium of geochemical information from the Saanich Inlet water column. Sci Data. 4:170159. doi:10.1038/sdata.2017.159.
+
+2. Ocean Networks Canada. 2013. Introduction to Saanich Inlet. Retrieved from http://www.oceannetworks.ca/introduction-saanich-inlet.
+
+3. Stramma L, Schmidtko S, Levin LA, Johnson GC. 2010. Ocean oxygen minima expansions and their biological impacts. Deep Sea Res Part 1 Oceanogr Res Pap. 57(4):587-595. doi: 10.1016/j.dsr.2010.01.005 
+
+4. Wooley, J. C., Godzik, A., & Friedberg, I. (2010). A primer on metagenomics. PLoS Computational Biology, 6(2), e1000667. doi:10.1371/journal.pcbi.1000667  
+
+5. Callahan, B. J., Mcmurdie, P. J., & Holmes, S. P. (2017). Exact sequence variants should replace operational taxonomic units in marker-gene data analysis. The ISME Journal, 11(12), 2639. doi:10.1038/ismej.2017.119 
+
+6. Labrenz M, Grote J, Mammitzsch K, Boschker HTS, Laue M, Jost G, Glaubitz S, Jürgens K. 2013. *Sulfurimonas gotlandica* sp. nov., a chemoautotrophic and psychrotolerant epsilonproteobacterium isolated from a pelagic redoxcline, and an emended description of the genus *Sulfurimonas*. Int J Syst Evol Microbiol. 63(Pt 11):4141-4148. doi:10.1099/ijs.0.048827-0.
+
+7. Schloss PD, Westcott SL, Ryabin T, Hall JR, Hartmann M, Hollister EB, Lesniewski RA, Oakley BB, Parks DH, Robinson CJ, Sahl JW, Stres B, Thallinger GG, Van Horn DJ, Weber CF. 2009. Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol 75:7537-7541. doi:10.1128/AEM.01541-09
+
+8. https://qiime2.org
+
+9. Ortutay C, Ortutay Z. 2017. Introduction to R statistical environment, p 1-15. In Molecular Data Analysis, John Wiley & Sons, Hoboken, New Jersey, USA. 
+
+10. Bingham NH, Fry JM, & SpringerLink ebooks - Mathematics and Statistics. (2010). Regression: Linear models in statistics. London; New York: Springer.
+
+11. Siegwald L, Touzet H, Lemoine Y, Hot D, Audebert C, Caboche S. 2017. Assessment of Common and Emerging Bioinformatics Pipelines for Targeted Metagenomics. PLoS One. 12(1):e0169563. doi:10.1371/journal.pone.0169563.
+Plummer E, Twin J, Bulach DM, Garland SM, Tabrizi SN. 2015. A Comparison of Three Bioinformatics Pipelines for the Analysis of Preterm Gut Microbiota using 16S rRNA Gene Sequencing Data. J Proteomics Bioinform. 8:283-291. 
+Sievert SM, Scott KM, Klotz MG, Chain PSG, Hauser LJ, Hemp J, Hügler M, Land M, Lapidus A, Larimer FW, Lucas S, Malfatti SA, Meyer F, Paulsen IT, Ren Q, Simon K, the USF Genomics Class. 2008. Genome of the Epsilonproteobacterial Chemolithoautotroph *Sulfurimonas denitrificans*. Appl Environ Microbiol. 74(4):1145-1156. doi:10.1128/AEM.01844-07.

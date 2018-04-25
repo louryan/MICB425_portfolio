@@ -1,0 +1,6 @@
+Query	Marker	Taxonomy	Confident_Taxonomy	Abundance	Likelihood	WTD
+KUK43246.1_Methyl-coenzyme_M_reductase__alpha_subunit__partial_Methanosaeta_harundinacea	mcrA	Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosaetaceae; Methanothrix; Methanosaeta harundinacea	Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosaetaceae; Methanothrix	120	1	0
+AGF92163.1_methyl_coenzyme_M_reductase_alpha_subunit__partial_uncultured_archaeon	mcrA	Archaea; environmental samples	Archaea; environmental samples	100	1	0
+AGF92161.1_methyl_coenzyme_M_reductase_alpha_subunit_uncultured_archaeon	mcrA	Archaea; environmental samples	Archaea; environmental samples	10	0.999373	0
+KUK01245.1_Methyl-coenzyme_M_reductase_subunit_alpha__partial_Methanobacteriaceae_archaeon_41_258	mcrA	Archaea; Euryarchaeota; Methanobacteria; Methanobacteriales; Methanobacteriaceae; unclassified Methanobacteriaceae	Archaea; Euryarchaeota; Methanobacteria; Methanobacteriales; Methanobacteriaceae; unclassified Methanobacteriaceae	40	1	0
+KUK43252.1_Methyl-coenzyme_M_reductase__alpha_subunit__partial_Methanosaeta_harundinacea	mcrA	Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosaetaceae; Methanothrix; Methanosaeta harundinacea	Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosaetaceae; Methanothrix	2	1	0

@@ -1,0 +1,191 @@
+LABELS
+SEPARATOR COMMA
+DATA
+#NODE_ID,LABEL
+1,Hydrogenivirga sp. 128-5-R1-1 | EDP74743
+2,Hydrogenobacter thermophilus TK-6 | BAI68617
+3,Persephonella marina EX-H1 | ACO04194
+4,Rhodothermus marinus DSM 4252 | ACY47550
+5,Candidatus Kuenenia stuttgartiensis | CAJ74898
+6,Acidithiobacillales bacterium SG8_45 | KPK11659
+7,Acidithiobacillales bacterium SG8_45 | KPK12896
+8,Acidithiobacillales bacterium SM23_46 | KPK69514
+9,Bradyrhizobium oligotrophicum S58 | BAM92788
+10,Prosthecomicrobium hirschii | KPL55974
+11,Aliiroseovarius crassostreae | KPN61790
+12,Dinoroseobacter shibae DFL 12 = DSM 16493 | ABV94913
+13,Labrenzia aggregata | CTQ46751
+14,Labrenzia alba | CTQ53626
+15,Labrenzia alba | CTQ63333
+16,Thalassobacter arenae DSM 19593 | EPX78564
+17,Paracoccus sanguinis | KGJ14663
+18,Paracoccus sanguinis | KGJ16348
+19,Paracoccus sanguinis | KGJ19286
+20,Paracoccus sp. MKU1 | KRW95054
+21,Pseudovibrio sp. FO-BEG1 | AEV35410
+22,Pseudovibrio sp. Ad46 | KZK94635
+23,Pseudovibrio axinellae | KZL05178
+24,Roseobacter denitrificans OCh 114 | ABG31193
+25,Ruegeria atlantica | CUH47623
+26,Ruegeria sp. CECT 5091 | CUK17577
+27,Ruegeria sp. ZGT118 | KUJ73455
+28,Ruegeria pomeroyi DSS-3 | AAV97354
+29,Thioclava sp. DT23-4 | KEO60092
+30,Rhodobacteraceae bacterium HLUCCO07 | KPP83431
+31,Azospirillum brasilense | ALJ39431
+32,Caenispirillum salinarum AK4 | EKV27616
+33,Magnetospirillum sp. XM-1 | CUW37497
+34,Magnetospirillum sp. XM-1 | CUW39091
+35,Magnetospirillum sp. SO-1 | EME68346
+36,Magnetospirillum marisnigri | OAN51092
+37,Magnetospirillum moscoviense | OAN63200
+38,Magnetospirillum gryphiswaldense MSR-1 | CAM74253
+39,Magnetospirillum magneticum AMB-1 | BAE50199
+40,Magnetospirillum magneticum AMB-1 | BAE52969
+41,Thalassospira xiamenensis | KZB51849
+42,Thalassospira permensis NBRC 106175 | KEO59842
+43,Polymorphum gilvum SL003B-26A1 | ADZ69009
+44,Alphaproteobacteria bacterium BRH_c36 | KUO58472
+45,Bordetella petrii | CAP44402
+46,Cupriavidus nantongensis | AMR81885
+47,Cupriavidus sp. HMR-1 | EKZ97934
+48,Cupriavidus alkaliphilus | SCB26603
+49,Ralstonia eutropha H16 | CAJ97059
+50,Ralstonia eutropha JMP134 | AAZ64358
+51,Cupriavidus taiwanensis LMG 19424 | CAQ72627
+52,Ralstonia pickettii DTP0602 | AGW94840
+53,Acidovorax sp. Root70 | KRB41143
+54,Acidovorax sp. Root275 | KRD56228
+55,Alicycliphilus sp. B1 | GAO23488
+56,Brachymonas denitrificans | ABI96831
+57,Comamonas denitrificans | ABI96832
+58,Curvibacter sp. PAE-UM | KRH99151
+59,Diaphorobacter sp. J5-51 | KLR56966
+60,Hydrogenophaga sp. LPB0072 | OAD43807
+61,Pelomonas sp. Root1444 | KQY82451
+62,Paucibacter sp. KCTC 42545 | ALT77177
+63,Rubrivivax gelatinosus IL144 | BAL94003
+64,Chromobacterium sp. LK11 | KMN81642
+65,Pseudogulbenkiania sp. NH8B | BAK76244
+66,Vogesella sp. EB | KMJ53071
+67,Vogesella sp. LIG4 | SCK19326
+68,Sideroxydans lithotrophicus ES-1 | ADE11367
+69,Sulfuricella denitrificans skB26 | BAN34215
+70,Methylobacillus sp. MM2 | OAJ71930
+71,Thiobacillus denitrificans | KVW95088
+72,Thiobacillus denitrificans ATCC 25259 | AAZ96030
+73,Dechloromonas denitrificans | KXB30410
+74,Dechloromonas denitrificans | KXB31613
+75,Dechloromonas aromatica RCB | AAZ48004
+76,Dechloromonas aromatica RCB | AAZ48052
+77,Aromatoleum aromaticum EbN1 | CAI06598
+78,Propionivibrio sp. S1 | SBT10752
+79,Azoarcus sp. CIB | AKU13494
+80,Azoarcus sp. CIB | AKU13501
+81,Azoarcus sp. KH32C | BAL25833
+82,Azoarcus sp. PA01 | KON80808
+83,Azoarcus sp. PA01 | KON80814
+84,Thauera sp. MZ1T | ACR01220
+85,Thauera humireducens | AMO36595
+86,Thauera sp. 27 | ENO83228
+87,Thauera sp. 28 | ENO93245
+88,Thauera humireducens | KMU69225
+89,Thauera linaloolentis 47Lol = DSM 12138 | ENO85266
+90,Thauera phenylacetica B4P | ENO97922
+91,Thauera terpenica 58Eu | EPZ16013
+92,Candidatus Accumulibacter sp. SK-12 | EXI67674
+93,Candidatus Accumulibacter sp. SK-11 | EXI73901
+94,Candidatus Accumulibacter sp. BA-92 | EXI80263
+95,Candidatus Accumulibacter sp. BA-92 | EXI82847
+96,Candidatus Accumulibacter sp. BA-93 | EXI86426
+97,Candidatus Accumulibacter sp. BA-93 | EXI90076
+98,Candidatus Accumulibacter sp. BA-91 | KFB70389
+99,Candidatus Accumulibacter sp. S1 | SBT06803
+100,Betaproteobacteria bacterium SG8_41 | KPK19352
+101,Sulfuricaulis limicola | BAV32586
+102,Sulfurifustis variabilis | BAU46932
+103,Marinobacter sp. C1S70 | ERS90936
+104,Marinobacter sp. AK21 | KEF31766
+105,Marinobacter sp. P4B1 | KRW81607
+106,Marinobacter sp. T13-3 | KXS53637
+107,Marinobacter sp. EhC06 | OAN89896
+108,Colwellia sp. Phe_37 | KXJ57710
+109,Colwellia psychrerythraea 34H | AAZ25602
+110,Thalassomonas actiniarum | KJE38030
+111,Idiomarina woesei | CUA85405
+112,Woeseia oceani | ANO53026
+113,Steroidobacter denitrificans | AMN47484
+114,Halomonas chromatireducens | AMD00733
+115,Halomonas sp. PBN3 | ERS82918
+116,Halomonas sp. BC04 | EWH00081
+117,Oleispira antarctica RB-8 | CCK76416
+118,Oleiphilus sp. HI0123 | KZZ53339
+119,Pseudomonas sp. A3(2016) | ANJ56620
+120,Pseudomonas sp. LZ-4(2015) | ANT47463
+121,Pseudomonas brassicacearum | AHL33762
+122,Pseudomonas sp. GR 6-02 | ANI59936
+123,Pseudomonas sp. MT-1 | BAP81073
+124,Pseudomonas sp. 12M76_air | CEA06121
+125,Pseudomonas sp. 25 R 14 | CRM43902
+126,Pseudomonas sp. 22 E 5 | CRM92914
+127,Pseudomonas sp. CFII64 | EPJ80241
+128,Pseudomonas sp. BAY1663 | EXF45415
+129,Pseudomonas bauzanensis | EZQ19309
+130,Pseudomonas frederiksbergensis | KHK64801
+131,Pseudomonas flexibilis | KHO66430
+132,Pseudomonas flexibilis | KHO66697
+133,Pseudomonas sp. KG01 | KMT52711
+134,Pseudomonas lini | KNH44064
+135,Pseudomonas sp. ABAC61 | KTC33593
+136,Pseudomonas thivervalensis | OAB50745
+137,Pseudomonas sp. S3E12 | OCW19220
+138,Pseudomonas aeruginosa PAO1H2O | AID71764
+139,Pseudomonas chlororaphis | AKJ99904
+140,Pseudomonas fluorescens | ALI03605
+141,Pseudomonas corrugata | AOE60879
+142,Pseudomonas fluorescens | AOE68603
+143,Pseudomonas libanensis | KRP45794
+144,Pseudomonas fluorescens | KTB66764
+145,Pseudomonas marginalis | OAJ47348
+146,Pseudomonas veronii | OPK05454
+147,Pseudomonas fluorescens WH6 | EFQ62804
+148,Pseudomonas fluorescens Q8r1-96 | EIK66184
+149,Pseudomonas fluorescens Q2-87 | EJL03538
+150,Pseudomonas mandelii JR-1 | AHZ67536
+151,Pseudomonas mandelii JR-1 | AHZ73459
+152,Pseudomonas mandelii PD30 | KDD65273
+153,Pseudomonas balearica | KXO68010
+154,Pseudomonas xanthomarina | OCX24666
+155,Pseudomonas balearica | OMG63935
+156,Pseudomonas stutzeri | AAA02944
+157,Pseudomonas stutzeri | AFN27053
+158,Pseudomonas stutzeri | AHY41593
+159,Pseudomonas stutzeri | KIZ35329
+160,Pseudomonas stutzeri CCUG 29243 | AFM32011
+161,Pseudomonas stutzeri ATCC 14405 = CCUG 16156 | EHY75992
+162,Pseudomonas stutzeri MF28 | EQM73606
+163,Pseudomonas stutzeri KOS6 | EWC39375
+164,Beggiatoa sp. PS | EDN67831
+165,Candidatus Thiomargarita nelsonii | OAD21685
+166,Thioploca ingrica | BAP57172
+167,Candidatus Competibacter denitrificans Run_A_D11 | CDI04496
+168,Sedimenticola thiotaurini | AKH19023
+169,Sedimenticola thiotaurini | AKH22159
+170,endosymbiont of Ridgeia piscesae | KRT56794
+171,gamma proteobacterium HdN1 | CBL47290
+172,Gammaproteobacteria bacterium SG8_30 | KPJ79435
+173,Gammaproteobacteria bacterium SG8_31 | KPK60411
+174,Tepidiphilus thermophilus | CUB07681
+175,Deltaproteobacteria bacterium GWC2_55_46 | KYK97987
+176,Nitratiruptor sp. SB155-2 | BAF70899
+177,Anaerolinea thermophila UNI-1 | BAJ64797
+178,Bellilinea caldifistulae | KPL78197
+179,Thermanaerothrix daxensis | KPL83147
+180,Oceanithermus profundus DSM 14977 | ADR37584
+181,Thermus thermophilus | CBJ34318
+182,Thermus scotoductus SA-01 | ADW22372
+183,uncultured bacterium 888 | ACF98047
+184,uncultured bacterium 2303 | ACF98165
+185,uncultured bacterium 2303 | ACF98171
+186,uncultured bacterium 2304 | ACF98225
+187,Candidatus Methylomirabilis oxyfera | CBE69462
